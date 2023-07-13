@@ -69,7 +69,7 @@ You can integrate the Zoom Video SDK UI toolkit into your project by adding the 
 
 ### Swift Package Manager
 
-You can also add the framework using the Swift Package Manager using our GitHub link: https://github.com/zoom/video-sdk-ui-toolkit-ios.
+You can also add the framework using the Swift Package Manager using our GitHub link: https://github.com/zoom/videosdk-ui-toolkit-ios.
 
 ## Need help?
 
