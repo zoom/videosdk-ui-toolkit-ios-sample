@@ -27,7 +27,7 @@ let username = <#Username#>
 
 <br>
 
-The variables above are used to set up a connection with the Video SDK. If your session requires a password, you will need to make use of the **SessionContext** class that comes with a sessionPassword parameter.
+The variables above are used to set up a connection with the Video SDK. If your session requires a password, you must use the **SessionContext** class that comes with a sessionPassword parameter.
 
 ```Swift
 // If your session requires a password, you will need to add it under the sessionPassword parameter under SessionContext.
@@ -41,7 +41,7 @@ present(vc, animated: true)
 
 <br>
 
-There is a delegate class **UIToolkitDelegate** which consists of important callbacks such as error, view is loaded, and dismissed.
+There is a delegate class **UIToolkitDelegate** which consists of essential callbacks such as error, view is loaded, and dismissed.
 
 ```Swift
 extension ViewController: UIToolkitDelegate {
@@ -61,7 +61,7 @@ extension ViewController: UIToolkitDelegate {
 
 ## Integration
 
-You can intergrate manually or using the Swift Package Manager.
+You can integrate manually or use the Swift Package Manager.
 
 ### Manual
 
@@ -69,7 +69,7 @@ You can integrate the Zoom Video SDK UI toolkit into your project by adding the 
 
 ### Swift Package Manager
 
-You can also add the framework using the Swift Package Manager using our GitHub link: https://github.com/zoom/zoom-video-sdk-ui-toolkit-ios.
+You can also add the framework using the Swift Package Manager using our GitHub link: https://github.com/zoom/videosdk-ui-toolkit-ios.
 
 ## Need help?
 
