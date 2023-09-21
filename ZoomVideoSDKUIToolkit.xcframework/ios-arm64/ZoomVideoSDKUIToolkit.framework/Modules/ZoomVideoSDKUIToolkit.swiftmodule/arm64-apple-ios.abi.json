@@ -3942,1057 +3942,1057 @@
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 1650,
+      "offset": 1699,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 1822,
+      "offset": 1871,
       "length": 13,
       "value": "\"UIToolkitVC\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 1943,
+      "offset": 1992,
       "length": 39,
       "value": "\"init(coder:) has not been implemented\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 3101,
+      "offset": 3150,
       "length": 15,
       "value": "\"Connecting...\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 3148,
+      "offset": 3197,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 3195,
+      "offset": 3244,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 3501,
+      "offset": 3550,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 3564,
+      "offset": 3613,
       "length": 2,
       "value": "18"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 3598,
+      "offset": 3647,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 3659,
+      "offset": 3708,
       "length": 2,
       "value": "18"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 3686,
+      "offset": 3735,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 3740,
+      "offset": 3789,
       "length": 2,
       "value": "18"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 3769,
+      "offset": 3818,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 3825,
+      "offset": 3874,
       "length": 2,
       "value": "18"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 3853,
+      "offset": 3902,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 3908,
+      "offset": 3957,
       "length": 2,
       "value": "18"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 3943,
+      "offset": 3992,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 3991,
+      "offset": 4040,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 4038,
+      "offset": 4087,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 4097,
+      "offset": 4146,
       "length": 1,
       "value": "8"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 4131,
+      "offset": 4180,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 4193,
+      "offset": 4242,
       "length": 2,
       "value": "18"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 4243,
+      "offset": 4292,
       "length": 3,
       "value": "\"1\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 4806,
+      "offset": 4855,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 4957,
+      "offset": 5006,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 4982,
+      "offset": 5031,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 5475,
+      "offset": 5524,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 5644,
+      "offset": 5693,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 5669,
+      "offset": 5718,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 5901,
+      "offset": 5950,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 6095,
+      "offset": 6144,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 6280,
+      "offset": 6329,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 6440,
+      "offset": 6489,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 6698,
+      "offset": 6747,
       "length": 38,
       "value": "\"Zoom UI Kit initialized successfully\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 7279,
+      "offset": 7328,
       "length": 98,
       "value": "\"Connecting user \""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 7327,
+      "offset": 7376,
       "length": 2,
       "value": "\" to session \""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 7373,
+      "offset": 7422,
       "length": 3,
       "value": "\"...\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 7467,
+      "offset": 7516,
       "length": 55,
       "value": "\"Zoom UI Kit failed to initialize with error: \""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 7521,
+      "offset": 7570,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 7655,
+      "offset": 7704,
       "length": 43,
       "value": "\"Local user tapped on change camera button\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 7905,
+      "offset": 7954,
       "length": 41,
       "value": "\"Local user tapped on end session button\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 7993,
+      "offset": 8042,
       "length": 18,
       "value": "\"Leaving Session.\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 8022,
+      "offset": 8071,
       "length": 15,
       "value": "\"Are you sure?\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 8111,
+      "offset": 8160,
       "length": 8,
       "value": "\"Cancel\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 8170,
+      "offset": 8219,
       "length": 36,
       "value": "\"Local user tapped on cancel button\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 8304,
+      "offset": 8353,
       "length": 7,
       "value": "\"Leave\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 8367,
+      "offset": 8416,
       "length": 35,
       "value": "\"Local user tapped on leave button\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 8440,
+      "offset": 8489,
       "length": 18,
       "value": "\"Disconnecting...\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 8499,
+      "offset": 8548,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 8575,
+      "offset": 8624,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 8673,
+      "offset": 8722,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 8752,
+      "offset": 8801,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 8894,
+      "offset": 8943,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 9019,
+      "offset": 9068,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 9113,
+      "offset": 9162,
       "length": 40,
       "value": "\"Local user tapped on toggle mic button\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 9197,
+      "offset": 9246,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 9260,
+      "offset": 9309,
       "length": 3,
       "value": "0.5"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 9318,
+      "offset": 9367,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 10428,
+      "offset": 10477,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 10695,
+      "offset": 10744,
       "length": 42,
       "value": "\"Local user tapped on toggle video button\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 10783,
+      "offset": 10832,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 10846,
+      "offset": 10895,
       "length": 3,
       "value": "0.5"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 10906,
+      "offset": 10955,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 11369,
+      "offset": 11418,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 11788,
+      "offset": 11837,
       "length": 46,
       "value": "\"Local user tapped on toggle chat view button\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 12022,
+      "offset": 12071,
       "length": 6,
       "value": "\"Chat\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 12344,
+      "offset": 12393,
       "length": 42,
       "value": "\"Local user tapped on close X chat button\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 12416,
+      "offset": 12465,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 12796,
+      "offset": 12845,
       "length": 59,
       "value": "\"Local user tapped on send chat button: \""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 12848,
+      "offset": 12897,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 12854,
+      "offset": 12903,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 13024,
+      "offset": 13073,
       "length": 5,
       "value": "0.278"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 13038,
+      "offset": 13087,
       "length": 5,
       "value": "0.576"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 13051,
+      "offset": 13100,
       "length": 5,
       "value": "0.945"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 13065,
+      "offset": 13114,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 13101,
+      "offset": 13150,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 13143,
+      "offset": 13192,
       "length": 1,
       "value": "8"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 13492,
+      "offset": 13894,
       "length": 3,
       "value": "0.5"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 13997,
+      "offset": 14399,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 14122,
+      "offset": 14524,
       "length": 3,
       "value": "196"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 14403,
+      "offset": 14805,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 15053,
+      "offset": 15509,
       "length": 5,
       "value": "0.075"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 15067,
+      "offset": 15523,
       "length": 5,
       "value": "0.086"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 15080,
+      "offset": 15536,
       "length": 5,
       "value": "0.098"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 15094,
+      "offset": 15550,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 15115,
+      "offset": 15571,
       "length": 3,
       "value": "196"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 15151,
+      "offset": 15607,
       "length": 5,
       "value": "0.969"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 15165,
+      "offset": 15621,
       "length": 5,
       "value": "0.976"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 15178,
+      "offset": 15634,
       "length": 4,
       "value": "0.98"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 15191,
+      "offset": 15647,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 15256,
+      "offset": 15796,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 15394,
+      "offset": 15934,
       "length": 2,
       "value": "52"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 15439,
+      "offset": 15979,
       "length": 5,
       "value": "0.969"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 15453,
+      "offset": 15993,
       "length": 5,
       "value": "0.976"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 15466,
+      "offset": 16006,
       "length": 4,
       "value": "0.98"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 15479,
+      "offset": 16019,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 15757,
+      "offset": 16297,
       "length": 3,
       "value": "0.5"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 16202,
+      "offset": 16742,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 16587,
+      "offset": 17127,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 17111,
+      "offset": 17651,
       "length": 1,
       "value": "8"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 17274,
+      "offset": 17814,
       "length": 3,
       "value": "\" \""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 17311,
+      "offset": 17851,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 17343,
+      "offset": 17883,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 17379,
+      "offset": 17919,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 17413,
+      "offset": 17953,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 17446,
+      "offset": 17986,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 17489,
+      "offset": 18029,
       "length": 33,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 17505,
+      "offset": 18045,
       "length": 1,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 17521,
+      "offset": 18061,
       "length": 1,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 17548,
+      "offset": 18088,
       "length": 17,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 17564,
+      "offset": 18104,
       "length": 1,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 17769,
+      "offset": 18309,
       "length": 5,
       "value": "\"Mic\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 17930,
+      "offset": 18470,
       "length": 5,
       "value": "\"Mic\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 17938,
+      "offset": 18478,
       "length": 14,
       "value": "\"Mic-Disabled\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 18173,
+      "offset": 18713,
       "length": 2,
       "value": "56"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 18185,
+      "offset": 18725,
       "length": 2,
       "value": "56"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 18352,
+      "offset": 18892,
       "length": 7,
       "value": "\"Video\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 18532,
+      "offset": 19072,
       "length": 16,
       "value": "\"Video-Disabled\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 18551,
+      "offset": 19091,
       "length": 7,
       "value": "\"Video\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 18785,
+      "offset": 19325,
       "length": 2,
       "value": "56"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 18797,
+      "offset": 19337,
       "length": 2,
       "value": "56"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 18970,
+      "offset": 19510,
       "length": 14,
       "value": "\"ChatDisabled\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 19158,
+      "offset": 19698,
       "length": 14,
       "value": "\"ChatDisabled\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 19175,
+      "offset": 19715,
       "length": 6,
       "value": "\"Chat\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 19395,
+      "offset": 19935,
       "length": 2,
       "value": "56"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 19407,
+      "offset": 19947,
       "length": 2,
       "value": "56"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 19644,
+      "offset": 20184,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 19764,
+      "offset": 20304,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 19807,
+      "offset": 20347,
       "length": 2,
       "value": "12"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 19856,
+      "offset": 20396,
       "length": 19,
       "value": "\"ChatTableViewCell\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 20068,
+      "offset": 20608,
       "length": 2,
       "value": "80"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 20236,
+      "offset": 20776,
       "length": 5,
       "value": "0.267"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 20250,
+      "offset": 20790,
       "length": 5,
       "value": "0.294"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 20263,
+      "offset": 20803,
       "length": 5,
       "value": "0.325"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 20277,
+      "offset": 20817,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 20338,
+      "offset": 20878,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 20391,
+      "offset": 20931,
       "length": 1,
       "value": "8"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 20539,
+      "offset": 21079,
       "length": 22,
       "value": "\"Type message here...\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 20641,
+      "offset": 21181,
       "length": 5,
       "value": "0.596"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 20655,
+      "offset": 21195,
       "length": 5,
       "value": "0.627"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 20668,
+      "offset": 21208,
       "length": 5,
       "value": "0.663"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 20682,
+      "offset": 21222,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 20783,
+      "offset": 21323,
       "length": 7,
       "value": "\"Emoji\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 20993,
+      "offset": 21533,
       "length": 2,
       "value": "20"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 21005,
+      "offset": 21545,
       "length": 2,
       "value": "20"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 21147,
+      "offset": 21687,
       "length": 6,
       "value": "\"Send\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 21353,
+      "offset": 21893,
       "length": 2,
       "value": "36"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 21365,
+      "offset": 21905,
       "length": 2,
       "value": "36"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 22024,
+      "offset": 22564,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 22230,
+      "offset": 22770,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 22273,
+      "offset": 22813,
       "length": 1,
       "value": "0"
     },
@@ -5006,497 +5006,497 @@
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 22979,
+      "offset": 23519,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 23140,
+      "offset": 23680,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 23313,
+      "offset": 23853,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 23486,
+      "offset": 24026,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 23648,
+      "offset": 24188,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 23815,
+      "offset": 24355,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 23973,
+      "offset": 24513,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 24140,
+      "offset": 24680,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 24326,
+      "offset": 24866,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 24517,
+      "offset": 25057,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 24677,
+      "offset": 25217,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 24821,
+      "offset": 25361,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 25072,
+      "offset": 25612,
       "length": 19,
       "value": "\"Required password\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 25102,
+      "offset": 25642,
       "length": 24,
       "value": "\"Enter session password\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 25225,
+      "offset": 25765,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 25283,
+      "offset": 25823,
       "length": 7,
       "value": "\"Leave\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 25367,
+      "offset": 25907,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 25430,
+      "offset": 25970,
       "length": 7,
       "value": "\"Enter\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 25534,
+      "offset": 26074,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 25582,
+      "offset": 26122,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 25639,
+      "offset": 26179,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 25820,
+      "offset": 26360,
       "length": 16,
       "value": "\"Wrong password\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 25847,
+      "offset": 26387,
       "length": 24,
       "value": "\"Enter session password\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 25970,
+      "offset": 26510,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 26028,
+      "offset": 26568,
       "length": 7,
       "value": "\"Leave\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 26112,
+      "offset": 26652,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 26175,
+      "offset": 26715,
       "length": 7,
       "value": "\"Enter\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 26279,
+      "offset": 26819,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 26327,
+      "offset": 26867,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 26384,
+      "offset": 26924,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 26466,
+      "offset": 27006,
       "length": 108,
       "value": "\"Successfully joined session: \""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 26555,
+      "offset": 27095,
       "length": 17,
       "value": "\"No Session Name\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 26573,
+      "offset": 27113,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 26616,
+      "offset": 27156,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 27136,
+      "offset": 27676,
       "length": 28,
       "value": "\"Successfully leave session\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 28509,
+      "offset": 29122,
       "length": 43,
       "value": "\"User \""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 28535,
+      "offset": 29148,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 28538,
+      "offset": 29151,
       "length": 2,
       "value": "\" is speaking.\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 28655,
+      "offset": 29268,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 29207,
+      "offset": 29820,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 29439,
+      "offset": 29967,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 30074,
+      "offset": 30602,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 30552,
+      "offset": 31080,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 30756,
+      "offset": 31284,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 30985,
+      "offset": 31513,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 31023,
+      "offset": 31551,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 31111,
+      "offset": 31639,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 31232,
+      "offset": 31760,
       "length": 9,
       "value": "\"ChatNew\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 31403,
+      "offset": 31931,
       "length": 2,
       "value": "56"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 31415,
+      "offset": 31943,
       "length": 2,
       "value": "56"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 31707,
+      "offset": 32235,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 31794,
+      "offset": 32322,
       "length": 9,
       "value": "\"Dismiss\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 31806,
+      "offset": 32334,
       "length": 4,
       "value": "\"Ok\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 31964,
+      "offset": 32492,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 32072,
+      "offset": 32600,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 32297,
+      "offset": 32825,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 32853,
+      "offset": 33381,
       "length": 26,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 32856,
+      "offset": 33384,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 32878,
+      "offset": 33406,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 32949,
+      "offset": 33477,
       "length": 3,
       "value": "\"1\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 33243,
+      "offset": 33771,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 34474,
+      "offset": 35002,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 34497,
+      "offset": 35025,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 34535,
+      "offset": 35063,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "StringLiteral",
-      "offset": 34972,
+      "offset": 35500,
       "length": 4,
       "value": "\"\n\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 35049,
+      "offset": 35577,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 35190,
+      "offset": 35718,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 35604,
+      "offset": 36132,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 35668,
+      "offset": 36196,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 35923,
+      "offset": 36451,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 36037,
+      "offset": 36565,
       "length": 4,
       "value": "true"
     },
