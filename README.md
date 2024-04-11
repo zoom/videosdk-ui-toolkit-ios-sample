@@ -23,7 +23,7 @@ See the [Video SDK Auth Endpoint Sample](https://github.com/zoom/videosdk-sample
 
 ## Installation, Build & Launch
 
-Currently, the sample app consists of 2 dynamic xcframeworks ZoomVideoSDK.xcframework and ZoomVideoSDKUIKit.xcframework which are added with "Embed & Sign" and can be located directly under the ZoomVideoSDKUIToolkitSample. 
+Currently, the sample app consists of 3 dynamic xcframeworks ZoomVideoSDK.xcframework,  ZoomVideoSDKUIKit.xcframework and zoomcml.xcframework which are added with "Embed & Sign" and can be located directly under the ZoomVideoSDKUIToolkitSample. 
 
 Build and run the sample app by navigating ViewController.swift and key in the following placeholders. If your session requires a password, you can make use of the password parameter.
 
