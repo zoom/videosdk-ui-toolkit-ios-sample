@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ZoomVideoSDKAnnotationHelper.h"
+#import <ZoomVideoSDK/ZoomVideoSDKAnnotationHelper.h>
 
 @protocol ZoomVideoSDKShareSource;
+@protocol ZoomVideoSDKShareAudioSource;
 /*!
  @class ZoomVideoSDKShareStatus
  @brief Share status of user
@@ -39,10 +40,19 @@
 
 /*!
  @brief Share an external source.
- @param pSource External share source,To get extended error information, see {@link ZMVideoSDKShareSource}.
+ @param delegate External share source,To get extended information, see {@link ZoomVideoSDKShareSource}.
  @return If the function succeeds, it will return Errors_Success.Otherwise failed. To get extended error information, see [ZoomVideoSDKError].
  */
-- (ZoomVideoSDKError)startSharingExternalSource:(id<ZoomVideoSDKShareSource> _Nullable)pSource;
+- (ZoomVideoSDKError)startSharingExternalSource:(id<ZoomVideoSDKShareSource> _Nullable)delegate DEPRECATED_MSG_ATTRIBUTE("Use -startSharingExternalSource:andAudioSource: instead");
+
+/*!
+ @brief Share an external source.
+ @param shareDelegate External share source,To get extended information, see {@link ZoomVideoSDKShareSource}.
+ @param audioDelegate External share audio source,To get extended information, see {@link ZoomVideoSDKShareAudioSource}.
+ @return If the function succeeds, it will return Errors_Success.Otherwise failed. To get extended error information, see [ZoomVideoSDKError].
+ @warning   If audioDelegate is non-null, it means share user-defined audio at the same time.
+ */
+- (ZoomVideoSDKError)startSharingExternalSource:(id<ZoomVideoSDKShareSource> _Nullable)shareDelegate andAudioSource:(id <ZoomVideoSDKShareAudioSource> _Nullable)audioDelegate;
 
 /*!
  @brief Stop view or screen share.

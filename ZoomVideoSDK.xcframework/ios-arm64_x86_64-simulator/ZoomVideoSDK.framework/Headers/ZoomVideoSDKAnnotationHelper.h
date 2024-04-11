@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ZoomVideoSDKConstants.h"
+#import <ZoomVideoSDK/ZoomVideoSDKConstants.h>
 
 
 @interface ZoomVideoSDKAnnotationHelper: NSObject
@@ -45,6 +45,7 @@
  @brief Set the annotation tool type.
  @param type the specify annotation tool type.
  @return The result of it.
+ @warning The tool type ZoomVideoSDKAnnotationToolType_Picker and ZoomVideoSDKAnnotationToolType_SpotLight are not support for viewer.
  */
 - (ZoomVideoSDKError)setToolType:(ZoomVideoSDKAnnotationToolType)type;
 /*!
@@ -81,7 +82,6 @@
  @brief Clears the annotation content.
  @param type the specify clear type.
  @return The result of it.
- @warning Host and manager can clear all and clear my; Share owner can clear all, clear others and clear my; Attendee can only clear my.
  */
 - (ZoomVideoSDKError)clear:(ZoomVideoSDKAnnotationClearType)type;
 @end

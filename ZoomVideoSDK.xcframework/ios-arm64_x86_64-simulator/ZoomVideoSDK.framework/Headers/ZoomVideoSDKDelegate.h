@@ -4,22 +4,23 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ZoomVideoSDKConstants.h"
-#import "ZoomVideoSDKVideoRawData.h"
-#import "ZoomVideoSDKAudioRawData.h"
-#import "ZoomVideoSDKChatHelper.h"
-#import "ZoomVideoSDKPreProcessRawData.h"
-#import "ZoomVideoSDKVideoSender.h"
-#import "ZoomVideoSDKShareSender.h"
-#import "ZoomVideoSDKAudioSender.h"
-#import "ZoomVideoSDKVideoCapability.h"
-#import "ZoomVideoSDKVideoHelper.h"
-#import "ZoomVideoSDKAudioHelper.h"
-#import "ZoomVideoSDKShareHelper.h"
-#import "ZoomVideoSDKRecordingHelper.h"
-#import "ZoomVideoSDKLiveStreamHelper.h"
-#import "ZoomVideoSDKUserHelper.h"
-#import "ZoomVideoSDKLiveTranscriptionHelper.h"
+#import <ZoomVideoSDK/ZoomVideoSDKConstants.h>
+#import <ZoomVideoSDK/ZoomVideoSDKVideoRawData.h>
+#import <ZoomVideoSDK/ZoomVideoSDKAudioRawData.h>
+#import <ZoomVideoSDK/ZoomVideoSDKChatHelper.h>
+#import <ZoomVideoSDK/ZoomVideoSDKPreProcessRawData.h>
+#import <ZoomVideoSDK/ZoomVideoSDKVideoSender.h>
+#import <ZoomVideoSDK/ZoomVideoSDKShareSender.h>
+#import <ZoomVideoSDK/ZoomVideoSDKShareAudioSender.h>
+#import <ZoomVideoSDK/ZoomVideoSDKAudioSender.h>
+#import <ZoomVideoSDK/ZoomVideoSDKVideoCapability.h>
+#import <ZoomVideoSDK/ZoomVideoSDKVideoHelper.h>
+#import <ZoomVideoSDK/ZoomVideoSDKAudioHelper.h>
+#import <ZoomVideoSDK/ZoomVideoSDKShareHelper.h>
+#import <ZoomVideoSDK/ZoomVideoSDKRecordingHelper.h>
+#import <ZoomVideoSDK/ZoomVideoSDKLiveStreamHelper.h>
+#import <ZoomVideoSDK/ZoomVideoSDKUserHelper.h>
+#import <ZoomVideoSDK/ZoomVideoSDKLiveTranscriptionHelper.h>
 
 @class ZoomVideoSDKRawDataPipe;
 @class ZoomVideoSDKVideoCanvas;
@@ -189,6 +190,14 @@
 - (void)onCommandReceived:(NSString * _Nullable)commandContent sendUser:(ZoomVideoSDKUser * _Nullable)sendUser;
 
 /**
+ @brief Callback for when the current user is granted camera control access.
+ @note Once the current user sends the camera control request, this callback will be triggered with the result of the request.
+ @param user The pointer to the user who received the request.
+ @param isApproved The result of the camera control request.
+ */
+- (void)onCameraControlRequestResult:(ZoomVideoSDKUser* _Nullable)user approved:(BOOL)isApproved;
+
+/**
  @brief Callback: Invoked when cloud recording status has started, paused, stopped, resumed, or otherwise changed.
  @param status  Cloud recording status defined in [ZoomVideoSDKRecordingStatus].
  @param handler  could handle the action user Accept or Decline;
@@ -222,6 +231,19 @@
 - (void)onMultiCameraStreamStatusChanged:(ZoomVideoSDKMultiCameraStreamStatus)status parentUser:(ZoomVideoSDKUser *_Nullable)user videoCanvas:(ZoomVideoSDKVideoCanvas *_Nullable)videoCanvas;
 
 /**
+ @brief Callback: Notify the mic status when testing.
+ @param status The mic status. For more details, See [ZoomVideoSDKTestMicStatus].
+ */
+- (void)onTestMicStatusChanged:(ZoomVideoSDKTestMicStatus)status;
+
+/**
+ @brief Callback: Notify the current mic or speaker volume when testing.
+ @param micVolume Specify the volume of the mic.
+ @param speakerVolume Specify the volume of the speaker.
+ */
+- (void)onMicSpeakerVolumeChanged:(int)micVolume speakerVolume:(int)speakerVolume;
+
+/**
  @brief Callback: Invoked when the SDK requires system permissions to continue functioning.
  @param permissionType The type of system permission that is required. See [ZoomVideoSDKSystemPermissionType].
  */
@@ -241,7 +263,7 @@
 
 /**
  @brief Callback: Original language message received callback.
- @param messageInfo messageInfo The spoken language message, refer to {@link ZMVideoSDKLiveTranscriptionMessageInfo}.
+ @param messageInfo messageInfo The spoken language message, refer to {@link ZoomVideoSDKLiveTranscriptionMessageInfo}.
  */
 - (void)onOriginalLanguageMsgReceived:(ZoomVideoSDKLiveTranscriptionMessageInfo *_Nullable)messageInfo;
 
@@ -253,13 +275,13 @@
 - (void)onLiveTranscriptionMsgError:(ZoomVideoSDKLiveTranscriptionLanguage *_Nullable)spokenLanguage transLanguage:(ZoomVideoSDKLiveTranscriptionLanguage *_Nullable)transcriptLanguage;
 
 /**
- @brief The callback will be triggered if the proxy requests to input the username and password.Use the handler to configure the related information. For more details, see {@link ZMVideoSDKProxySettingHandler}.
+ @brief The callback will be triggered if the proxy requests to input the username and password.Use the handler to configure the related information. For more details, see {@link ZoomVideoSDKProxySettingHandler}.
  @param handler The handler will be destroyed once the function calls end.
  */
 - (void)onProxySettingNotification:(ZoomVideoSDKProxySettingHandler *_Nonnull)handler;
 
 /**
- @brief The callback will be triggered when the SSL is verified.Use the handler to check the related information. For more details, see {@link ZMVideoSDKSSLCertVerificationHandler}.
+ @brief The callback will be triggered when the SSL is verified.Use the handler to check the related information. For more details, see {@link ZoomVideoSDKSSLCertVerificationHandler}.
  @param handler The handler will be destroyed once the function calls end.
  */
 - (void)onSSLCertVerifiedFailNotification:(ZoomVideoSDKSSLCertificateInfo *_Nonnull)handler;
@@ -294,7 +316,7 @@
 /**
  @brief Callback event for the subscribed user's video fail reason.
  @param failReason The fail reason. For more details, see {@link ZoomVideoSDKSubscribeFailReason}.
- @param user The pointer to the user whose view we would like to subscribe. For more details, refer to {@link ZMVideoSDKUser}.
+ @param user The pointer to the user whose view we would like to subscribe. For more details, refer to {@link ZoomVideoSDKUser}.
  @param view The view that failed to subscribe.
  */
 - (void)onVideoCanvasSubscribeFail:(ZoomVideoSDKSubscribeFailReason)failReason user:(ZoomVideoSDKUser *_Nullable)user view:(UIView *_Nullable)view;
@@ -302,7 +324,7 @@
 /**
  @brief Callback event for the subscribed user's share fail reason.
  @param failReason The fail reason. For more details, see {@link ZoomVideoSDKSubscribeFailReason}.
- @param user The pointer to the user whose view we would like to subscribe. For more details, refer to {@link ZMVideoSDKUser}.
+ @param user The pointer to the user whose view we would like to subscribe. For more details, refer to {@link ZoomVideoSDKUser}.
  @param view The view that failed to subscribe.
  */
 - (void)onShareCanvasSubscribeFail:(ZoomVideoSDKSubscribeFailReason)failReason user:(ZoomVideoSDKUser *_Nullable)user view:(UIView *_Nullable)view;
@@ -470,5 +492,25 @@ supportCapabilityArray:(NSArray *_Nonnull)supportCapabilityArray
  @brief Callback for share source stop send raw data.
  */
 - (void)onShareSendStopped;
+
+@end
+
+#pragma mark - ZoomVideoSDKShareAudioSource
+/*!
+ @brief Custom external share source interface.
+ */
+@protocol ZoomVideoSDKShareAudioSource <NSObject>
+
+@optional
+/*!
+ @brief Callback for audio source to start sending raw data.
+ @param sender The object of MobileRTCShareSender to send share source.
+ */
+- (void)onStartSendAudio:(ZoomVideoSDKShareAudioSender *_Nonnull)sender;
+
+/*!
+ @brief Callback for audio source to stop sending raw data.
+ */
+- (void)onStopSendAudio;
 
 @end

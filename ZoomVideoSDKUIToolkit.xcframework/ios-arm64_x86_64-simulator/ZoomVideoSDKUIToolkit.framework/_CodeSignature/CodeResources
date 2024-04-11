@@ -4,166 +4,290 @@
 <dict>
 	<key>files</key>
 	<dict>
+		<key>ActiveSpeakerGalleryCollectionViewCell.nib/objects-12.3+.nib</key>
+		<data>
+		YCBkCnBQcb4q0T0NI8dkk+uFNMM=
+		</data>
+		<key>ActiveSpeakerGalleryCollectionViewCell.nib/runtime.nib</key>
+		<data>
+		9xgEVDlMQ162SK04BKaQEFLDb5U=
+		</data>
 		<key>Assets.car</key>
 		<data>
-		wCVe2dC9KnFdDJx/W5e0+TynmU0=
+		9/xJNpxM6r2DGcbGdPzdCs5Arog=
 		</data>
 		<key>ChatTableViewCell.nib</key>
 		<data>
-		YCSG/q/R1yPBUNwh/mnWS/3HFQQ=
+		EDjdzVsHo4KhyAevxovucDPE4mE=
+		</data>
+		<key>ChatVC.nib/objects-14.0+.nib</key>
+		<data>
+		DFpDk/bbi+0FlH2je5ikcnTE8lc=
+		</data>
+		<key>ChatVC.nib/runtime.nib</key>
+		<data>
+		ShMAxD/2E3QHNEFvHAhYwIEfqH4=
+		</data>
+		<key>CustomAlertBox.nib</key>
+		<data>
+		lKBVYWV3GVLYk4xZHGRn05swg1E=
+		</data>
+		<key>CustomBottomSheetCTAView.nib</key>
+		<data>
+		QExIA7Sz6FHou7IgdKXDzNpoSBs=
+		</data>
+		<key>CustomBottomSheetView.nib</key>
+		<data>
+		vlAX/OAXK6vjQ8m5qkTolg7om44=
 		</data>
 		<key>Headers/ZoomVideoSDKUIToolkit-Swift.h</key>
 		<data>
-		kYNOL/I0yQHw3yST/trH9nXbEG8=
+		mRW6uaYtKCCd0k0XzYrcrrpzKwA=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		FQiigNY+imK+2rwh5UEycYV/TWM=
+		rFiDWCntfAOTq6wI1CjdGX4o0/M=
+		</data>
+		<key>Loader.nib</key>
+		<data>
+		0McZUwR9v3wJVt7Uain5aJUe33g=
 		</data>
 		<key>Modules/ZoomVideoSDKUIToolkit.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		SDqjHYjcTAekQjM/jHo50omWYq4=
+		yw5csUVeJ7I5dqTaOaKBHjCnyOI=
 		</data>
 		<key>Modules/ZoomVideoSDKUIToolkit.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		7hoAVeE/HW9gdio5Z6tJlhmpD/Y=
+		6o4Hl46jXwFtdkzHJvZa1Y3fy9s=
 		</data>
 		<key>Modules/ZoomVideoSDKUIToolkit.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		gWBinR3Mbue/QKbLcys2MATyeWM=
+		VrDneiP61cSp4qAYmyK2JsoF898=
 		</data>
 		<key>Modules/ZoomVideoSDKUIToolkit.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		7hoAVeE/HW9gdio5Z6tJlhmpD/Y=
+		6o4Hl46jXwFtdkzHJvZa1Y3fy9s=
 		</data>
 		<key>Modules/ZoomVideoSDKUIToolkit.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		6XO+hzl49tJGs3rw4dAu7/SO1ok=
+		y8p9D6JpNoTSh+RhJ+3Q/gICmx0=
 		</data>
 		<key>Modules/ZoomVideoSDKUIToolkit.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		SDqjHYjcTAekQjM/jHo50omWYq4=
+		yw5csUVeJ7I5dqTaOaKBHjCnyOI=
 		</data>
 		<key>Modules/ZoomVideoSDKUIToolkit.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		uOe0qCdVgFXC5Rh2G/ofmXgwtog=
+		KvP9yb+hY4dbJVNw44lUAOWqepk=
 		</data>
 		<key>Modules/ZoomVideoSDKUIToolkit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		TpFFUr+0/z9S7aEjYBxDMORmAZ4=
+		Yq4S7dln4ealN/jaBgHb0IlkK7Y=
 		</data>
 		<key>Modules/ZoomVideoSDKUIToolkit.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		uOe0qCdVgFXC5Rh2G/ofmXgwtog=
+		KvP9yb+hY4dbJVNw44lUAOWqepk=
 		</data>
 		<key>Modules/ZoomVideoSDKUIToolkit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		/jBhsx1i2tOIoyUC5QxLBHxaR5s=
+		rBedmo6HJw12W8T3aJ3baRj7SM8=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
 		bnLyk5smGLgk5o09Yt8LOI2I7mM=
 		</data>
-		<key>UIToolkitVC.nib/objects-14.0+.nib</key>
+		<key>ParticipantTableViewCell.nib</key>
 		<data>
-		SvxKQivXwuiFVC/ARwMq8TRJDw4=
+		yIz1DC6SbWw9qrDcX4SBCQsV3V4=
 		</data>
-		<key>UIToolkitVC.nib/runtime.nib</key>
+		<key>ParticipantsVC.nib</key>
 		<data>
-		QMvm9+KjJBKoJ5XnK4vlZCcTU4o=
+		gDyNPm5ApnLfnPoq7shVGNaq6+8=
+		</data>
+		<key>SettingTitleButtonTableViewCell.nib</key>
+		<data>
+		Xy1+7M1v7H7Se+PrzJTeQynHfnQ=
+		</data>
+		<key>SettingTitleTapTableViewCell.nib</key>
+		<data>
+		WhAaqFGRLLpt0zsLa8XTzcglmus=
+		</data>
+		<key>SettingTitleTextFieldTableViewCell.nib</key>
+		<data>
+		O6Y4au22sm21qvG1anN8TVNb0tE=
+		</data>
+		<key>SettingTitleToggleTableViewCell.nib</key>
+		<data>
+		D8I1/Q/HcImRpRYhhkDM38I+Pmg=
+		</data>
+		<key>SettingsVC.nib</key>
+		<data>
+		nx8JtImCz5+5Z+ntw8n+zpFI144=
+		</data>
+		<key>UIToolkitVC.nib</key>
+		<data>
+		DOKrq5BAO1Fa3R2YeTMnJjVqCNc=
+		</data>
+		<key>VBCollectionViewCell.nib/objects-12.3+.nib</key>
+		<data>
+		MDmDO21hW6oStgG7SsbtM9lHSNI=
+		</data>
+		<key>VBCollectionViewCell.nib/runtime.nib</key>
+		<data>
+		OOQMPznQTyPeb6H8cg6T5/Zl7+Y=
+		</data>
+		<key>VirtualBackgroundVC.nib</key>
+		<data>
+		DPjAPFClqZdwnmqH9yExwlwcMb0=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
+		<key>ActiveSpeakerGalleryCollectionViewCell.nib/objects-12.3+.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			oLEUAX+z8WXE1WgyhXItLAEaSnh6pUMzNBPdTFneck8=
+			</data>
+		</dict>
+		<key>ActiveSpeakerGalleryCollectionViewCell.nib/runtime.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			fxZym+8+Keeme4D+MHFTAgTrr4sybpUXV5qziUQiLD8=
+			</data>
+		</dict>
 		<key>Assets.car</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			uGXN+uBl0nH4uVBaRXrEfrssKENTJ/tNNn1Hjf96Q8Y=
+			c5XqC6zgRorOvZEeY2W+3g1RfIlrkVP5g+nLciblhCA=
 			</data>
 		</dict>
 		<key>ChatTableViewCell.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			SILltJACQHLP7S1PDFdtiDro61tX0tyyjjPcuYS22zI=
+			XcikDfzyQZjfUm7AQeRo8vv9iFoJUM8Y5xlWt04aHWc=
+			</data>
+		</dict>
+		<key>ChatVC.nib/objects-14.0+.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			So+60FlVt4Taa59iVDAYLzjzgxbBAt9RtviGTT1bBdI=
+			</data>
+		</dict>
+		<key>ChatVC.nib/runtime.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Z4NImcjpqxhcSni7BtsFmsskR+2XHgGwAWdOvDw5W/k=
+			</data>
+		</dict>
+		<key>CustomAlertBox.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			ddTs+LtR7+Rkua+Flsw1sj88ZkdG/sLfVTxUMV+W/Mk=
+			</data>
+		</dict>
+		<key>CustomBottomSheetCTAView.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			QkyzJZ8lziAhBqP+swOQxK0ukm3j0PUlv0sCpdM80aE=
+			</data>
+		</dict>
+		<key>CustomBottomSheetView.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			PCEn+TpBpakqbDQpxllN/g0QcdIsF03/stITd0y/gfQ=
 			</data>
 		</dict>
 		<key>Headers/ZoomVideoSDKUIToolkit-Swift.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Gon8vBi9iwZl8wa5OcuA/ohM5LmFpVmn3sk0plLWorY=
+			KLip9QgEKqgrovaRjSODXAXjCuKFfsLjejnSM8jrVww=
+			</data>
+		</dict>
+		<key>Loader.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Hh/Ob0mibLidxwhjeSpFlROYPoJq+3t6KVGcuaKhVwo=
 			</data>
 		</dict>
 		<key>Modules/ZoomVideoSDKUIToolkit.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			RkCuiVsg5h+sz3R3h4KPjJFDQ2M/oawDAxcZxhMPbVU=
+			395+aDp12ejZbM/TCQtUc8r18IQ8V9PG5jJnPVfN2/U=
 			</data>
 		</dict>
 		<key>Modules/ZoomVideoSDKUIToolkit.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			9J8Yo63MxOoXWczuKokNh/HY7XoX2yfUQlwsx5YKvzY=
+			GvUmj7WdRXJJZRDM2xJVzD/g4PlqY9VxN/Iqr7UCg7g=
 			</data>
 		</dict>
 		<key>Modules/ZoomVideoSDKUIToolkit.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			4Ij9UTbuEIlkGTYkpDDHjK1yNW13oUlg0VAlWlM8C5Q=
+			DzL0xOPWkbMmK0sjg1lOCtsdq08e8sfx4aCSjDyhj44=
 			</data>
 		</dict>
 		<key>Modules/ZoomVideoSDKUIToolkit.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			9J8Yo63MxOoXWczuKokNh/HY7XoX2yfUQlwsx5YKvzY=
+			GvUmj7WdRXJJZRDM2xJVzD/g4PlqY9VxN/Iqr7UCg7g=
 			</data>
 		</dict>
 		<key>Modules/ZoomVideoSDKUIToolkit.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			EVwyXoHMPViu/NGbAeTDbQswVUh1BYbN6YItOL/ypmg=
+			Z3dbq7XRB1eFAa++JwBR02KXeWnwQxHW1eim8HKEfvE=
 			</data>
 		</dict>
 		<key>Modules/ZoomVideoSDKUIToolkit.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			RkCuiVsg5h+sz3R3h4KPjJFDQ2M/oawDAxcZxhMPbVU=
+			395+aDp12ejZbM/TCQtUc8r18IQ8V9PG5jJnPVfN2/U=
 			</data>
 		</dict>
 		<key>Modules/ZoomVideoSDKUIToolkit.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			IEunuhX1xD7fhyclPMLLc4rMNlV1Pj1GfJ/KnLoJvbc=
+			25GE6oSa8n9rkvYv5Q+e6/+3/BH+E5aCDUjXLGp13xM=
 			</data>
 		</dict>
 		<key>Modules/ZoomVideoSDKUIToolkit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			jps28RgD5kwRkg/tSpmHrucKRJwBZOfaZB/P4r/rRPI=
+			X+RJjewgoeiYaX6hVPZFZT3dBfaqZ9m1UjxZQMf7DnM=
 			</data>
 		</dict>
 		<key>Modules/ZoomVideoSDKUIToolkit.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			IEunuhX1xD7fhyclPMLLc4rMNlV1Pj1GfJ/KnLoJvbc=
+			25GE6oSa8n9rkvYv5Q+e6/+3/BH+E5aCDUjXLGp13xM=
 			</data>
 		</dict>
 		<key>Modules/ZoomVideoSDKUIToolkit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			uJc54TNLfe4d3RUavZjB4ZEOr2BYt8h3epUYOUtiDlk=
+			SC2JLIgU92gmp8R1jrFcI/FPzMwwFCnVa+Ct4R3RSqw=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -173,18 +297,81 @@
 			IxJ0tbyHSxcgAcLb/NDB/4vSaBkVn5zFyGdQFw9jizs=
 			</data>
 		</dict>
-		<key>UIToolkitVC.nib/objects-14.0+.nib</key>
+		<key>ParticipantTableViewCell.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			oj35eBiLBx/YQslD6fYsuWS4eaXeY0AUoCHIOMtFjw0=
+			LBMo8eGH+xN/WuM3pvIWwS85gDz2fdA3JoyKGtXN0Rg=
 			</data>
 		</dict>
-		<key>UIToolkitVC.nib/runtime.nib</key>
+		<key>ParticipantsVC.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			VavoUYw4YPEicOyHpe0XADcl/3Btlg3qfQbFGoTVB3I=
+			jhSgxPRJISLj7+DWxKQ4PSljQ8XP7wqOhoeZPe/PH4c=
+			</data>
+		</dict>
+		<key>SettingTitleButtonTableViewCell.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			l+ni25UBRLhutS5AjcYLjGidCZn2Jm7YM/Dfc2S+d1I=
+			</data>
+		</dict>
+		<key>SettingTitleTapTableViewCell.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			ygbBmppXEfU6FeG+G04njpe+m8dOuFcIbxRXKtVLQUQ=
+			</data>
+		</dict>
+		<key>SettingTitleTextFieldTableViewCell.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			W9Zsx9pwAlqM/Twc5L0JdDhUY8GWgFbKwZpL4F4BrkA=
+			</data>
+		</dict>
+		<key>SettingTitleToggleTableViewCell.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			v7y1d4B8w1eB+dc2kMYJpoCuGAeLnp/r2uQHua9ll1A=
+			</data>
+		</dict>
+		<key>SettingsVC.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			uWSNWC2WzDsQ2fhPUf67o1X9Hj6vlT3FML9V2nBKcqg=
+			</data>
+		</dict>
+		<key>UIToolkitVC.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			bAdI5lOdA9gMQoGdWpobsFwOAGGR1EHrEL0A3s+yZvM=
+			</data>
+		</dict>
+		<key>VBCollectionViewCell.nib/objects-12.3+.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			6QI8eKpfTYsHJC0Kbao+USamT4n6TU+33U9OqtW8ghs=
+			</data>
+		</dict>
+		<key>VBCollectionViewCell.nib/runtime.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			BxpopM83IG2iu9D0fsW0tNvqHr09gF7l7cln/g4DXII=
+			</data>
+		</dict>
+		<key>VirtualBackgroundVC.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			dByw8QQFB+X14U8iVPW7lkGxhmkOhg+RONist4iqB0M=
 			</data>
 		</dict>
 	</dict>
