@@ -1,8 +1,19 @@
 # Zoom Video SDK UI toolkit Sample Project 
 
-The Zoom Video SDK UI Toolkit is a prebuilt video chat user interface powered by the Zoom Video SDK.
+The [Zoom Video SDK UI toolkit](https://developers.zoom.us/docs/video-sdk/ios/ui-kit/) is a prebuilt video chat user interface powered by the Zoom Video SDK.
 
-The use of this UI toolkit is subject to the [beta program terms of use](https://explore.zoom.us/en/beta-terms-and-conditions/) and the [Video SDK terms of service](https://explore.zoom.us/en/video-sdk-terms/). This sample code is for debugging purposes only and is provided as-is and without warranties of any kind. It is meant only to be used by the direct recipient and may not be redistributed. Copyright 2023 Zoom Video Communications, Inc. All rights reserved.
+The UI toolkit enables you to instantly start using a core set of Video SDK features in your app, including:
+- Join and leave sessions
+- Video on or off
+- Front or back camera
+- Mute and unmute
+- Session chat (group and private)
+- Active speaker and gallery view
+- Participant management (by host and manager roles)
+- Virtual background
+- Portrait and Landscape support
+
+The use of this UI Took Kit is subject to the [Video SDK terms of service](https://explore.zoom.us/en/video-sdk-terms/). Copyright 2024 Zoom Video Communications, Inc. All rights reserved.
 
 ## Authorize
 
@@ -61,15 +72,15 @@ extension ViewController: UIToolkitDelegate {
 
 ## Integration
 
-You can integrate manually or use the Swift Package Manager.
+You can integrate the UI toolkit frameworks manually or via the Swift Package Manager or Cocoapod.
 
 ### Manual
 
-You can integrate the Zoom Video SDK UI toolkit into your project by adding the 2 dynamic xcframeworks: ZoomVideoSDK.xcframework and ZoomVideoSDKUIKit.xcframework found in the sample app. Be sure to select the "Embed & Sign" option for these frameworks in Xcode under your project 'General' tab.
+You can integrate the Zoom Video SDK UI toolkit into your project by adding the 2 essential dynamic xcframeworks: ZoomVideoSDK.xcframework and ZoomVideoSDKUIKit.xcframework found in the sample app. Be sure to select the "Embed & Sign" option for these frameworks in Xcode under your project 'General' tab. If you are also interested in having the Virtual Background feature, you will then need to include the zoomcml.xcframework in as well.
 
-### Swift Package Manager
+### Swift Package Manager and Cocoapod
 
-You can also add the framework using the Swift Package Manager using our GitHub link: https://github.com/zoom/videosdk-ui-toolkit-ios.
+You can also add the framework using the Swift Package Manager or Cocoapod using our GitHub link: https://github.com/zoom/videosdk-ui-toolkit-ios.
 
 ## Need help?
 
@@ -77,4 +88,4 @@ If you're looking for help, try [Developer Support](https://devsupport.zoom.us/h
 
 ---
 
-Copyright 2023 Zoom Video Communications, Inc. All rights reserved.
+Copyright 2024 Zoom Video Communications, Inc. All rights reserved.
