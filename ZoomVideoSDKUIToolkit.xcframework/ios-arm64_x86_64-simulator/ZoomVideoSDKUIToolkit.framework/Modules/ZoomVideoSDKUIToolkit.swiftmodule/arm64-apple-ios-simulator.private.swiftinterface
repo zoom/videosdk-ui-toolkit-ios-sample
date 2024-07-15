@@ -1,5 +1,5 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.9 (swiftlang-5.9.0.128.108 clang-1500.0.40.1)
+// swift-compiler-version: Apple Swift version 5.9.2 (swiftlang-5.9.2.2.56 clang-1500.1.0.2.5)
 // swift-module-flags: -target arm64-apple-ios13.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name ZoomVideoSDKUIToolkit
 // swift-module-flags-ignorable: -enable-bare-slash-regex
 import AVFoundation
@@ -19,11 +19,20 @@ public struct SessionContext {
   public var sessionPassword: Swift.String?
   public var username: Swift.String
   public init(jwt: Swift.String, sessionName: Swift.String, sessionPassword: Swift.String? = nil, username: Swift.String)
+  public init(sessionContextObject: ZoomVideoSDKUIToolkit.SessionContextObjC)
 }
-public enum UIToolkitError : Swift.Int, Swift.CaseIterable {
-  case EmptyKeyOrSecret
+@objc @objcMembers public class SessionContextObjC : ObjectiveC.NSObject {
+  @objc public var jwt: Swift.String
+  @objc public var sessionName: Swift.String
+  @objc public var sessionPassword: Swift.String?
+  @objc public var username: Swift.String
+  @objc public init(jwt: Swift.String, sessionName: Swift.String, sessionPassword: Swift.String? = nil, username: Swift.String)
+  @objc deinit
+}
+@objc public enum UIToolkitError : Swift.Int, Swift.CaseIterable {
+  case EmptyKeyOrSecret = 1000
   case InvalidKeyOrSecret
-  case EmptySessionName
+  case EmptySessionName = 2000
   case EmptySessionToken
   case TokenEmptySessionName
   case EmptyUsername
@@ -36,7 +45,7 @@ public enum UIToolkitError : Swift.Int, Swift.CaseIterable {
   case TokenUserIdentityTooLong
   case InvalidParam
   case JoinFailed
-  case NoMicrophonePermission
+  case NoMicrophonePermission = 3000
   case NoCameraPermission
   case LeaveSessionFailed
   case MuteMicFailed
@@ -72,9 +81,15 @@ public enum UIToolkitError : Swift.Int, Swift.CaseIterable {
     get
   }
 }
+@_inheritsConvenienceInitializers @objc public class UIToolkitErrorParser : ObjectiveC.NSObject {
+  @objc public static func descriptionForError(_ error: ZoomVideoSDKUIToolkit.UIToolkitError) -> Swift.String
+  @objc override dynamic public init()
+  @objc deinit
+}
 @objc @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) public class UIToolkitVC : UIKit.UIViewController {
-  @_Concurrency.MainActor(unsafe) weak public var delegate: (any ZoomVideoSDKUIToolkit.UIToolkitDelegate)?
+  @objc @_Concurrency.MainActor(unsafe) weak public var delegate: (any ZoomVideoSDKUIToolkit.UIToolkitDelegate)?
   @_Concurrency.MainActor(unsafe) public init(sessionContext: ZoomVideoSDKUIToolkit.SessionContext)
+  @objc @_Concurrency.MainActor(unsafe) public init(sessionContextObject: ZoomVideoSDKUIToolkit.SessionContextObjC)
   @objc deinit
   @_documentation(visibility: private) @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewDidLoad()
   @_documentation(visibility: private) @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewWillAppear(_ animated: Swift.Bool)
@@ -110,10 +125,10 @@ public enum UIToolkitError : Swift.Int, Swift.CaseIterable {
   @_Concurrency.MainActor(unsafe) @objc dynamic public func collectionView(_ collectionView: UIKit.UICollectionView, layout collectionViewLayout: UIKit.UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Swift.Int) -> CoreFoundation.CGFloat
   @_Concurrency.MainActor(unsafe) @objc dynamic public func collectionView(_ collectionView: UIKit.UICollectionView, layout collectionViewLayout: UIKit.UICollectionViewLayout, minimumLineSpacingForSectionAt section: Swift.Int) -> CoreFoundation.CGFloat
 }
-public protocol UIToolkitDelegate : AnyObject {
-  func onError(_ errorType: ZoomVideoSDKUIToolkit.UIToolkitError)
-  func onViewLoaded()
-  func onViewDismissed()
+@objc public protocol UIToolkitDelegate {
+  @objc func onError(_ errorType: ZoomVideoSDKUIToolkit.UIToolkitError)
+  @objc func onViewLoaded()
+  @objc func onViewDismissed()
 }
 extension ZoomVideoSDKUIToolkit.UIToolkitDelegate {
   public func onError(_ errorType: ZoomVideoSDKUIToolkit.UIToolkitError)
