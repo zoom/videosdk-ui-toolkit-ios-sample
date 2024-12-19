@@ -109,14 +109,16 @@ public struct InitParams {
   public var appGroupId: Swift.String?
   public var features: [ZoomVideoSDKUIToolkit.UIToolkitFeature]?
   public var recordingConsentMessage: Swift.String?
-  public init(appGroupId: Swift.String? = nil, features: [ZoomVideoSDKUIToolkit.UIToolkitFeature]? = nil, recordingConsentMessage: Swift.String? = nil)
+  public var liveStreamConsentMessage: Swift.String?
+  public init(appGroupId: Swift.String? = nil, features: [ZoomVideoSDKUIToolkit.UIToolkitFeature]? = nil, recordingConsentMessage: Swift.String? = nil, liveStreamConsentMessage: Swift.String? = nil)
   @_documentation(visibility: private) public init(initParamsObject: ZoomVideoSDKUIToolkit.InitParamsObjC)
 }
 @objc @objcMembers public class InitParamsObjC : ObjectiveC.NSObject {
   @objc public var appGroupId: Swift.String?
   public var features: [ZoomVideoSDKUIToolkit.UIToolkitFeature]?
   @objc public var recordingConsentMessage: Swift.String?
-  public init(appGroupId: Swift.String? = nil, features: [ZoomVideoSDKUIToolkit.UIToolkitFeature]? = nil, recordingConsentMessage: Swift.String? = nil)
+  @objc public var liveStreamConsentMessage: Swift.String?
+  public init(appGroupId: Swift.String? = nil, features: [ZoomVideoSDKUIToolkit.UIToolkitFeature]? = nil, recordingConsentMessage: Swift.String? = nil, liveStreamConsentMessage: Swift.String? = nil)
   @objc deinit
 }
 @_hasMissingDesignatedInitializers @_Concurrency.MainActor public class UIToolkitComponentManager {
@@ -170,6 +172,7 @@ public struct InitParams {
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func onUserNameChanged(_ user: ZoomVideoSDKUser?)
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func onUserHostChanged(_ helper: ZoomVideoSDKUserHelper?, users user: ZoomVideoSDKUser?)
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func onUserManagerChanged(_ user: ZoomVideoSDKUser?)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func onLiveStreamStatusChanged(_ helper: ZoomVideoSDKLiveStreamHelper?, status: ZoomVideoSDKLiveStreamStatus)
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func onCloudRecordingStatus(_ status: ZoomVideoSDKRecordingStatus, recordAgreementHandler handler: ZoomVideoSDKRecordAgreementHandler?)
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func onHostAskUnmute()
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func onCallCRCDeviceStatusChanged(_ state: ZoomVideoSDKCRCCallStatus)
@@ -191,6 +194,7 @@ public enum UIToolkitFeature : Swift.CaseIterable {
   case Users
   case Chat
   case VirtualBackground
+  case LiveStreaming
   case CloudRecording
   case Settings
   public static func == (a: ZoomVideoSDKUIToolkit.UIToolkitFeature, b: ZoomVideoSDKUIToolkit.UIToolkitFeature) -> Swift.Bool

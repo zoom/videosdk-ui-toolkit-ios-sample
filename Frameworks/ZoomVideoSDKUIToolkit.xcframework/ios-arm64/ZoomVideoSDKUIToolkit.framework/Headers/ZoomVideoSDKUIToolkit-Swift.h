@@ -353,6 +353,8 @@ SWIFT_CLASS("_TtC21ZoomVideoSDKUIToolkit14InitParamsObjC")
 @property (nonatomic, copy) NSString * _Nullable appGroupId;
 /// (Optional) Recording Consent Message for customized consent message to be shown when cloud recording started.
 @property (nonatomic, copy) NSString * _Nullable recordingConsentMessage;
+/// (Optional) Live Streaming Consent Message for customized consent message to be shown when live streaming started.
+@property (nonatomic, copy) NSString * _Nullable liveStreamConsentMessage;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -531,6 +533,7 @@ SWIFT_CLASS("_TtC21ZoomVideoSDKUIToolkit11UIToolkitVC")
 @class ZoomVideoSDKShareHelper;
 @class ZoomVideoSDKChatHelper;
 @class ZoomVideoSDKChatMessage;
+@class ZoomVideoSDKLiveStreamHelper;
 @class ZoomVideoSDKRecordAgreementHandler;
 
 @interface UIToolkitVC (SWIFT_EXTENSION(ZoomVideoSDKUIToolkit)) <ZoomVideoSDKDelegate>
@@ -550,6 +553,7 @@ SWIFT_CLASS("_TtC21ZoomVideoSDKUIToolkit11UIToolkitVC")
 - (void)onUserNameChanged:(ZoomVideoSDKUser * _Nullable)user;
 - (void)onUserHostChanged:(ZoomVideoSDKUserHelper * _Nullable)helper users:(ZoomVideoSDKUser * _Nullable)user;
 - (void)onUserManagerChanged:(ZoomVideoSDKUser * _Nullable)user;
+- (void)onLiveStreamStatusChanged:(ZoomVideoSDKLiveStreamHelper * _Nullable)helper status:(ZoomVideoSDKLiveStreamStatus)status;
 - (void)onCloudRecordingStatus:(ZoomVideoSDKRecordingStatus)status recordAgreementHandler:(ZoomVideoSDKRecordAgreementHandler * _Nullable)handler;
 - (void)onHostAskUnmute;
 - (void)onCallCRCDeviceStatusChanged:(ZoomVideoSDKCRCCallStatus)state;

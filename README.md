@@ -15,6 +15,7 @@ The UI toolkit enables you to instantly start using a core set of Video SDK feat
 - Portrait and landscape support
 - Screen share (full-screen)
 - Cloud Recording (Additional license required)
+- Live Streaming Support
 - CRC Info and Invite (Additional license required)
 
 These features are available in both the default and components UI.
@@ -42,6 +43,7 @@ let isDefaultView = true // true for Default UI and false for Component UI
 // let password = <#Password#> // For session that requires password to join.
 // let appGroupID = <#App Group ID#> // For screen sharing of device.
 // let recordingConsentMessage = "You are currently being recorded and must either accept or deny to continue. If you choose to deny, you will be forced to leave the session." // For customized consent message that will be shown during the start of cloud recording.
+// let liveStreamingConsentMessage = "You are currently being live streamed and must either accept or deny to continue. If you choose to deny, you will be forced to leave the session." // For customized consent message that will be shown during the start of live streaming.
 ```
 
 <br>
@@ -57,8 +59,9 @@ The variables above are used to set up a connection with the Video SDK. If your 
  1. If your session allows screen sharing, you will need to add the App Group ID parameter,
  2. By default the UI Toolkits comes with all available features (with some features require additional license). If you will like to only use some of these features, you will need to add the features you want under the features parameter.
  3. If your session allows and can perform cloud recording, you can add in a customized consent message.
+ 4. If your session allows and can perform live streaming, you can add in a customized consent message.
  */
-// let vc = UIToolkitVC(sessionContext: SessionContext(jwt: jwt, sessionName: sessionName, username: username), initParams: InitParams(appGroupId: appGroupID, features: [.Audio, .Video, .Users], recordingConsentMessage: recordingConsentMessage)))
+// let vc = UIToolkitVC(sessionContext: SessionContext(jwt: jwt, sessionName: sessionName, username: username), initParams: InitParams(appGroupId: appGroupID, features: [.Audio, .Chat], recordingConsentMessage: recordingConsentMessage, liveStreamConsentMessage: liveStreamingConsentMessage))
 
 let vc = UIToolkitVC(sessionContext: SessionContext(jwt: jwt, sessionName: sessionName, username: username))
 
@@ -125,11 +128,25 @@ As for Screen Sharing, you will need to include the CptShare.xcframework in your
 
 ### Swift Package Manager and Cocoapod
 
-You can also add the framework using the Swift Package Manager or Cocoapod using our GitHub link: https://github.com/zoom/videosdk-ui-toolkit-ios. Do take note that there are 4 branches available and the details are as followed:
+You can also add the framework using the Swift Package Manager (SPM) or Cocoapod using our GitHub link: https://github.com/zoom/videosdk-ui-toolkit-ios. 
+
+For SPM, there are 2 branches available:
 - main: SPM with all features
-- essential: SPM with all features except for Virtual Background and Screen Share
-- cocoapod: Cocoapod with all features
-- cocoapod-essential: Cocoapod with all features except for Virtual Background and Screen Share
+- essential: SPM with all features except for Virtual Background and Screen Share.
+
+For Cocoapod:
+
+```
+    // All features
+    pod 'ZoomVSDKUIToolkitiOS/ZoomVideoSDK'
+    pod 'ZoomVSDKUIToolkitiOS/ZoomVideoSDKUIToolkit'
+    pod 'ZoomVSDKUIToolkitiOS/CptShare'
+    pod 'ZoomVSDKUIToolkitiOS/zoomcml'
+    
+    // Essential features without Virtual Background and Screen Share
+    pod 'ZoomVSDKUIToolkitiOS/ZoomVideoSDK'
+    pod 'ZoomVSDKUIToolkitiOS/ZoomVideoSDKUIToolkitEssential'
+```
 
 ## Need help?
 
