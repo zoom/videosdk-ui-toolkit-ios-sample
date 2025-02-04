@@ -14,6 +14,28 @@ import ZoomVideoSDK
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
+@objc @_hasMissingDesignatedInitializers @_Concurrency.MainActor @preconcurrency public class AVPreviewVC : UIKit.UIViewController {
+  @_Concurrency.MainActor @preconcurrency public var delegate: (any ZoomVideoSDKUIToolkit.UIToolkitDelegate)?
+  @_Concurrency.MainActor @preconcurrency public init(speakerFileName: Swift.String)
+  @_documentation(visibility: private) @_Concurrency.MainActor @preconcurrency @objc override dynamic public func viewDidLoad()
+  @_documentation(visibility: private) @_Concurrency.MainActor @preconcurrency @objc override dynamic public func viewWillTransition(to size: CoreFoundation.CGSize, with coordinator: any UIKit.UIViewControllerTransitionCoordinator)
+  @_documentation(visibility: private) @_Concurrency.MainActor @preconcurrency @objc override dynamic public func viewDidAppear(_ animated: Swift.Bool)
+  @_documentation(visibility: private) @_Concurrency.MainActor @preconcurrency @objc override dynamic public func viewWillDisappear(_ animated: Swift.Bool)
+  @objc deinit
+}
+@_documentation(visibility: private) extension ZoomVideoSDKUIToolkit.AVPreviewVC : UIKit.UICollectionViewDelegate, UIKit.UICollectionViewDataSource, UIKit.UICollectionViewDelegateFlowLayout {
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func collectionView(_ collectionView: UIKit.UICollectionView, numberOfItemsInSection section: Swift.Int) -> Swift.Int
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func collectionView(_ collectionView: UIKit.UICollectionView, cellForItemAt indexPath: Foundation.IndexPath) -> UIKit.UICollectionViewCell
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func collectionView(_ collectionView: UIKit.UICollectionView, layout collectionViewLayout: UIKit.UICollectionViewLayout, sizeForItemAt indexPath: Foundation.IndexPath) -> CoreFoundation.CGSize
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func collectionView(_ collectionView: UIKit.UICollectionView, layout collectionViewLayout: UIKit.UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Swift.Int) -> CoreFoundation.CGFloat
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func collectionView(_ collectionView: UIKit.UICollectionView, layout collectionViewLayout: UIKit.UICollectionViewLayout, minimumLineSpacingForSectionAt section: Swift.Int) -> CoreFoundation.CGFloat
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func collectionView(_ collectionView: UIKit.UICollectionView, shouldSelectItemAt indexPath: Foundation.IndexPath) -> Swift.Bool
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func collectionView(_ collectionView: UIKit.UICollectionView, didSelectItemAt indexPath: Foundation.IndexPath)
+}
+@_documentation(visibility: private) extension ZoomVideoSDKUIToolkit.AVPreviewVC : @preconcurrency ZoomVideoSDKDelegate {
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func onError(_ ErrorType: ZoomVideoSDKError, detail details: Swift.Int)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func onMicSpeakerVolumeChanged(_ micVolume: Swift.Int32, speakerVolume: Swift.Int32)
+}
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor @preconcurrency public class ActiveSpeakerGalleryView : UIKit.UIView {
   @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(frame: CoreFoundation.CGRect)
   @_documentation(visibility: private) @_Concurrency.MainActor @preconcurrency @objc override dynamic public func layoutSubviews()
@@ -110,7 +132,8 @@ public struct InitParams {
   public var features: [ZoomVideoSDKUIToolkit.UIToolkitFeature]?
   public var recordingConsentMessage: Swift.String?
   public var liveStreamConsentMessage: Swift.String?
-  public init(appGroupId: Swift.String? = nil, features: [ZoomVideoSDKUIToolkit.UIToolkitFeature]? = nil, recordingConsentMessage: Swift.String? = nil, liveStreamConsentMessage: Swift.String? = nil)
+  public var lttConsentMessage: Swift.String?
+  public init(appGroupId: Swift.String? = nil, features: [ZoomVideoSDKUIToolkit.UIToolkitFeature]? = nil, recordingConsentMessage: Swift.String? = nil, liveStreamConsentMessage: Swift.String? = nil, lttConsentMessage: Swift.String? = nil)
   @_documentation(visibility: private) public init(initParamsObject: ZoomVideoSDKUIToolkit.InitParamsObjC)
 }
 @objc @objcMembers public class InitParamsObjC : ObjectiveC.NSObject {
@@ -118,7 +141,8 @@ public struct InitParams {
   public var features: [ZoomVideoSDKUIToolkit.UIToolkitFeature]?
   @objc public var recordingConsentMessage: Swift.String?
   @objc public var liveStreamConsentMessage: Swift.String?
-  public init(appGroupId: Swift.String? = nil, features: [ZoomVideoSDKUIToolkit.UIToolkitFeature]? = nil, recordingConsentMessage: Swift.String? = nil, liveStreamConsentMessage: Swift.String? = nil)
+  @objc public var lttConsentMessage: Swift.String?
+  public init(appGroupId: Swift.String? = nil, features: [ZoomVideoSDKUIToolkit.UIToolkitFeature]? = nil, recordingConsentMessage: Swift.String? = nil, liveStreamConsentMessage: Swift.String? = nil, lttConsentMessage: Swift.String? = nil)
   @objc deinit
 }
 @_hasMissingDesignatedInitializers @_Concurrency.MainActor public class UIToolkitComponentManager {
@@ -165,17 +189,23 @@ public struct InitParams {
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func onUserLeave(_ helper: ZoomVideoSDKUserHelper?, users userArray: [ZoomVideoSDKUser]?)
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func onUserAudioStatusChanged(_ helper: ZoomVideoSDKAudioHelper?, user userArray: [ZoomVideoSDKUser]?)
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func onUserVideoStatusChanged(_ helper: ZoomVideoSDKVideoHelper?, user userArray: [ZoomVideoSDKUser]?)
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public func onUserShareStatusChanged(_ helper: ZoomVideoSDKShareHelper?, user: ZoomVideoSDKUser?, status: ZoomVideoSDKReceiveSharingStatus)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func onUserShareStatusChanged(_ helper: ZoomVideoSDKShareHelper?, user: ZoomVideoSDKUser?, shareAction: ZoomVideoSDKShareAction?)
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func onUserActiveAudioChanged(_ helper: ZoomVideoSDKUserHelper?, users userArray: [ZoomVideoSDKUser]?)
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func onChatNewMessageNotify(_ helper: ZoomVideoSDKChatHelper?, message chatMessage: ZoomVideoSDKChatMessage?)
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func onChatPrivilegeChanged(_ helper: ZoomVideoSDKChatHelper?, privilege currentPrivilege: ZoomVideoSDKChatPrivilegeType)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func onSendFileStatus(_ file: ZoomVideoSDKSendFile?, status: ZoomVideoSDKFileTransferStatus)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func onReceiveFileStatus(_ file: ZoomVideoSDKReceiveFile?, status: ZoomVideoSDKFileTransferStatus)
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func onUserNameChanged(_ user: ZoomVideoSDKUser?)
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func onUserHostChanged(_ helper: ZoomVideoSDKUserHelper?, users user: ZoomVideoSDKUser?)
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func onUserManagerChanged(_ user: ZoomVideoSDKUser?)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func onHostAskUnmute()
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func onLiveStreamStatusChanged(_ helper: ZoomVideoSDKLiveStreamHelper?, status: ZoomVideoSDKLiveStreamStatus)
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func onCloudRecordingStatus(_ status: ZoomVideoSDKRecordingStatus, recordAgreementHandler handler: ZoomVideoSDKRecordAgreementHandler?)
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public func onHostAskUnmute()
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func onCallCRCDeviceStatusChanged(_ state: ZoomVideoSDKCRCCallStatus)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func onLiveTranscriptionStatus(_ status: ZoomVideoSDKLiveTranscriptionStatus)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func onLiveTranscriptionMsgReceived(_ messageInfo: ZoomVideoSDKLiveTranscriptionMessageInfo?)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func onLiveTranscriptionMsgError(_ spokenLanguage: ZoomVideoSDKLiveTranscriptionLanguage?, transLanguage transcriptLanguage: ZoomVideoSDKLiveTranscriptionLanguage?)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func onInvite(by status: ZoomVideoSDKPhoneStatus, fail failReason: ZoomVideoSDKPhoneFailedReason)
 }
 @_documentation(visibility: private) extension ZoomVideoSDKUIToolkit.UIToolkitVC : UIKit.UICollectionViewDelegate, UIKit.UICollectionViewDataSource, UIKit.UICollectionViewDelegateFlowLayout {
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func scrollViewDidScroll(_ scrollView: UIKit.UIScrollView)
@@ -188,11 +218,14 @@ public struct InitParams {
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func collectionView(_ collectionView: UIKit.UICollectionView, layout collectionViewLayout: UIKit.UICollectionViewLayout, minimumLineSpacingForSectionAt section: Swift.Int) -> CoreFoundation.CGFloat
 }
 public enum UIToolkitFeature : Swift.CaseIterable {
+  case Preview
   case Video
   case Audio
+  case LTT
   case ShareScreen
   case Users
   case Chat
+  case FileTransfer
   case VirtualBackground
   case LiveStreaming
   case CloudRecording

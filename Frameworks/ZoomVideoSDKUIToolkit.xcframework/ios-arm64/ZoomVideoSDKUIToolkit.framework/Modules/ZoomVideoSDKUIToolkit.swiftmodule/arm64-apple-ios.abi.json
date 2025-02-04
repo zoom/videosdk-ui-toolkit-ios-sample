@@ -33,6 +33,16 @@
       },
       {
         "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "ZoomVideoSDKUIToolkit",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
         "name": "Foundation",
         "printedName": "Foundation",
         "declKind": "Import",
@@ -59,6 +69,837 @@
         "kind": "Import",
         "name": "UIKit",
         "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "ZoomVideoSDKUIToolkit",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "ZoomVideoSDKUIToolkit",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "ZoomVideoSDK",
+        "printedName": "ZoomVideoSDK",
+        "declKind": "Import",
+        "moduleName": "ZoomVideoSDKUIToolkit"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "AVPreviewVC",
+        "printedName": "AVPreviewVC",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "delegate",
+            "printedName": "delegate",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "(any ZoomVideoSDKUIToolkit.UIToolkitDelegate)?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "UIToolkitDelegate",
+                    "printedName": "any ZoomVideoSDKUIToolkit.UIToolkitDelegate",
+                    "usr": "s:21ZoomVideoSDKUIToolkit17UIToolkitDelegateP"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ZoomVideoSDKUIToolkit11AVPreviewVCC8delegateAA17UIToolkitDelegate_pSgvp",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit11AVPreviewVCC8delegateAA17UIToolkitDelegate_pSgvp",
+            "moduleName": "ZoomVideoSDKUIToolkit",
+            "declAttributes": [
+              "HasInitialValue",
+              "Preconcurrency",
+              "Custom",
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "(any ZoomVideoSDKUIToolkit.UIToolkitDelegate)?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "UIToolkitDelegate",
+                        "printedName": "any ZoomVideoSDKUIToolkit.UIToolkitDelegate",
+                        "usr": "s:21ZoomVideoSDKUIToolkit17UIToolkitDelegateP"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ZoomVideoSDKUIToolkit11AVPreviewVCC8delegateAA17UIToolkitDelegate_pSgvg",
+                "mangledName": "$s21ZoomVideoSDKUIToolkit11AVPreviewVCC8delegateAA17UIToolkitDelegate_pSgvg",
+                "moduleName": "ZoomVideoSDKUIToolkit",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "(any ZoomVideoSDKUIToolkit.UIToolkitDelegate)?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "UIToolkitDelegate",
+                        "printedName": "any ZoomVideoSDKUIToolkit.UIToolkitDelegate",
+                        "usr": "s:21ZoomVideoSDKUIToolkit17UIToolkitDelegateP"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ZoomVideoSDKUIToolkit11AVPreviewVCC8delegateAA17UIToolkitDelegate_pSgvs",
+                "mangledName": "$s21ZoomVideoSDKUIToolkit11AVPreviewVCC8delegateAA17UIToolkitDelegate_pSgvs",
+                "moduleName": "ZoomVideoSDKUIToolkit",
+                "implicit": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ZoomVideoSDKUIToolkit11AVPreviewVCC8delegateAA17UIToolkitDelegate_pSgvM",
+                "mangledName": "$s21ZoomVideoSDKUIToolkit11AVPreviewVCC8delegateAA17UIToolkitDelegate_pSgvM",
+                "moduleName": "ZoomVideoSDKUIToolkit",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(speakerFileName:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "AVPreviewVC",
+                "printedName": "ZoomVideoSDKUIToolkit.AVPreviewVC",
+                "usr": "c:@M@ZoomVideoSDKUIToolkit@objc(cs)AVPreviewVC"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:21ZoomVideoSDKUIToolkit11AVPreviewVCC15speakerFileNameACSS_tcfc",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit11AVPreviewVCC15speakerFileNameACSS_tcfc",
+            "moduleName": "ZoomVideoSDKUIToolkit",
+            "declAttributes": [
+              "Preconcurrency",
+              "Custom",
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "viewDidLoad",
+            "printedName": "viewDidLoad()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@ZoomVideoSDKUIToolkit@objc(cs)AVPreviewVC(im)viewDidLoad",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit11AVPreviewVCC11viewDidLoadyyF",
+            "moduleName": "ZoomVideoSDKUIToolkit",
+            "overriding": true,
+            "objc_name": "viewDidLoad",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Preconcurrency",
+              "Custom",
+              "Override",
+              "AccessControl",
+              "Documentation"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "viewWillTransition",
+            "printedName": "viewWillTransition(to:with:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "CGSize",
+                "printedName": "CoreFoundation.CGSize",
+                "usr": "c:@S@CGSize"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "UIViewControllerTransitionCoordinator",
+                "printedName": "any UIKit.UIViewControllerTransitionCoordinator",
+                "usr": "c:objc(pl)UIViewControllerTransitionCoordinator"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@ZoomVideoSDKUIToolkit@objc(cs)AVPreviewVC(im)viewWillTransitionToSize:withTransitionCoordinator:",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit11AVPreviewVCC18viewWillTransition2to4withySo6CGSizeV_So016UIViewControllerH11Coordinator_ptF",
+            "moduleName": "ZoomVideoSDKUIToolkit",
+            "overriding": true,
+            "objc_name": "viewWillTransitionToSize:withTransitionCoordinator:",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Preconcurrency",
+              "Custom",
+              "Override",
+              "AccessControl",
+              "Documentation"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "viewDidAppear",
+            "printedName": "viewDidAppear(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@ZoomVideoSDKUIToolkit@objc(cs)AVPreviewVC(im)viewDidAppear:",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit11AVPreviewVCC13viewDidAppearyySbF",
+            "moduleName": "ZoomVideoSDKUIToolkit",
+            "overriding": true,
+            "objc_name": "viewDidAppear:",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Preconcurrency",
+              "Custom",
+              "Override",
+              "AccessControl",
+              "Documentation"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "viewWillDisappear",
+            "printedName": "viewWillDisappear(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@ZoomVideoSDKUIToolkit@objc(cs)AVPreviewVC(im)viewWillDisappear:",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit11AVPreviewVCC17viewWillDisappearyySbF",
+            "moduleName": "ZoomVideoSDKUIToolkit",
+            "overriding": true,
+            "objc_name": "viewWillDisappear:",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Preconcurrency",
+              "Custom",
+              "Override",
+              "AccessControl",
+              "Documentation"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(nibName:bundle:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "AVPreviewVC",
+                "printedName": "ZoomVideoSDKUIToolkit.AVPreviewVC",
+                "usr": "c:@M@ZoomVideoSDKUIToolkit@objc(cs)AVPreviewVC"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Foundation.Bundle?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bundle",
+                    "printedName": "Foundation.Bundle",
+                    "usr": "c:objc(cs)NSBundle"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "c:@M@ZoomVideoSDKUIToolkit@objc(cs)AVPreviewVC(im)initWithNibName:bundle:",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit11AVPreviewVCC7nibName6bundleACSSSg_So8NSBundleCSgtcfc",
+            "moduleName": "ZoomVideoSDKUIToolkit",
+            "overriding": true,
+            "implicit": true,
+            "objc_name": "initWithNibName:bundle:",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Preconcurrency",
+              "Custom",
+              "Override"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "collectionView",
+            "printedName": "collectionView(_:numberOfItemsInSection:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "UICollectionView",
+                "printedName": "UIKit.UICollectionView",
+                "usr": "c:objc(cs)UICollectionView"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@ZoomVideoSDKUIToolkit@objc(cs)AVPreviewVC(im)collectionView:numberOfItemsInSection:",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit11AVPreviewVCC14collectionView_22numberOfItemsInSectionSiSo012UICollectionG0C_SitF",
+            "moduleName": "ZoomVideoSDKUIToolkit",
+            "objc_name": "collectionView:numberOfItemsInSection:",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Preconcurrency",
+              "Custom",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "collectionView",
+            "printedName": "collectionView(_:cellForItemAt:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "UICollectionViewCell",
+                "printedName": "UIKit.UICollectionViewCell",
+                "usr": "c:objc(cs)UICollectionViewCell"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "UICollectionView",
+                "printedName": "UIKit.UICollectionView",
+                "usr": "c:objc(cs)UICollectionView"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "IndexPath",
+                "printedName": "Foundation.IndexPath",
+                "usr": "s:10Foundation9IndexPathV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@ZoomVideoSDKUIToolkit@objc(cs)AVPreviewVC(im)collectionView:cellForItemAtIndexPath:",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit11AVPreviewVCC14collectionView_13cellForItemAtSo012UICollectionG4CellCSo0lG0C_10Foundation9IndexPathVtF",
+            "moduleName": "ZoomVideoSDKUIToolkit",
+            "objc_name": "collectionView:cellForItemAtIndexPath:",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Preconcurrency",
+              "Custom",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "collectionView",
+            "printedName": "collectionView(_:layout:sizeForItemAt:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CGSize",
+                "printedName": "CoreFoundation.CGSize",
+                "usr": "c:@S@CGSize"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "UICollectionView",
+                "printedName": "UIKit.UICollectionView",
+                "usr": "c:objc(cs)UICollectionView"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "UICollectionViewLayout",
+                "printedName": "UIKit.UICollectionViewLayout",
+                "usr": "c:objc(cs)UICollectionViewLayout"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "IndexPath",
+                "printedName": "Foundation.IndexPath",
+                "usr": "s:10Foundation9IndexPathV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@ZoomVideoSDKUIToolkit@objc(cs)AVPreviewVC(im)collectionView:layout:sizeForItemAtIndexPath:",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit11AVPreviewVCC14collectionView_6layout13sizeForItemAtSo6CGSizeVSo012UICollectionG0C_So0nG6LayoutC10Foundation9IndexPathVtF",
+            "moduleName": "ZoomVideoSDKUIToolkit",
+            "objc_name": "collectionView:layout:sizeForItemAtIndexPath:",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Preconcurrency",
+              "Custom",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "collectionView",
+            "printedName": "collectionView(_:layout:minimumInteritemSpacingForSectionAt:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CGFloat",
+                "printedName": "CoreGraphics.CGFloat",
+                "usr": "s:14CoreFoundation7CGFloatV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "UICollectionView",
+                "printedName": "UIKit.UICollectionView",
+                "usr": "c:objc(cs)UICollectionView"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "UICollectionViewLayout",
+                "printedName": "UIKit.UICollectionViewLayout",
+                "usr": "c:objc(cs)UICollectionViewLayout"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@ZoomVideoSDKUIToolkit@objc(cs)AVPreviewVC(im)collectionView:layout:minimumInteritemSpacingForSectionAtIndex:",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit11AVPreviewVCC14collectionView_6layout35minimumInteritemSpacingForSectionAt12CoreGraphics7CGFloatVSo012UICollectionG0C_So0rG6LayoutCSitF",
+            "moduleName": "ZoomVideoSDKUIToolkit",
+            "objc_name": "collectionView:layout:minimumInteritemSpacingForSectionAtIndex:",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Preconcurrency",
+              "Custom",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "collectionView",
+            "printedName": "collectionView(_:layout:minimumLineSpacingForSectionAt:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CGFloat",
+                "printedName": "CoreGraphics.CGFloat",
+                "usr": "s:14CoreFoundation7CGFloatV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "UICollectionView",
+                "printedName": "UIKit.UICollectionView",
+                "usr": "c:objc(cs)UICollectionView"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "UICollectionViewLayout",
+                "printedName": "UIKit.UICollectionViewLayout",
+                "usr": "c:objc(cs)UICollectionViewLayout"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@ZoomVideoSDKUIToolkit@objc(cs)AVPreviewVC(im)collectionView:layout:minimumLineSpacingForSectionAtIndex:",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit11AVPreviewVCC14collectionView_6layout30minimumLineSpacingForSectionAt12CoreGraphics7CGFloatVSo012UICollectionG0C_So0rG6LayoutCSitF",
+            "moduleName": "ZoomVideoSDKUIToolkit",
+            "objc_name": "collectionView:layout:minimumLineSpacingForSectionAtIndex:",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Preconcurrency",
+              "Custom",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "collectionView",
+            "printedName": "collectionView(_:shouldSelectItemAt:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "UICollectionView",
+                "printedName": "UIKit.UICollectionView",
+                "usr": "c:objc(cs)UICollectionView"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "IndexPath",
+                "printedName": "Foundation.IndexPath",
+                "usr": "s:10Foundation9IndexPathV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@ZoomVideoSDKUIToolkit@objc(cs)AVPreviewVC(im)collectionView:shouldSelectItemAtIndexPath:",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit11AVPreviewVCC14collectionView_18shouldSelectItemAtSbSo012UICollectionG0C_10Foundation9IndexPathVtF",
+            "moduleName": "ZoomVideoSDKUIToolkit",
+            "objc_name": "collectionView:shouldSelectItemAtIndexPath:",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Preconcurrency",
+              "Custom",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "collectionView",
+            "printedName": "collectionView(_:didSelectItemAt:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "UICollectionView",
+                "printedName": "UIKit.UICollectionView",
+                "usr": "c:objc(cs)UICollectionView"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "IndexPath",
+                "printedName": "Foundation.IndexPath",
+                "usr": "s:10Foundation9IndexPathV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@ZoomVideoSDKUIToolkit@objc(cs)AVPreviewVC(im)collectionView:didSelectItemAtIndexPath:",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit11AVPreviewVCC14collectionView_15didSelectItemAtySo012UICollectionG0C_10Foundation9IndexPathVtF",
+            "moduleName": "ZoomVideoSDKUIToolkit",
+            "objc_name": "collectionView:didSelectItemAtIndexPath:",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Preconcurrency",
+              "Custom",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "onError",
+            "printedName": "onError(_:detail:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "ZoomVideoSDKError",
+                "printedName": "ZoomVideoSDK.ZoomVideoSDKError",
+                "usr": "c:@E@ZoomVideoSDKError"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@ZoomVideoSDKUIToolkit@objc(cs)AVPreviewVC(im)onError:detail:",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit11AVPreviewVCC7onError_6detailySo0aB8SDKErrorV_SitF",
+            "moduleName": "ZoomVideoSDKUIToolkit",
+            "objc_name": "onError:detail:",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Preconcurrency",
+              "Custom",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "onMicSpeakerVolumeChanged",
+            "printedName": "onMicSpeakerVolumeChanged(_:speakerVolume:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int32",
+                "printedName": "Swift.Int32",
+                "usr": "s:s5Int32V"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int32",
+                "printedName": "Swift.Int32",
+                "usr": "s:s5Int32V"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@ZoomVideoSDKUIToolkit@objc(cs)AVPreviewVC(im)onMicSpeakerVolumeChanged:speakerVolume:",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit11AVPreviewVCC25onMicSpeakerVolumeChanged_07speakerI0ys5Int32V_AGtF",
+            "moduleName": "ZoomVideoSDKUIToolkit",
+            "objc_name": "onMicSpeakerVolumeChanged:speakerVolume:",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Preconcurrency",
+              "Custom",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "c:@M@ZoomVideoSDKUIToolkit@objc(cs)AVPreviewVC",
+        "mangledName": "$s21ZoomVideoSDKUIToolkit11AVPreviewVCC",
+        "moduleName": "ZoomVideoSDKUIToolkit",
+        "declAttributes": [
+          "Preconcurrency",
+          "Custom",
+          "AccessControl",
+          "RawDocComment",
+          "ObjC"
+        ],
+        "superclassUsr": "c:objc(cs)UIViewController",
+        "hasMissingDesignatedInitializers": true,
+        "superclassNames": [
+          "UIKit.UIViewController",
+          "UIKit.UIResponder",
+          "ObjectiveC.NSObject"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CVarArg",
+            "printedName": "CVarArg",
+            "usr": "s:s7CVarArgP",
+            "mangledName": "$ss7CVarArgP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObservingPublishing",
+            "printedName": "_KeyValueCodingAndObservingPublishing",
+            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
+            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObserving",
+            "printedName": "_KeyValueCodingAndObserving",
+            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
+            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomStringConvertible",
+            "printedName": "CustomStringConvertible",
+            "usr": "s:s23CustomStringConvertibleP",
+            "mangledName": "$ss23CustomStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomDebugStringConvertible",
+            "printedName": "CustomDebugStringConvertible",
+            "usr": "s:s28CustomDebugStringConvertibleP",
+            "mangledName": "$ss28CustomDebugStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "UITraitChangeObservable",
+            "printedName": "UITraitChangeObservable",
+            "usr": "s:5UIKit23UITraitChangeObservableP",
+            "mangledName": "$s5UIKit23UITraitChangeObservableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "ZoomVideoSDK",
+        "printedName": "ZoomVideoSDK",
         "declKind": "Import",
         "moduleName": "ZoomVideoSDKUIToolkit",
         "declAttributes": [
@@ -4323,9 +5164,120 @@
             ]
           },
           {
+            "kind": "Var",
+            "name": "lttConsentMessage",
+            "printedName": "lttConsentMessage",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ZoomVideoSDKUIToolkit10InitParamsV17lttConsentMessageSSSgvp",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit10InitParamsV17lttConsentMessageSSSgvp",
+            "moduleName": "ZoomVideoSDKUIToolkit",
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ZoomVideoSDKUIToolkit10InitParamsV17lttConsentMessageSSSgvg",
+                "mangledName": "$s21ZoomVideoSDKUIToolkit10InitParamsV17lttConsentMessageSSSgvg",
+                "moduleName": "ZoomVideoSDKUIToolkit",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ZoomVideoSDKUIToolkit10InitParamsV17lttConsentMessageSSSgvs",
+                "mangledName": "$s21ZoomVideoSDKUIToolkit10InitParamsV17lttConsentMessageSSSgvs",
+                "moduleName": "ZoomVideoSDKUIToolkit",
+                "implicit": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ZoomVideoSDKUIToolkit10InitParamsV17lttConsentMessageSSSgvM",
+                "mangledName": "$s21ZoomVideoSDKUIToolkit10InitParamsV17lttConsentMessageSSSgvM",
+                "moduleName": "ZoomVideoSDKUIToolkit",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
             "kind": "Constructor",
             "name": "init",
-            "printedName": "init(appGroupId:features:recordingConsentMessage:liveStreamConsentMessage:)",
+            "printedName": "init(appGroupId:features:recordingConsentMessage:liveStreamConsentMessage:lttConsentMessage:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -4400,11 +5352,26 @@
                 ],
                 "hasDefaultArg": true,
                 "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
               }
             ],
             "declKind": "Constructor",
-            "usr": "s:21ZoomVideoSDKUIToolkit10InitParamsV10appGroupId8features23recordingConsentMessage010liveStreamkL0ACSSSg_SayAA16UIToolkitFeatureOGSgA2Htcfc",
-            "mangledName": "$s21ZoomVideoSDKUIToolkit10InitParamsV10appGroupId8features23recordingConsentMessage010liveStreamkL0ACSSSg_SayAA16UIToolkitFeatureOGSgA2Htcfc",
+            "usr": "s:21ZoomVideoSDKUIToolkit10InitParamsV10appGroupId8features23recordingConsentMessage010liveStreamkL003lttkL0ACSSSg_SayAA16UIToolkitFeatureOGSgA3Itcfc",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit10InitParamsV10appGroupId8features23recordingConsentMessage010liveStreamkL003lttkL0ACSSSg_SayAA16UIToolkitFeatureOGSgA3Itcfc",
             "moduleName": "ZoomVideoSDKUIToolkit",
             "declAttributes": [
               "AccessControl",
@@ -4961,9 +5928,127 @@
             ]
           },
           {
+            "kind": "Var",
+            "name": "lttConsentMessage",
+            "printedName": "lttConsentMessage",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@ZoomVideoSDKUIToolkit@objc(cs)InitParamsObjC(py)lttConsentMessage",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit14InitParamsObjCC17lttConsentMessageSSSgvp",
+            "moduleName": "ZoomVideoSDKUIToolkit",
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment",
+              "ObjC"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@ZoomVideoSDKUIToolkit@objc(cs)InitParamsObjC(im)lttConsentMessage",
+                "mangledName": "$s21ZoomVideoSDKUIToolkit14InitParamsObjCC17lttConsentMessageSSSgvg",
+                "moduleName": "ZoomVideoSDKUIToolkit",
+                "implicit": true,
+                "declAttributes": [
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@ZoomVideoSDKUIToolkit@objc(cs)InitParamsObjC(im)setLttConsentMessage:",
+                "mangledName": "$s21ZoomVideoSDKUIToolkit14InitParamsObjCC17lttConsentMessageSSSgvs",
+                "moduleName": "ZoomVideoSDKUIToolkit",
+                "implicit": true,
+                "declAttributes": [
+                  "ObjC"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ZoomVideoSDKUIToolkit14InitParamsObjCC17lttConsentMessageSSSgvM",
+                "mangledName": "$s21ZoomVideoSDKUIToolkit14InitParamsObjCC17lttConsentMessageSSSgvM",
+                "moduleName": "ZoomVideoSDKUIToolkit",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
             "kind": "Constructor",
             "name": "init",
-            "printedName": "init(appGroupId:features:recordingConsentMessage:liveStreamConsentMessage:)",
+            "printedName": "init(appGroupId:features:recordingConsentMessage:liveStreamConsentMessage:lttConsentMessage:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -5038,11 +6123,26 @@
                 ],
                 "hasDefaultArg": true,
                 "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
               }
             ],
             "declKind": "Constructor",
-            "usr": "s:21ZoomVideoSDKUIToolkit14InitParamsObjCC10appGroupId8features23recordingConsentMessage010liveStreamlM0ACSSSg_SayAA16UIToolkitFeatureOGSgA2Htcfc",
-            "mangledName": "$s21ZoomVideoSDKUIToolkit14InitParamsObjCC10appGroupId8features23recordingConsentMessage010liveStreamlM0ACSSSg_SayAA16UIToolkitFeatureOGSgA2Htcfc",
+            "usr": "s:21ZoomVideoSDKUIToolkit14InitParamsObjCC10appGroupId8features23recordingConsentMessage010liveStreamlM003lttlM0ACSSSg_SayAA16UIToolkitFeatureOGSgA3Itcfc",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit14InitParamsObjCC10appGroupId8features23recordingConsentMessage010liveStreamlM003lttlM0ACSSSg_SayAA16UIToolkitFeatureOGSgA3Itcfc",
             "moduleName": "ZoomVideoSDKUIToolkit",
             "declAttributes": [
               "AccessControl",
@@ -6847,7 +7947,7 @@
           {
             "kind": "Function",
             "name": "onUserShareStatusChanged",
-            "printedName": "onUserShareStatusChanged(_:user:status:)",
+            "printedName": "onUserShareStatusChanged(_:user:shareAction:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -6884,16 +7984,24 @@
               },
               {
                 "kind": "TypeNominal",
-                "name": "ZoomVideoSDKReceiveSharingStatus",
-                "printedName": "ZoomVideoSDK.ZoomVideoSDKReceiveSharingStatus",
-                "usr": "c:@E@ZoomVideoSDKReceiveSharingStatus"
+                "name": "Optional",
+                "printedName": "ZoomVideoSDK.ZoomVideoSDKShareAction?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ZoomVideoSDKShareAction",
+                    "printedName": "ZoomVideoSDK.ZoomVideoSDKShareAction",
+                    "usr": "c:objc(cs)ZoomVideoSDKShareAction"
+                  }
+                ],
+                "usr": "s:Sq"
               }
             ],
             "declKind": "Func",
-            "usr": "c:@CM@ZoomVideoSDKUIToolkit@objc(cs)UIToolkitVC(im)onUserShareStatusChanged:user:status:",
-            "mangledName": "$s21ZoomVideoSDKUIToolkit11UIToolkitVCC24onUserShareStatusChanged_4user6statusySo0aB14SDKShareHelperCSg_So0aB7SDKUserCSgSo0ab17SDKReceiveSharingI0VtF",
+            "usr": "c:@CM@ZoomVideoSDKUIToolkit@objc(cs)UIToolkitVC(im)onUserShareStatusChanged:user:shareAction:",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit11UIToolkitVCC24onUserShareStatusChanged_4user11shareActionySo0aB14SDKShareHelperCSg_So0aB7SDKUserCSgSo0abnM0CSgtF",
             "moduleName": "ZoomVideoSDKUIToolkit",
-            "objc_name": "onUserShareStatusChanged:user:status:",
+            "objc_name": "onUserShareStatusChanged:user:shareAction:",
             "declAttributes": [
               "Dynamic",
               "ObjC",
@@ -7068,6 +8176,98 @@
           },
           {
             "kind": "Function",
+            "name": "onSendFileStatus",
+            "printedName": "onSendFileStatus(_:status:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ZoomVideoSDK.ZoomVideoSDKSendFile?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ZoomVideoSDKSendFile",
+                    "printedName": "ZoomVideoSDK.ZoomVideoSDKSendFile",
+                    "usr": "c:objc(cs)ZoomVideoSDKSendFile"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "ZoomVideoSDKFileTransferStatus",
+                "printedName": "ZoomVideoSDK.ZoomVideoSDKFileTransferStatus",
+                "usr": "c:@E@ZoomVideoSDKFileTransferStatus"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@ZoomVideoSDKUIToolkit@objc(cs)UIToolkitVC(im)onSendFileStatus:status:",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit11UIToolkitVCC16onSendFileStatus_6statusySo0ab7SDKSendH0CSg_So0ab15SDKFileTransferI0VtF",
+            "moduleName": "ZoomVideoSDKUIToolkit",
+            "objc_name": "onSendFileStatus:status:",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Preconcurrency",
+              "Custom",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "onReceiveFileStatus",
+            "printedName": "onReceiveFileStatus(_:status:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ZoomVideoSDK.ZoomVideoSDKReceiveFile?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ZoomVideoSDKReceiveFile",
+                    "printedName": "ZoomVideoSDK.ZoomVideoSDKReceiveFile",
+                    "usr": "c:objc(cs)ZoomVideoSDKReceiveFile"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "ZoomVideoSDKFileTransferStatus",
+                "printedName": "ZoomVideoSDK.ZoomVideoSDKFileTransferStatus",
+                "usr": "c:@E@ZoomVideoSDKFileTransferStatus"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@ZoomVideoSDKUIToolkit@objc(cs)UIToolkitVC(im)onReceiveFileStatus:status:",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit11UIToolkitVCC19onReceiveFileStatus_6statusySo0ab10SDKReceiveH0CSg_So0ab15SDKFileTransferI0VtF",
+            "moduleName": "ZoomVideoSDKUIToolkit",
+            "objc_name": "onReceiveFileStatus:status:",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Preconcurrency",
+              "Custom",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
             "name": "onUserNameChanged",
             "printedName": "onUserNameChanged(_:)",
             "children": [
@@ -7202,6 +8402,32 @@
           },
           {
             "kind": "Function",
+            "name": "onHostAskUnmute",
+            "printedName": "onHostAskUnmute()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@ZoomVideoSDKUIToolkit@objc(cs)UIToolkitVC(im)onHostAskUnmute",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit11UIToolkitVCC15onHostAskUnmuteyyF",
+            "moduleName": "ZoomVideoSDKUIToolkit",
+            "objc_name": "onHostAskUnmute",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Preconcurrency",
+              "Custom",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
             "name": "onLiveStreamStatusChanged",
             "printedName": "onLiveStreamStatusChanged(_:status:)",
             "children": [
@@ -7294,32 +8520,6 @@
           },
           {
             "kind": "Function",
-            "name": "onHostAskUnmute",
-            "printedName": "onHostAskUnmute()",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "c:@CM@ZoomVideoSDKUIToolkit@objc(cs)UIToolkitVC(im)onHostAskUnmute",
-            "mangledName": "$s21ZoomVideoSDKUIToolkit11UIToolkitVCC15onHostAskUnmuteyyF",
-            "moduleName": "ZoomVideoSDKUIToolkit",
-            "objc_name": "onHostAskUnmute",
-            "declAttributes": [
-              "Dynamic",
-              "ObjC",
-              "Preconcurrency",
-              "Custom",
-              "AccessControl"
-            ],
-            "isFromExtension": true,
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
             "name": "onCallCRCDeviceStatusChanged",
             "printedName": "onCallCRCDeviceStatusChanged(_:)",
             "children": [
@@ -7340,6 +8540,170 @@
             "mangledName": "$s21ZoomVideoSDKUIToolkit11UIToolkitVCC28onCallCRCDeviceStatusChangedyySo0ab10SDKCRCCallI0VF",
             "moduleName": "ZoomVideoSDKUIToolkit",
             "objc_name": "onCallCRCDeviceStatusChanged:",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Preconcurrency",
+              "Custom",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "onLiveTranscriptionStatus",
+            "printedName": "onLiveTranscriptionStatus(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "ZoomVideoSDKLiveTranscriptionStatus",
+                "printedName": "ZoomVideoSDK.ZoomVideoSDKLiveTranscriptionStatus",
+                "usr": "c:@E@ZoomVideoSDKLiveTranscriptionStatus"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@ZoomVideoSDKUIToolkit@objc(cs)UIToolkitVC(im)onLiveTranscriptionStatus:",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit11UIToolkitVCC25onLiveTranscriptionStatusyySo0ab7SDKLivehI0VF",
+            "moduleName": "ZoomVideoSDKUIToolkit",
+            "objc_name": "onLiveTranscriptionStatus:",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Preconcurrency",
+              "Custom",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "onLiveTranscriptionMsgReceived",
+            "printedName": "onLiveTranscriptionMsgReceived(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ZoomVideoSDK.ZoomVideoSDKLiveTranscriptionMessageInfo?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ZoomVideoSDKLiveTranscriptionMessageInfo",
+                    "printedName": "ZoomVideoSDK.ZoomVideoSDKLiveTranscriptionMessageInfo",
+                    "usr": "c:objc(cs)ZoomVideoSDKLiveTranscriptionMessageInfo"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@ZoomVideoSDKUIToolkit@objc(cs)UIToolkitVC(im)onLiveTranscriptionMsgReceived:",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit11UIToolkitVCC30onLiveTranscriptionMsgReceivedyySo0ab7SDKLiveH11MessageInfoCSgF",
+            "moduleName": "ZoomVideoSDKUIToolkit",
+            "objc_name": "onLiveTranscriptionMsgReceived:",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Preconcurrency",
+              "Custom",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "onLiveTranscriptionMsgError",
+            "printedName": "onLiveTranscriptionMsgError(_:transLanguage:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ZoomVideoSDK.ZoomVideoSDKLiveTranscriptionLanguage?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ZoomVideoSDKLiveTranscriptionLanguage",
+                    "printedName": "ZoomVideoSDK.ZoomVideoSDKLiveTranscriptionLanguage",
+                    "usr": "c:objc(cs)ZoomVideoSDKLiveTranscriptionLanguage"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ZoomVideoSDK.ZoomVideoSDKLiveTranscriptionLanguage?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ZoomVideoSDKLiveTranscriptionLanguage",
+                    "printedName": "ZoomVideoSDK.ZoomVideoSDKLiveTranscriptionLanguage",
+                    "usr": "c:objc(cs)ZoomVideoSDKLiveTranscriptionLanguage"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@ZoomVideoSDKUIToolkit@objc(cs)UIToolkitVC(im)onLiveTranscriptionMsgError:transLanguage:",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit11UIToolkitVCC27onLiveTranscriptionMsgError_13transLanguageySo0ab7SDKLivehL0CSg_AHtF",
+            "moduleName": "ZoomVideoSDKUIToolkit",
+            "objc_name": "onLiveTranscriptionMsgError:transLanguage:",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Preconcurrency",
+              "Custom",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "onInvite",
+            "printedName": "onInvite(by:fail:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "ZoomVideoSDKPhoneStatus",
+                "printedName": "ZoomVideoSDK.ZoomVideoSDKPhoneStatus",
+                "usr": "c:@E@ZoomVideoSDKPhoneStatus"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "ZoomVideoSDKPhoneFailedReason",
+                "printedName": "ZoomVideoSDK.ZoomVideoSDKPhoneFailedReason",
+                "usr": "c:@E@ZoomVideoSDKPhoneFailedReason"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@ZoomVideoSDKUIToolkit@objc(cs)UIToolkitVC(im)onInviteByPhoneStatus:failReason:",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit11UIToolkitVCC8onInvite2by4failySo0aB14SDKPhoneStatusV_So0abJ12FailedReasonVtF",
+            "moduleName": "ZoomVideoSDKUIToolkit",
+            "objc_name": "onInviteByPhoneStatus:failReason:",
             "declAttributes": [
               "Dynamic",
               "ObjC",
@@ -7816,6 +9180,43 @@
         "children": [
           {
             "kind": "Var",
+            "name": "Preview",
+            "printedName": "Preview",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ZoomVideoSDKUIToolkit.UIToolkitFeature.Type) -> ZoomVideoSDKUIToolkit.UIToolkitFeature",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "UIToolkitFeature",
+                    "printedName": "ZoomVideoSDKUIToolkit.UIToolkitFeature",
+                    "usr": "s:21ZoomVideoSDKUIToolkit16UIToolkitFeatureO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ZoomVideoSDKUIToolkit.UIToolkitFeature.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "UIToolkitFeature",
+                        "printedName": "ZoomVideoSDKUIToolkit.UIToolkitFeature",
+                        "usr": "s:21ZoomVideoSDKUIToolkit16UIToolkitFeatureO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:21ZoomVideoSDKUIToolkit16UIToolkitFeatureO7PreviewyA2CmF",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit16UIToolkitFeatureO7PreviewyA2CmF",
+            "moduleName": "ZoomVideoSDKUIToolkit"
+          },
+          {
+            "kind": "Var",
             "name": "Video",
             "printedName": "Video",
             "children": [
@@ -7849,10 +9250,7 @@
             "declKind": "EnumElement",
             "usr": "s:21ZoomVideoSDKUIToolkit16UIToolkitFeatureO0B0yA2CmF",
             "mangledName": "$s21ZoomVideoSDKUIToolkit16UIToolkitFeatureO0B0yA2CmF",
-            "moduleName": "ZoomVideoSDKUIToolkit",
-            "declAttributes": [
-              "RawDocComment"
-            ]
+            "moduleName": "ZoomVideoSDKUIToolkit"
           },
           {
             "kind": "Var",
@@ -7889,6 +9287,43 @@
             "declKind": "EnumElement",
             "usr": "s:21ZoomVideoSDKUIToolkit16UIToolkitFeatureO5AudioyA2CmF",
             "mangledName": "$s21ZoomVideoSDKUIToolkit16UIToolkitFeatureO5AudioyA2CmF",
+            "moduleName": "ZoomVideoSDKUIToolkit"
+          },
+          {
+            "kind": "Var",
+            "name": "LTT",
+            "printedName": "LTT",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ZoomVideoSDKUIToolkit.UIToolkitFeature.Type) -> ZoomVideoSDKUIToolkit.UIToolkitFeature",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "UIToolkitFeature",
+                    "printedName": "ZoomVideoSDKUIToolkit.UIToolkitFeature",
+                    "usr": "s:21ZoomVideoSDKUIToolkit16UIToolkitFeatureO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ZoomVideoSDKUIToolkit.UIToolkitFeature.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "UIToolkitFeature",
+                        "printedName": "ZoomVideoSDKUIToolkit.UIToolkitFeature",
+                        "usr": "s:21ZoomVideoSDKUIToolkit16UIToolkitFeatureO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:21ZoomVideoSDKUIToolkit16UIToolkitFeatureO3LTTyA2CmF",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit16UIToolkitFeatureO3LTTyA2CmF",
             "moduleName": "ZoomVideoSDKUIToolkit"
           },
           {
@@ -8000,6 +9435,43 @@
             "declKind": "EnumElement",
             "usr": "s:21ZoomVideoSDKUIToolkit16UIToolkitFeatureO4ChatyA2CmF",
             "mangledName": "$s21ZoomVideoSDKUIToolkit16UIToolkitFeatureO4ChatyA2CmF",
+            "moduleName": "ZoomVideoSDKUIToolkit"
+          },
+          {
+            "kind": "Var",
+            "name": "FileTransfer",
+            "printedName": "FileTransfer",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ZoomVideoSDKUIToolkit.UIToolkitFeature.Type) -> ZoomVideoSDKUIToolkit.UIToolkitFeature",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "UIToolkitFeature",
+                    "printedName": "ZoomVideoSDKUIToolkit.UIToolkitFeature",
+                    "usr": "s:21ZoomVideoSDKUIToolkit16UIToolkitFeatureO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ZoomVideoSDKUIToolkit.UIToolkitFeature.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "UIToolkitFeature",
+                        "printedName": "ZoomVideoSDKUIToolkit.UIToolkitFeature",
+                        "usr": "s:21ZoomVideoSDKUIToolkit16UIToolkitFeatureO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:21ZoomVideoSDKUIToolkit16UIToolkitFeatureO12FileTransferyA2CmF",
+            "mangledName": "$s21ZoomVideoSDKUIToolkit16UIToolkitFeatureO12FileTransferyA2CmF",
             "moduleName": "ZoomVideoSDKUIToolkit"
           },
           {
@@ -9601,6 +11073,90 @@
       "value": "false"
     },
     {
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Extensions\/UIColor+Extension.swift",
+      "kind": "IntegerLiteral",
+      "offset": 209,
+      "length": 3,
+      "value": "220"
+    },
+    {
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Extensions\/UIColor+Extension.swift",
+      "kind": "IntegerLiteral",
+      "offset": 213,
+      "length": 3,
+      "value": "255"
+    },
+    {
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Extensions\/UIColor+Extension.swift",
+      "kind": "IntegerLiteral",
+      "offset": 225,
+      "length": 3,
+      "value": "220"
+    },
+    {
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Extensions\/UIColor+Extension.swift",
+      "kind": "IntegerLiteral",
+      "offset": 229,
+      "length": 3,
+      "value": "255"
+    },
+    {
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Extensions\/UIColor+Extension.swift",
+      "kind": "IntegerLiteral",
+      "offset": 240,
+      "length": 3,
+      "value": "220"
+    },
+    {
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Extensions\/UIColor+Extension.swift",
+      "kind": "IntegerLiteral",
+      "offset": 244,
+      "length": 3,
+      "value": "255"
+    },
+    {
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Extensions\/UIColor+Extension.swift",
+      "kind": "IntegerLiteral",
+      "offset": 256,
+      "length": 3,
+      "value": "220"
+    },
+    {
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Extensions\/UIColor+Extension.swift",
+      "kind": "IntegerLiteral",
+      "offset": 260,
+      "length": 3,
+      "value": "255"
+    },
+    {
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Extensions\/UIColor+Extension.swift",
+      "kind": "IntegerLiteral",
+      "offset": 307,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Extensions\/UIColor+Extension.swift",
+      "kind": "IntegerLiteral",
+      "offset": 317,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Extensions\/UIColor+Extension.swift",
+      "kind": "IntegerLiteral",
+      "offset": 326,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Extensions\/UIColor+Extension.swift",
+      "kind": "FloatLiteral",
+      "offset": 336,
+      "length": 3,
+      "value": "0.4"
+    },
+    {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitViewModel.swift",
       "kind": "BooleanLiteral",
       "offset": 467,
@@ -9653,6 +11209,20 @@
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Cores\/Setting\/SettingTitleToggleTableViewCell.swift",
       "kind": "BooleanLiteral",
       "offset": 386,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Cores\/AVPreview\/AVPreviewVC.swift",
+      "kind": "StringLiteral",
+      "offset": 1386,
+      "length": 22,
+      "value": "\"VBCollectionViewCell\""
+    },
+    {
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Cores\/AVPreview\/AVPreviewVC.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1491,
       "length": 5,
       "value": "false"
     },
@@ -10331,56 +11901,98 @@
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Helpers\/SessionManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 510,
+      "offset": 488,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Helpers\/MoreOptionManager.swift",
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Helpers\/SessionManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 1143,
+      "offset": 521,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Helpers\/MoreOptionManager.swift",
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Helpers\/SessionManager.swift",
+      "kind": "BooleanLiteral",
+      "offset": 551,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Helpers\/SessionManager.swift",
+      "kind": "BooleanLiteral",
+      "offset": 607,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/Toast\/Toast.swift",
+      "kind": "BooleanLiteral",
+      "offset": 499,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/Toast\/Toast.swift",
       "kind": "Array",
-      "offset": 1705,
+      "offset": 543,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Helpers\/MoreOptionManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 1795,
+      "offset": 1248,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Helpers\/MoreOptionManager.swift",
+      "kind": "Array",
+      "offset": 1814,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Helpers\/MoreOptionManager.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1904,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Helpers\/MoreOptionManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 1965,
+      "offset": 2074,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Helpers\/MoreOptionManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 2121,
+      "offset": 2230,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Helpers\/MoreOptionManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 2169,
+      "offset": 2278,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Helpers\/MoreOptionManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 2348,
+      "offset": 2457,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Helpers\/MoreOptionManager.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2614,
       "length": 4,
       "value": "true"
     },
@@ -10443,399 +12055,399 @@
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 12466,
+      "offset": 12443,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 12476,
+      "offset": 12453,
       "length": 4,
       "value": "0.75"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 12538,
+      "offset": 12515,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 12548,
+      "offset": 12525,
       "length": 4,
       "value": "0.75"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 12654,
+      "offset": 12631,
       "length": 5,
       "value": "0.185"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 12763,
+      "offset": 12740,
       "length": 3,
       "value": "1.5"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 12878,
+      "offset": 12855,
       "length": 3,
       "value": "0.5"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 12959,
+      "offset": 12936,
       "length": 3,
       "value": "243"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 12963,
+      "offset": 12940,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 12975,
+      "offset": 12952,
       "length": 3,
       "value": "243"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 12979,
+      "offset": 12956,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 12990,
+      "offset": 12967,
       "length": 3,
       "value": "243"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 12994,
+      "offset": 12971,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 13006,
+      "offset": 12983,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 13062,
+      "offset": 13039,
       "length": 3,
       "value": "243"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 13066,
+      "offset": 13043,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 13078,
+      "offset": 13055,
       "length": 3,
       "value": "243"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 13082,
+      "offset": 13059,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 13093,
+      "offset": 13070,
       "length": 3,
       "value": "243"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 13097,
+      "offset": 13074,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 13109,
+      "offset": 13086,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 13168,
+      "offset": 13145,
       "length": 3,
       "value": "243"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 13172,
+      "offset": 13149,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 13184,
+      "offset": 13161,
       "length": 3,
       "value": "243"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 13188,
+      "offset": 13165,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 13199,
+      "offset": 13176,
       "length": 3,
       "value": "243"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 13203,
+      "offset": 13180,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 13215,
+      "offset": 13192,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 13318,
+      "offset": 13295,
       "length": 5,
       "value": "0.282"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 13427,
+      "offset": 13404,
       "length": 1,
       "value": "3"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 13429,
+      "offset": 13406,
       "length": 1,
       "value": "4"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "FloatLiteral",
-      "offset": 13542,
+      "offset": 13519,
       "length": 4,
       "value": "0.76"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 13606,
+      "offset": 13583,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 13731,
+      "offset": 13708,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 13785,
+      "offset": 13762,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 13913,
+      "offset": 13890,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 13971,
+      "offset": 13948,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 14111,
+      "offset": 14088,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 49732,
+      "offset": 53567,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 49798,
+      "offset": 53633,
       "length": 3,
       "value": "243"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 49802,
+      "offset": 53637,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 49814,
+      "offset": 53649,
       "length": 3,
       "value": "243"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 49818,
+      "offset": 53653,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 49829,
+      "offset": 53664,
       "length": 3,
       "value": "243"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 49833,
+      "offset": 53668,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 49845,
+      "offset": 53680,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 50019,
+      "offset": 53854,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 50070,
+      "offset": 53905,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 50120,
+      "offset": 53955,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 50188,
+      "offset": 54023,
       "length": 1,
       "value": "6"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 50234,
+      "offset": 54069,
       "length": 1,
       "value": "8"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 50322,
+      "offset": 54157,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 50368,
+      "offset": 54203,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 50537,
+      "offset": 54372,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 50541,
+      "offset": 54376,
       "length": 2,
       "value": "64"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 50546,
+      "offset": 54381,
       "length": 2,
       "value": "48"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/UIToolkitVC.swift",
       "kind": "BooleanLiteral",
-      "offset": 50595,
+      "offset": 54430,
       "length": 4,
       "value": "true"
     },
@@ -10849,7 +12461,7 @@
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Helpers\/FeatureManager.swift",
       "kind": "Array",
-      "offset": 1310,
+      "offset": 1325,
       "length": 2,
       "value": "[]"
     },
@@ -11233,267 +12845,71 @@
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "BooleanLiteral",
-      "offset": 1848,
-      "length": 4,
-      "value": "true"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 1895,
-      "length": 2,
-      "value": "12"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 1954,
-      "length": 3,
-      "value": "220"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 1958,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 1970,
-      "length": 3,
-      "value": "220"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 1974,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 1985,
-      "length": 3,
-      "value": "220"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 1989,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2001,
-      "length": 3,
-      "value": "220"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2005,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2061,
-      "length": 1,
-      "value": "1"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2152,
-      "length": 1,
-      "value": "6"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2220,
-      "length": 3,
-      "value": "220"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2224,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2236,
-      "length": 3,
-      "value": "220"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2240,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2251,
-      "length": 3,
-      "value": "220"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2255,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2267,
-      "length": 3,
-      "value": "220"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2271,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2328,
-      "length": 1,
-      "value": "1"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2421,
-      "length": 1,
-      "value": "6"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2488,
-      "length": 3,
-      "value": "220"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2492,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2504,
-      "length": 3,
-      "value": "220"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2508,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2519,
-      "length": 3,
-      "value": "220"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2523,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2535,
-      "length": 3,
-      "value": "220"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2539,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2595,
-      "length": 1,
-      "value": "1"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2686,
-      "length": 1,
-      "value": "6"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
       "kind": "StringLiteral",
-      "offset": 3720,
+      "offset": 4351,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
       "kind": "StringLiteral",
-      "offset": 3755,
+      "offset": 4386,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
       "kind": "StringLiteral",
-      "offset": 3796,
+      "offset": 4427,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
       "kind": "StringLiteral",
-      "offset": 3836,
+      "offset": 4467,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
+      "kind": "StringLiteral",
+      "offset": 4505,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
+      "kind": "StringLiteral",
+      "offset": 4546,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
+      "kind": "StringLiteral",
+      "offset": 4585,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
+      "kind": "StringLiteral",
+      "offset": 4627,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
       "kind": "BooleanLiteral",
-      "offset": 3868,
+      "offset": 4659,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Components\/CustomAlertBox\/CustomAlertBox.swift",
       "kind": "StringLiteral",
-      "offset": 3980,
+      "offset": 4771,
       "length": 2,
       "value": "\"\""
     },
@@ -11750,6 +13166,13 @@
       "value": "[]"
     },
     {
+      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Cores\/Participants\/InviteParticipantVC.swift",
+      "kind": "IntegerLiteral",
+      "offset": 201,
+      "length": 4,
+      "value": "1"
+    },
+    {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Helpers\/UserManager.swift",
       "kind": "Array",
       "offset": 1016,
@@ -11759,63 +13182,63 @@
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Helpers\/UserManager.swift",
       "kind": "StringLiteral",
-      "offset": 15963,
+      "offset": 15995,
       "length": 14,
       "value": "\"Avatar-Clear\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Helpers\/UserManager.swift",
       "kind": "StringLiteral",
-      "offset": 15986,
+      "offset": 16018,
       "length": 21,
       "value": "\"Remove from session\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Helpers\/UserManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 16033,
+      "offset": 16065,
       "length": 3,
       "value": "213"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Helpers\/UserManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 16037,
+      "offset": 16069,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Helpers\/UserManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 16049,
+      "offset": 16081,
       "length": 2,
       "value": "73"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Helpers\/UserManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 16052,
+      "offset": 16084,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Helpers\/UserManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 16063,
+      "offset": 16095,
       "length": 2,
       "value": "65"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Helpers\/UserManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 16066,
+      "offset": 16098,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Helpers\/UserManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 16078,
+      "offset": 16110,
       "length": 1,
       "value": "1"
     },
@@ -12248,120 +13671,64 @@
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Cores\/Participants\/ParticipantsVC.swift",
-      "kind": "IntegerLiteral",
-      "offset": 5318,
-      "length": 1,
-      "value": "0"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Cores\/Participants\/ParticipantsVC.swift",
-      "kind": "IntegerLiteral",
-      "offset": 5328,
-      "length": 1,
-      "value": "0"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Cores\/Participants\/ParticipantsVC.swift",
-      "kind": "IntegerLiteral",
-      "offset": 5337,
-      "length": 1,
-      "value": "0"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Cores\/Participants\/ParticipantsVC.swift",
-      "kind": "FloatLiteral",
-      "offset": 5347,
-      "length": 3,
-      "value": "0.4"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Cores\/Participants\/ParticipantsVC.swift",
       "kind": "StringLiteral",
-      "offset": 5404,
+      "offset": 5377,
       "length": 24,
       "value": "\"Search for participant\""
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Cores\/Participants\/ParticipantsVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 5502,
-      "length": 1,
-      "value": "0"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Cores\/Participants\/ParticipantsVC.swift",
-      "kind": "IntegerLiteral",
-      "offset": 5512,
-      "length": 1,
-      "value": "0"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Cores\/Participants\/ParticipantsVC.swift",
-      "kind": "IntegerLiteral",
-      "offset": 5521,
-      "length": 1,
-      "value": "0"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Cores\/Participants\/ParticipantsVC.swift",
-      "kind": "FloatLiteral",
-      "offset": 5531,
-      "length": 3,
-      "value": "0.4"
-    },
-    {
-      "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Cores\/Participants\/ParticipantsVC.swift",
-      "kind": "IntegerLiteral",
-      "offset": 5658,
+      "offset": 5604,
       "length": 1,
       "value": "6"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Cores\/Participants\/ParticipantsVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 5697,
+      "offset": 5643,
       "length": 1,
       "value": "6"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Cores\/Participants\/ParticipantsVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 14332,
+      "offset": 14278,
       "length": 3,
       "value": "242"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Cores\/Participants\/ParticipantsVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 14336,
+      "offset": 14282,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Cores\/Participants\/ParticipantsVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 14348,
+      "offset": 14294,
       "length": 3,
       "value": "243"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Cores\/Participants\/ParticipantsVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 14352,
+      "offset": 14298,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Cores\/Participants\/ParticipantsVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 14363,
+      "offset": 14309,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/tanboonjun\/ZoomVideoSDKUIKit\/ZoomVideoSDKUIToolkit\/Sources\/Cores\/Participants\/ParticipantsVC.swift",
       "kind": "IntegerLiteral",
-      "offset": 14373,
+      "offset": 14319,
       "length": 1,
       "value": "1"
     },

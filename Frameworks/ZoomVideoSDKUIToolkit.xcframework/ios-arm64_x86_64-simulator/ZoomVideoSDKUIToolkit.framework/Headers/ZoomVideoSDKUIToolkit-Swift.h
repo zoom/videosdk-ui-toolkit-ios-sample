@@ -307,6 +307,42 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 #if defined(__OBJC__)
 @class NSCoder;
+@protocol UIViewControllerTransitionCoordinator;
+@class NSString;
+@class NSBundle;
+
+/// [Default View] The AV Preview view controller manages and shows the local user’s video and audio (microphone and speaker) preview.
+SWIFT_CLASS("_TtC21ZoomVideoSDKUIToolkit11AVPreviewVC")
+@interface AVPreviewVC : UIViewController
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder SWIFT_UNAVAILABLE;
+- (void)viewDidLoad;
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator> _Nonnull)coordinator;
+- (void)viewDidAppear:(BOOL)animated;
+- (void)viewWillDisappear:(BOOL)animated;
+- (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil SWIFT_UNAVAILABLE;
+@end
+
+
+@interface AVPreviewVC (SWIFT_EXTENSION(ZoomVideoSDKUIToolkit)) <ZoomVideoSDKDelegate>
+- (void)onError:(ZoomVideoSDKError)ErrorType detail:(NSInteger)details;
+- (void)onMicSpeakerVolumeChanged:(int32_t)micVolume speakerVolume:(int32_t)speakerVolume;
+@end
+
+@class UICollectionView;
+@class NSIndexPath;
+@class UICollectionViewCell;
+@class UICollectionViewLayout;
+
+@interface AVPreviewVC (SWIFT_EXTENSION(ZoomVideoSDKUIToolkit)) <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+- (NSInteger)collectionView:(UICollectionView * _Nonnull)collectionView numberOfItemsInSection:(NSInteger)section SWIFT_WARN_UNUSED_RESULT;
+- (UICollectionViewCell * _Nonnull)collectionView:(UICollectionView * _Nonnull)collectionView cellForItemAtIndexPath:(NSIndexPath * _Nonnull)indexPath SWIFT_WARN_UNUSED_RESULT;
+- (CGSize)collectionView:(UICollectionView * _Nonnull)collectionView layout:(UICollectionViewLayout * _Nonnull)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath * _Nonnull)indexPath SWIFT_WARN_UNUSED_RESULT;
+- (CGFloat)collectionView:(UICollectionView * _Nonnull)collectionView layout:(UICollectionViewLayout * _Nonnull)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section SWIFT_WARN_UNUSED_RESULT;
+- (CGFloat)collectionView:(UICollectionView * _Nonnull)collectionView layout:(UICollectionViewLayout * _Nonnull)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section SWIFT_WARN_UNUSED_RESULT;
+- (BOOL)collectionView:(UICollectionView * _Nonnull)collectionView shouldSelectItemAtIndexPath:(NSIndexPath * _Nonnull)indexPath SWIFT_WARN_UNUSED_RESULT;
+- (void)collectionView:(UICollectionView * _Nonnull)collectionView didSelectItemAtIndexPath:(NSIndexPath * _Nonnull)indexPath;
+@end
+
 
 /// [Component View] Active speaker and gallery view.
 SWIFT_CLASS("_TtC21ZoomVideoSDKUIToolkit24ActiveSpeakerGalleryView")
@@ -318,10 +354,6 @@ SWIFT_CLASS("_TtC21ZoomVideoSDKUIToolkit24ActiveSpeakerGalleryView")
 @end
 
 @class UIScrollView;
-@class UICollectionView;
-@class UICollectionViewCell;
-@class NSIndexPath;
-@class UICollectionViewLayout;
 
 @interface ActiveSpeakerGalleryView (SWIFT_EXTENSION(ZoomVideoSDKUIToolkit)) <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 - (void)scrollViewDidScroll:(UIScrollView * _Nonnull)scrollView;
@@ -344,7 +376,6 @@ SWIFT_CLASS("_TtC21ZoomVideoSDKUIToolkit9CTANavBar")
 - (void)layoutSubviews;
 @end
 
-@class NSString;
 
 /// The initializer parameters object contains information for initializing the ZoomVideoSDK. Objective-C class for interoperability.
 SWIFT_CLASS("_TtC21ZoomVideoSDKUIToolkit14InitParamsObjC")
@@ -355,6 +386,8 @@ SWIFT_CLASS("_TtC21ZoomVideoSDKUIToolkit14InitParamsObjC")
 @property (nonatomic, copy) NSString * _Nullable recordingConsentMessage;
 /// (Optional) Live Streaming Consent Message for customized consent message to be shown when live streaming started.
 @property (nonatomic, copy) NSString * _Nullable liveStreamConsentMessage;
+/// (Optional) Live Transcription and Translation (LTT) Consent Message for customized consent message to be shown when LTT started.
+@property (nonatomic, copy) NSString * _Nullable lttConsentMessage;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -394,6 +427,7 @@ SWIFT_CLASS("_TtC21ZoomVideoSDKUIToolkit11TitleNavBar")
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder SWIFT_UNAVAILABLE;
 - (void)layoutSubviews;
 @end
+
 
 
 
@@ -494,8 +528,6 @@ SWIFT_CLASS("_TtC21ZoomVideoSDKUIToolkit20UIToolkitErrorParser")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@protocol UIViewControllerTransitionCoordinator;
-@class NSBundle;
 
 /// [Default View] The UI toolkit view controller manages and shows the prebuilt video chat user interface.
 SWIFT_CLASS("_TtC21ZoomVideoSDKUIToolkit11UIToolkitVC")
@@ -531,10 +563,15 @@ SWIFT_CLASS("_TtC21ZoomVideoSDKUIToolkit11UIToolkitVC")
 @class ZoomVideoSDKAudioHelper;
 @class ZoomVideoSDKVideoHelper;
 @class ZoomVideoSDKShareHelper;
+@class ZoomVideoSDKShareAction;
 @class ZoomVideoSDKChatHelper;
 @class ZoomVideoSDKChatMessage;
+@class ZoomVideoSDKSendFile;
+@class ZoomVideoSDKReceiveFile;
 @class ZoomVideoSDKLiveStreamHelper;
 @class ZoomVideoSDKRecordAgreementHandler;
+@class ZoomVideoSDKLiveTranscriptionMessageInfo;
+@class ZoomVideoSDKLiveTranscriptionLanguage;
 
 @interface UIToolkitVC (SWIFT_EXTENSION(ZoomVideoSDKUIToolkit)) <ZoomVideoSDKDelegate>
 - (void)onError:(ZoomVideoSDKError)ErrorType detail:(NSInteger)details;
@@ -546,17 +583,23 @@ SWIFT_CLASS("_TtC21ZoomVideoSDKUIToolkit11UIToolkitVC")
 - (void)onUserLeave:(ZoomVideoSDKUserHelper * _Nullable)helper users:(NSArray<ZoomVideoSDKUser *> * _Nullable)userArray;
 - (void)onUserAudioStatusChanged:(ZoomVideoSDKAudioHelper * _Nullable)helper user:(NSArray<ZoomVideoSDKUser *> * _Nullable)userArray;
 - (void)onUserVideoStatusChanged:(ZoomVideoSDKVideoHelper * _Nullable)helper user:(NSArray<ZoomVideoSDKUser *> * _Nullable)userArray;
-- (void)onUserShareStatusChanged:(ZoomVideoSDKShareHelper * _Nullable)helper user:(ZoomVideoSDKUser * _Nullable)user status:(ZoomVideoSDKReceiveSharingStatus)status;
+- (void)onUserShareStatusChanged:(ZoomVideoSDKShareHelper * _Nullable)helper user:(ZoomVideoSDKUser * _Nullable)user shareAction:(ZoomVideoSDKShareAction * _Nullable)shareAction;
 - (void)onUserActiveAudioChanged:(ZoomVideoSDKUserHelper * _Nullable)helper users:(NSArray<ZoomVideoSDKUser *> * _Nullable)userArray;
 - (void)onChatNewMessageNotify:(ZoomVideoSDKChatHelper * _Nullable)helper message:(ZoomVideoSDKChatMessage * _Nullable)chatMessage;
 - (void)onChatPrivilegeChanged:(ZoomVideoSDKChatHelper * _Nullable)helper privilege:(ZoomVideoSDKChatPrivilegeType)currentPrivilege;
+- (void)onSendFileStatus:(ZoomVideoSDKSendFile * _Nullable)file status:(ZoomVideoSDKFileTransferStatus)status;
+- (void)onReceiveFileStatus:(ZoomVideoSDKReceiveFile * _Nullable)file status:(ZoomVideoSDKFileTransferStatus)status;
 - (void)onUserNameChanged:(ZoomVideoSDKUser * _Nullable)user;
 - (void)onUserHostChanged:(ZoomVideoSDKUserHelper * _Nullable)helper users:(ZoomVideoSDKUser * _Nullable)user;
 - (void)onUserManagerChanged:(ZoomVideoSDKUser * _Nullable)user;
+- (void)onHostAskUnmute;
 - (void)onLiveStreamStatusChanged:(ZoomVideoSDKLiveStreamHelper * _Nullable)helper status:(ZoomVideoSDKLiveStreamStatus)status;
 - (void)onCloudRecordingStatus:(ZoomVideoSDKRecordingStatus)status recordAgreementHandler:(ZoomVideoSDKRecordAgreementHandler * _Nullable)handler;
-- (void)onHostAskUnmute;
 - (void)onCallCRCDeviceStatusChanged:(ZoomVideoSDKCRCCallStatus)state;
+- (void)onLiveTranscriptionStatus:(ZoomVideoSDKLiveTranscriptionStatus)status;
+- (void)onLiveTranscriptionMsgReceived:(ZoomVideoSDKLiveTranscriptionMessageInfo * _Nullable)messageInfo;
+- (void)onLiveTranscriptionMsgError:(ZoomVideoSDKLiveTranscriptionLanguage * _Nullable)spokenLanguage transLanguage:(ZoomVideoSDKLiveTranscriptionLanguage * _Nullable)transcriptLanguage;
+- (void)onInviteByPhoneStatus:(ZoomVideoSDKPhoneStatus)status failReason:(ZoomVideoSDKPhoneFailedReason)failReason;
 @end
 
 
@@ -879,6 +922,42 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 #if defined(__OBJC__)
 @class NSCoder;
+@protocol UIViewControllerTransitionCoordinator;
+@class NSString;
+@class NSBundle;
+
+/// [Default View] The AV Preview view controller manages and shows the local user’s video and audio (microphone and speaker) preview.
+SWIFT_CLASS("_TtC21ZoomVideoSDKUIToolkit11AVPreviewVC")
+@interface AVPreviewVC : UIViewController
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder SWIFT_UNAVAILABLE;
+- (void)viewDidLoad;
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator> _Nonnull)coordinator;
+- (void)viewDidAppear:(BOOL)animated;
+- (void)viewWillDisappear:(BOOL)animated;
+- (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil SWIFT_UNAVAILABLE;
+@end
+
+
+@interface AVPreviewVC (SWIFT_EXTENSION(ZoomVideoSDKUIToolkit)) <ZoomVideoSDKDelegate>
+- (void)onError:(ZoomVideoSDKError)ErrorType detail:(NSInteger)details;
+- (void)onMicSpeakerVolumeChanged:(int32_t)micVolume speakerVolume:(int32_t)speakerVolume;
+@end
+
+@class UICollectionView;
+@class NSIndexPath;
+@class UICollectionViewCell;
+@class UICollectionViewLayout;
+
+@interface AVPreviewVC (SWIFT_EXTENSION(ZoomVideoSDKUIToolkit)) <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+- (NSInteger)collectionView:(UICollectionView * _Nonnull)collectionView numberOfItemsInSection:(NSInteger)section SWIFT_WARN_UNUSED_RESULT;
+- (UICollectionViewCell * _Nonnull)collectionView:(UICollectionView * _Nonnull)collectionView cellForItemAtIndexPath:(NSIndexPath * _Nonnull)indexPath SWIFT_WARN_UNUSED_RESULT;
+- (CGSize)collectionView:(UICollectionView * _Nonnull)collectionView layout:(UICollectionViewLayout * _Nonnull)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath * _Nonnull)indexPath SWIFT_WARN_UNUSED_RESULT;
+- (CGFloat)collectionView:(UICollectionView * _Nonnull)collectionView layout:(UICollectionViewLayout * _Nonnull)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section SWIFT_WARN_UNUSED_RESULT;
+- (CGFloat)collectionView:(UICollectionView * _Nonnull)collectionView layout:(UICollectionViewLayout * _Nonnull)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section SWIFT_WARN_UNUSED_RESULT;
+- (BOOL)collectionView:(UICollectionView * _Nonnull)collectionView shouldSelectItemAtIndexPath:(NSIndexPath * _Nonnull)indexPath SWIFT_WARN_UNUSED_RESULT;
+- (void)collectionView:(UICollectionView * _Nonnull)collectionView didSelectItemAtIndexPath:(NSIndexPath * _Nonnull)indexPath;
+@end
+
 
 /// [Component View] Active speaker and gallery view.
 SWIFT_CLASS("_TtC21ZoomVideoSDKUIToolkit24ActiveSpeakerGalleryView")
@@ -890,10 +969,6 @@ SWIFT_CLASS("_TtC21ZoomVideoSDKUIToolkit24ActiveSpeakerGalleryView")
 @end
 
 @class UIScrollView;
-@class UICollectionView;
-@class UICollectionViewCell;
-@class NSIndexPath;
-@class UICollectionViewLayout;
 
 @interface ActiveSpeakerGalleryView (SWIFT_EXTENSION(ZoomVideoSDKUIToolkit)) <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 - (void)scrollViewDidScroll:(UIScrollView * _Nonnull)scrollView;
@@ -916,7 +991,6 @@ SWIFT_CLASS("_TtC21ZoomVideoSDKUIToolkit9CTANavBar")
 - (void)layoutSubviews;
 @end
 
-@class NSString;
 
 /// The initializer parameters object contains information for initializing the ZoomVideoSDK. Objective-C class for interoperability.
 SWIFT_CLASS("_TtC21ZoomVideoSDKUIToolkit14InitParamsObjC")
@@ -927,6 +1001,8 @@ SWIFT_CLASS("_TtC21ZoomVideoSDKUIToolkit14InitParamsObjC")
 @property (nonatomic, copy) NSString * _Nullable recordingConsentMessage;
 /// (Optional) Live Streaming Consent Message for customized consent message to be shown when live streaming started.
 @property (nonatomic, copy) NSString * _Nullable liveStreamConsentMessage;
+/// (Optional) Live Transcription and Translation (LTT) Consent Message for customized consent message to be shown when LTT started.
+@property (nonatomic, copy) NSString * _Nullable lttConsentMessage;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -966,6 +1042,7 @@ SWIFT_CLASS("_TtC21ZoomVideoSDKUIToolkit11TitleNavBar")
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder SWIFT_UNAVAILABLE;
 - (void)layoutSubviews;
 @end
+
 
 
 
@@ -1066,8 +1143,6 @@ SWIFT_CLASS("_TtC21ZoomVideoSDKUIToolkit20UIToolkitErrorParser")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@protocol UIViewControllerTransitionCoordinator;
-@class NSBundle;
 
 /// [Default View] The UI toolkit view controller manages and shows the prebuilt video chat user interface.
 SWIFT_CLASS("_TtC21ZoomVideoSDKUIToolkit11UIToolkitVC")
@@ -1103,10 +1178,15 @@ SWIFT_CLASS("_TtC21ZoomVideoSDKUIToolkit11UIToolkitVC")
 @class ZoomVideoSDKAudioHelper;
 @class ZoomVideoSDKVideoHelper;
 @class ZoomVideoSDKShareHelper;
+@class ZoomVideoSDKShareAction;
 @class ZoomVideoSDKChatHelper;
 @class ZoomVideoSDKChatMessage;
+@class ZoomVideoSDKSendFile;
+@class ZoomVideoSDKReceiveFile;
 @class ZoomVideoSDKLiveStreamHelper;
 @class ZoomVideoSDKRecordAgreementHandler;
+@class ZoomVideoSDKLiveTranscriptionMessageInfo;
+@class ZoomVideoSDKLiveTranscriptionLanguage;
 
 @interface UIToolkitVC (SWIFT_EXTENSION(ZoomVideoSDKUIToolkit)) <ZoomVideoSDKDelegate>
 - (void)onError:(ZoomVideoSDKError)ErrorType detail:(NSInteger)details;
@@ -1118,17 +1198,23 @@ SWIFT_CLASS("_TtC21ZoomVideoSDKUIToolkit11UIToolkitVC")
 - (void)onUserLeave:(ZoomVideoSDKUserHelper * _Nullable)helper users:(NSArray<ZoomVideoSDKUser *> * _Nullable)userArray;
 - (void)onUserAudioStatusChanged:(ZoomVideoSDKAudioHelper * _Nullable)helper user:(NSArray<ZoomVideoSDKUser *> * _Nullable)userArray;
 - (void)onUserVideoStatusChanged:(ZoomVideoSDKVideoHelper * _Nullable)helper user:(NSArray<ZoomVideoSDKUser *> * _Nullable)userArray;
-- (void)onUserShareStatusChanged:(ZoomVideoSDKShareHelper * _Nullable)helper user:(ZoomVideoSDKUser * _Nullable)user status:(ZoomVideoSDKReceiveSharingStatus)status;
+- (void)onUserShareStatusChanged:(ZoomVideoSDKShareHelper * _Nullable)helper user:(ZoomVideoSDKUser * _Nullable)user shareAction:(ZoomVideoSDKShareAction * _Nullable)shareAction;
 - (void)onUserActiveAudioChanged:(ZoomVideoSDKUserHelper * _Nullable)helper users:(NSArray<ZoomVideoSDKUser *> * _Nullable)userArray;
 - (void)onChatNewMessageNotify:(ZoomVideoSDKChatHelper * _Nullable)helper message:(ZoomVideoSDKChatMessage * _Nullable)chatMessage;
 - (void)onChatPrivilegeChanged:(ZoomVideoSDKChatHelper * _Nullable)helper privilege:(ZoomVideoSDKChatPrivilegeType)currentPrivilege;
+- (void)onSendFileStatus:(ZoomVideoSDKSendFile * _Nullable)file status:(ZoomVideoSDKFileTransferStatus)status;
+- (void)onReceiveFileStatus:(ZoomVideoSDKReceiveFile * _Nullable)file status:(ZoomVideoSDKFileTransferStatus)status;
 - (void)onUserNameChanged:(ZoomVideoSDKUser * _Nullable)user;
 - (void)onUserHostChanged:(ZoomVideoSDKUserHelper * _Nullable)helper users:(ZoomVideoSDKUser * _Nullable)user;
 - (void)onUserManagerChanged:(ZoomVideoSDKUser * _Nullable)user;
+- (void)onHostAskUnmute;
 - (void)onLiveStreamStatusChanged:(ZoomVideoSDKLiveStreamHelper * _Nullable)helper status:(ZoomVideoSDKLiveStreamStatus)status;
 - (void)onCloudRecordingStatus:(ZoomVideoSDKRecordingStatus)status recordAgreementHandler:(ZoomVideoSDKRecordAgreementHandler * _Nullable)handler;
-- (void)onHostAskUnmute;
 - (void)onCallCRCDeviceStatusChanged:(ZoomVideoSDKCRCCallStatus)state;
+- (void)onLiveTranscriptionStatus:(ZoomVideoSDKLiveTranscriptionStatus)status;
+- (void)onLiveTranscriptionMsgReceived:(ZoomVideoSDKLiveTranscriptionMessageInfo * _Nullable)messageInfo;
+- (void)onLiveTranscriptionMsgError:(ZoomVideoSDKLiveTranscriptionLanguage * _Nullable)spokenLanguage transLanguage:(ZoomVideoSDKLiveTranscriptionLanguage * _Nullable)transcriptLanguage;
+- (void)onInviteByPhoneStatus:(ZoomVideoSDKPhoneStatus)status failReason:(ZoomVideoSDKPhoneFailedReason)failReason;
 @end
 
 

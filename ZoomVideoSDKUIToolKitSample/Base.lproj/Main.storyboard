@@ -17,25 +17,43 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YWX-7m-lJ5">
-                                <rect key="frame" x="116" y="413.66666666666669" width="161" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="xUJ-yb-9UT"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Start Session">
-                                    <fontDescription key="titleFontDescription" type="system" pointSize="24"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="tappedBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jDa-BV-SXF"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="f8w-L9-wTk">
+                                <rect key="frame" x="116" y="383.66666666666669" width="161" height="110"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N8S-s0-EeF">
+                                        <rect key="frame" x="0.0" y="0.0" width="161" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="Zfr-04-B0F"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="AV Preview">
+                                            <fontDescription key="titleFontDescription" type="system" pointSize="24"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="onClickAVPreviewBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="scx-ja-vG3"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="upB-5h-SaZ">
+                                        <rect key="frame" x="0.0" y="60" width="161" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="uYo-LV-lIq"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Start Session">
+                                            <fontDescription key="titleFontDescription" type="system" pointSize="24"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="onClickStartSessionBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Sdq-7z-JKI"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="YWX-7m-lJ5" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="ilp-cc-SfS"/>
-                            <constraint firstItem="YWX-7m-lJ5" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="zRU-fc-8U9"/>
+                            <constraint firstItem="f8w-L9-wTk" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="ARY-Ls-Lfa"/>
+                            <constraint firstItem="f8w-L9-wTk" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="NaT-2k-JhU"/>
                         </constraints>
                     </view>
                     <connections>
@@ -49,7 +67,7 @@
         <!--Custom ComponentVC-->
         <scene sceneID="MaX-X8-1qa">
             <objects>
-                <viewController id="SVN-ve-mLF" customClass="CustomComponentVC" customModule="ZoomVideoSDKUIToolkitSample" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="SVN-ve-mLF" customClass="CustomComponentVC" customModule="ZoomVideoSDKUIToolKitSample" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="f8K-Td-mde">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
