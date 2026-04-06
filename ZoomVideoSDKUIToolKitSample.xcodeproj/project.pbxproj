@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D7FB22322F839FFF000A5754 /* ZoomTask.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7FB22302F839FFD000A5754 /* ZoomTask.xcframework */; };
+		D7FB22332F839FFF000A5754 /* ZoomTask.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D7FB22302F839FFD000A5754 /* ZoomTask.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E565BA9C2A25ADD7002CD7AB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E565BA9B2A25ADD7002CD7AB /* AppDelegate.swift */; };
 		E565BA9E2A25ADD7002CD7AB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E565BA9D2A25ADD7002CD7AB /* SceneDelegate.swift */; };
 		E565BAA02A25ADD7002CD7AB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E565BA9F2A25ADD7002CD7AB /* ViewController.swift */; };
@@ -49,6 +51,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				E5C9FF252CB5223F006A0B5B /* CptShare.xcframework in Embed Frameworks */,
+				D7FB22332F839FFF000A5754 /* ZoomTask.xcframework in Embed Frameworks */,
 				E5C9FF272CB52242006A0B5B /* zoomcml.xcframework in Embed Frameworks */,
 				E5C9FF2B2CB52247006A0B5B /* ZoomVideoSDKUIToolkit.xcframework in Embed Frameworks */,
 				E5C9FF292CB52244006A0B5B /* ZoomVideoSDK.xcframework in Embed Frameworks */,
@@ -70,6 +73,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D7FB22302F839FFD000A5754 /* ZoomTask.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:BJ4HAAB9B3:Zoom Communications, Inc."; lastKnownFileType = wrapper.xcframework; name = ZoomTask.xcframework; path = Frameworks/ZoomTask.xcframework; sourceTree = "<group>"; };
 		E565BA982A25ADD7002CD7AB /* ZoomVideoSDKUIToolKitSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZoomVideoSDKUIToolKitSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E565BA9B2A25ADD7002CD7AB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E565BA9D2A25ADD7002CD7AB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -113,6 +117,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E5C9FF242CB5223F006A0B5B /* CptShare.xcframework in Frameworks */,
+				D7FB22322F839FFF000A5754 /* ZoomTask.xcframework in Frameworks */,
 				E5C9FF262CB52242006A0B5B /* zoomcml.xcframework in Frameworks */,
 				E5C9FF2A2CB52247006A0B5B /* ZoomVideoSDKUIToolkit.xcframework in Frameworks */,
 				E5C9FF282CB52244006A0B5B /* ZoomVideoSDK.xcframework in Frameworks */,
@@ -177,6 +182,7 @@
 				E5C9FF432CB5231E006A0B5B /* CoreMedia.framework */,
 				E5C9FF412CB5231A006A0B5B /* CoreVideo.framework */,
 				E5C9FF3F2CB52316006A0B5B /* CoreGraphics.framework */,
+				D7FB22302F839FFD000A5754 /* ZoomTask.xcframework */,
 				E5C9FF1E2CB5220F006A0B5B /* CptShare.xcframework */,
 				E5C9FF1F2CB5220F006A0B5B /* zoomcml.xcframework */,
 				E5C9FF202CB5220F006A0B5B /* ZoomVideoSDK.xcframework */,
@@ -479,7 +485,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -519,7 +525,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -586,7 +592,7 @@
 				INFOPLIST_FILE = ScreenShare/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ScreenShare;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

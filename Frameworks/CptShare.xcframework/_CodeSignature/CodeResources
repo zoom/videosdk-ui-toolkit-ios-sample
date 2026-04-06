@@ -4,82 +4,232 @@
 <dict>
 	<key>files</key>
 	<dict>
+		<key>ios-arm64-simulator/CptShare.framework/CptShare</key>
+		<data>
+		eEgv9HdlCJjrYI8+JldV/niBkcc=
+		</data>
+		<key>ios-arm64-simulator/CptShare.framework/Info.plist</key>
+		<data>
+		+LwqR7y6PQYjyVjibYsNfEiiRI0=
+		</data>
+		<key>ios-arm64-simulator/CptShare.framework/PrivacyInfo.xcprivacy</key>
+		<data>
+		aEevFz2jB9d0XJX7ayULozeuML8=
+		</data>
+		<key>ios-arm64-simulator/CptShare.framework/_CodeSignature/CodeResources</key>
+		<data>
+		gYPXsvI1LBZPNaPv3tKIaTi0teI=
+		</data>
 		<key>ios-arm64/CptShare.framework/CptShare</key>
 		<data>
-		NLNJAOYa5CrbIkUtY4Xj/CmyLUQ=
+		59gPILXs6eTa+Pos8VIf6vChS8s=
 		</data>
 		<key>ios-arm64/CptShare.framework/Info.plist</key>
 		<data>
-		vX6sGIJvYGj7sm746SOk1NIeuE4=
+		ND1yLd/8nRzSNFvTQs7NJFa52Dg=
 		</data>
-		<key>ios-arm64_x86_64-simulator/CptShare.framework/CptShare</key>
+		<key>ios-arm64/CptShare.framework/PrivacyInfo.xcprivacy</key>
 		<data>
-		1jROeGhlk2t6Kk9L5ScUVKGtDmk=
+		aEevFz2jB9d0XJX7ayULozeuML8=
 		</data>
-		<key>ios-arm64_x86_64-simulator/CptShare.framework/Info.plist</key>
+		<key>xros-arm64-simulator/CptShare.framework/CptShare</key>
 		<data>
-		x7la/v+812CQ2IEzFHZTlEUWKI8=
+		SQJmEsNZ+/8PM20pURBzL2Wqpqo=
 		</data>
-		<key>ios-arm64_x86_64-simulator/CptShare.framework/_CodeSignature/CodeResources</key>
+		<key>xros-arm64-simulator/CptShare.framework/Info.plist</key>
 		<data>
-		TxgtyYh2DBlsv5PO57S+1kStpW8=
+		ukQ8aviAc9Gv9yVDnbMCWVuMBPY=
+		</data>
+		<key>xros-arm64-simulator/CptShare.framework/PrivacyInfo.xcprivacy</key>
+		<data>
+		aEevFz2jB9d0XJX7ayULozeuML8=
+		</data>
+		<key>xros-arm64-simulator/CptShare.framework/_CodeSignature/CodeResources</key>
+		<data>
+		CUTDzKHnq2JlgZX6b9a+ULwmPd8=
+		</data>
+		<key>xros-arm64/CptShare.framework/CptShare</key>
+		<data>
+		I4Vgv33Hiv4ljIxZouI9zVgncs0=
+		</data>
+		<key>xros-arm64/CptShare.framework/Info.plist</key>
+		<data>
+		eSGxkgcN7mWnJeqKxqXibfqzPPM=
+		</data>
+		<key>xros-arm64/CptShare.framework/PrivacyInfo.xcprivacy</key>
+		<data>
+		aEevFz2jB9d0XJX7ayULozeuML8=
+		</data>
+		<key>xros-arm64/CptShare.framework/_CodeSignature/CodeResources</key>
+		<data>
+		gYPXsvI1LBZPNaPv3tKIaTi0teI=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
+		<key>ios-arm64-simulator/CptShare.framework/CptShare</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			eEgv9HdlCJjrYI8+JldV/niBkcc=
+			</data>
+			<key>hash2</key>
+			<data>
+			2HvMtEeBUya3pXyNkRULEv1NqWUBn/2e4FMsPP4C5kk=
+			</data>
+		</dict>
+		<key>ios-arm64-simulator/CptShare.framework/Info.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			+LwqR7y6PQYjyVjibYsNfEiiRI0=
+			</data>
+			<key>hash2</key>
+			<data>
+			vkhg0qA00VQsMZlEvoIYqQXB2s06CtZ1SwUmLgIP4Qc=
+			</data>
+		</dict>
+		<key>ios-arm64-simulator/CptShare.framework/PrivacyInfo.xcprivacy</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			aEevFz2jB9d0XJX7ayULozeuML8=
+			</data>
+			<key>hash2</key>
+			<data>
+			E2feaet/Tgfk+ahm9N3qIQEGflwbswGOkFYBUuk7/dE=
+			</data>
+		</dict>
+		<key>ios-arm64-simulator/CptShare.framework/_CodeSignature/CodeResources</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			gYPXsvI1LBZPNaPv3tKIaTi0teI=
+			</data>
+			<key>hash2</key>
+			<data>
+			g+UFMYeSGdRPIdnzs38o868QEPJbGOtk+qsI3mju06I=
+			</data>
+		</dict>
 		<key>ios-arm64/CptShare.framework/CptShare</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			NLNJAOYa5CrbIkUtY4Xj/CmyLUQ=
+			59gPILXs6eTa+Pos8VIf6vChS8s=
 			</data>
 			<key>hash2</key>
 			<data>
-			7NL6OW9Q8Sj0akPeUkME3meMw0A/nrkOyLPUJWHbkrs=
+			OafgXNDmw8XnU+HVzLGwCXdnvi3Vf9y4dW6C4OamukQ=
 			</data>
 		</dict>
 		<key>ios-arm64/CptShare.framework/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			vX6sGIJvYGj7sm746SOk1NIeuE4=
+			ND1yLd/8nRzSNFvTQs7NJFa52Dg=
 			</data>
 			<key>hash2</key>
 			<data>
-			5E3ZrR3wtoh41OJ4IltNviMbLYVdXLz+Z16VZ2hbJaI=
+			lKk+jCOjpmdmso4UfWU5aVfZaEZYQAjk0zKqorEIy60=
 			</data>
 		</dict>
-		<key>ios-arm64_x86_64-simulator/CptShare.framework/CptShare</key>
+		<key>ios-arm64/CptShare.framework/PrivacyInfo.xcprivacy</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			1jROeGhlk2t6Kk9L5ScUVKGtDmk=
+			aEevFz2jB9d0XJX7ayULozeuML8=
 			</data>
 			<key>hash2</key>
 			<data>
-			5RCVD9yupu11k/RwRDtwy4kK+bjCU80NMk5dmK7Q+Rw=
+			E2feaet/Tgfk+ahm9N3qIQEGflwbswGOkFYBUuk7/dE=
 			</data>
 		</dict>
-		<key>ios-arm64_x86_64-simulator/CptShare.framework/Info.plist</key>
+		<key>xros-arm64-simulator/CptShare.framework/CptShare</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			x7la/v+812CQ2IEzFHZTlEUWKI8=
+			SQJmEsNZ+/8PM20pURBzL2Wqpqo=
 			</data>
 			<key>hash2</key>
 			<data>
-			faMn5bbqmOUiPXCmydYxz4edo7cRZs3soXMn1NkckjA=
+			0lJje9AU8cjKN7z5/DxCcOeOlRnlMaqrrg0GTcy488w=
 			</data>
 		</dict>
-		<key>ios-arm64_x86_64-simulator/CptShare.framework/_CodeSignature/CodeResources</key>
+		<key>xros-arm64-simulator/CptShare.framework/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			TxgtyYh2DBlsv5PO57S+1kStpW8=
+			ukQ8aviAc9Gv9yVDnbMCWVuMBPY=
 			</data>
 			<key>hash2</key>
 			<data>
-			lDo2/Wer8w2yweQ1p31TtjeP2tIlfRAbpT4mOG39LiQ=
+			uBdjLfVH+dvWbYFyE0tJKo1VhaIyEHv/pQ2ZLn7xKpg=
+			</data>
+		</dict>
+		<key>xros-arm64-simulator/CptShare.framework/PrivacyInfo.xcprivacy</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			aEevFz2jB9d0XJX7ayULozeuML8=
+			</data>
+			<key>hash2</key>
+			<data>
+			E2feaet/Tgfk+ahm9N3qIQEGflwbswGOkFYBUuk7/dE=
+			</data>
+		</dict>
+		<key>xros-arm64-simulator/CptShare.framework/_CodeSignature/CodeResources</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			CUTDzKHnq2JlgZX6b9a+ULwmPd8=
+			</data>
+			<key>hash2</key>
+			<data>
+			2mexxNqlRSETxe/MtNgndcfiHrX1e4IyRqO9UFYxCIQ=
+			</data>
+		</dict>
+		<key>xros-arm64/CptShare.framework/CptShare</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			I4Vgv33Hiv4ljIxZouI9zVgncs0=
+			</data>
+			<key>hash2</key>
+			<data>
+			l2ZjIWn0go2fCcoOEZ/9v+pVQ+G1Z/Iajm6J+IUE7PE=
+			</data>
+		</dict>
+		<key>xros-arm64/CptShare.framework/Info.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			eSGxkgcN7mWnJeqKxqXibfqzPPM=
+			</data>
+			<key>hash2</key>
+			<data>
+			j9O3n7Isl0KkHg7XOcKwMuksCQY6faPOAkQ0/HBZkz4=
+			</data>
+		</dict>
+		<key>xros-arm64/CptShare.framework/PrivacyInfo.xcprivacy</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			aEevFz2jB9d0XJX7ayULozeuML8=
+			</data>
+			<key>hash2</key>
+			<data>
+			E2feaet/Tgfk+ahm9N3qIQEGflwbswGOkFYBUuk7/dE=
+			</data>
+		</dict>
+		<key>xros-arm64/CptShare.framework/_CodeSignature/CodeResources</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			gYPXsvI1LBZPNaPv3tKIaTi0teI=
+			</data>
+			<key>hash2</key>
+			<data>
+			g+UFMYeSGdRPIdnzs38o868QEPJbGOtk+qsI3mju06I=
 			</data>
 		</dict>
 	</dict>
