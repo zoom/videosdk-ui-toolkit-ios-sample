@@ -1,0 +1,55 @@
+/*
+ * ZMUIToolkit.strings
+ * Customize strings used by ZMUIToolkit components.
+ */
+
+/* Leave Session - Action Sheet */
+"leave_session" = "Leave session";
+"end_session_for_all" = "End session for all";
+"cancel" = "Cancel";
+
+/* Leave Session - Alert Dialog */
+"end_session_alert_title" = "End session for all";
+"end_session_alert_message" = "Are you sure you want to end the session for all participants?";
+"confirm" = "Confirm";
+
+/* Assign Host Panel */
+"assign_host" = "Assign a host";
+"assign_and_leave" = "Assign and Leave";
+
+/* Participants Panel */
+"participants" = "Participants";
+"mute_all" = "Mute all";
+"ask_all_to_unmute" = "Ask all to unmute";
+"search_for_participants" = "Search for participants";
+
+/* Participant Action Sheet */
+"ask_to_unmute_audio" = "Ask to unmute audio";
+"mute_audio" = "Mute audio";
+"make_host" = "Make host";
+"make_co_host" = "Make co-host";
+"rename" = "Rename";
+"remove_from_session" = "Remove from session";
+"change_name_in_session" = "Change name in session";
+"enter_new_name" = "Enter new name";
+
+/* Participant Labels */
+"host_label" = "Host";
+"co_host_label" = "Co-host";
+"me_label" = "me";
+
+/* Share Panel (local user sharing screen) */
+"share_panel_message" = "You are sharing your screen.";
+"share_panel_device_audio" = "Share device audio";
+"share_panel_stop_button" = "Stop Sharing";
+
+/* Toast Messages */
+"became_host" = "You've become the host.";
+"became_co_host" = "You've become the co-host.";
+"all_muted" = "All current and new participants are muted.";
+"request_sent" = "Your request has been sent.";
+"name_changed" = "Your name has been changed.";
+"ended_by_host" = "The session was ended by the host.";
+"kicked_by_host" = "You were kicked from the session by the host.";
+"network_error" = "A network error occurred, causing you to leave the session.";
+"unknown_error" = "An unknown issue has occurred, causing you to leave the session.";

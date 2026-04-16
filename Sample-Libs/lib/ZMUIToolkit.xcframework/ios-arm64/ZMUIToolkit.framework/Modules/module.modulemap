@@ -1,0 +1,6 @@
+framework module ZMUIToolkit {
+  umbrella header "ZMUIToolkit.h"
+  export *
+
+  module * { export * }
+}

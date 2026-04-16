@@ -1,0 +1,695 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A602EA1E2F47A89D00C40581 /* ZMUIToolkit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A602EA152F47A89D00C40581 /* ZMUIToolkit.xcframework */; };
+		A602EA262F47A89D00C40581 /* ZMUIToolkit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A602EA152F47A89D00C40581 /* ZMUIToolkit.xcframework */; };
+		A602EA2E2F47A89D00C40581 /* ZMUIToolkit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A602EA152F47A89D00C40581 /* ZMUIToolkit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A602EA362F47A89D00C40581 /* ZMUIToolkit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A602EA152F47A89D00C40581 /* ZMUIToolkit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A69A77322F22C6EC009889B6 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A69A77312F22C6EC009889B6 /* ReplayKit.framework */; };
+		A69A77482F22C6EC009889B6 /* ZMUIToolkitSampleBroadcastExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A69A77302F22C6EC009889B6 /* ZMUIToolkitSampleBroadcastExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A6AA6D802F2AA32400D397E8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6AA6D7F2F2AA32400D397E8 /* CoreGraphics.framework */; };
+		A6AA6D822F2AA32B00D397E8 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6AA6D812F2AA32B00D397E8 /* CoreMedia.framework */; };
+		A6AA6D842F2AA33100D397E8 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6AA6D832F2AA33100D397E8 /* CoreVideo.framework */; };
+		A6AA6D862F2AA33900D397E8 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6AA6D852F2AA33900D397E8 /* VideoToolbox.framework */; };
+		A6C9EA452F6A1A52006BBA5E /* zoomcml.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA3A2F6A1A52006BBA5E /* zoomcml.xcframework */; };
+		A6C9EA462F6A1A52006BBA5E /* ZoomVideoSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA3C2F6A1A52006BBA5E /* ZoomVideoSDK.xcframework */; };
+		A6C9EA472F6A1A52006BBA5E /* ZoomTask.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA3B2F6A1A52006BBA5E /* ZoomTask.xcframework */; };
+		A6C9EA482F6A1A52006BBA5E /* ZoomVideoSDKScreenShare.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA3D2F6A1A52006BBA5E /* ZoomVideoSDKScreenShare.xcframework */; };
+		A6C9EA492F6A1A52006BBA5E /* Whiteboard.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA382F6A1A52006BBA5E /* Whiteboard.xcframework */; };
+		A6C9EA4A2F6A1A52006BBA5E /* CptShare.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA372F6A1A52006BBA5E /* CptShare.xcframework */; };
+		A6C9EA4B2F6A1A52006BBA5E /* zm_annoter_dynamic.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA392F6A1A52006BBA5E /* zm_annoter_dynamic.xcframework */; };
+		A6C9EA4C2F6A1A57006BBA5E /* CptShare.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA372F6A1A52006BBA5E /* CptShare.xcframework */; };
+		A6C9EA4D2F6A1A57006BBA5E /* CptShare.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA372F6A1A52006BBA5E /* CptShare.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A6C9EA4E2F6A1A58006BBA5E /* Whiteboard.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA382F6A1A52006BBA5E /* Whiteboard.xcframework */; };
+		A6C9EA4F2F6A1A58006BBA5E /* Whiteboard.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA382F6A1A52006BBA5E /* Whiteboard.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A6C9EA502F6A1A59006BBA5E /* zm_annoter_dynamic.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA392F6A1A52006BBA5E /* zm_annoter_dynamic.xcframework */; };
+		A6C9EA512F6A1A59006BBA5E /* zm_annoter_dynamic.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA392F6A1A52006BBA5E /* zm_annoter_dynamic.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A6C9EA522F6A1A5D006BBA5E /* zoomcml.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA3A2F6A1A52006BBA5E /* zoomcml.xcframework */; };
+		A6C9EA532F6A1A5D006BBA5E /* zoomcml.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA3A2F6A1A52006BBA5E /* zoomcml.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A6C9EA542F6A1A5E006BBA5E /* ZoomTask.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA3B2F6A1A52006BBA5E /* ZoomTask.xcframework */; };
+		A6C9EA552F6A1A5E006BBA5E /* ZoomTask.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA3B2F6A1A52006BBA5E /* ZoomTask.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A6C9EA562F6A1A5F006BBA5E /* ZoomVideoSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA3C2F6A1A52006BBA5E /* ZoomVideoSDK.xcframework */; };
+		A6C9EA572F6A1A5F006BBA5E /* ZoomVideoSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA3C2F6A1A52006BBA5E /* ZoomVideoSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A6C9EA582F6A1A60006BBA5E /* ZoomVideoSDKScreenShare.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA3D2F6A1A52006BBA5E /* ZoomVideoSDKScreenShare.xcframework */; };
+		A6C9EA592F6A1A60006BBA5E /* ZoomVideoSDKScreenShare.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA3D2F6A1A52006BBA5E /* ZoomVideoSDKScreenShare.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A69A77462F22C6EC009889B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49CF804B2F0DB91000E2DA1E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A69A772F2F22C6EC009889B6;
+			remoteInfo = ZMUIToolkitSampleBroadcastExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		49CF80662F0DBA7300E2DA1E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A6C9EA572F6A1A5F006BBA5E /* ZoomVideoSDK.xcframework in Embed Frameworks */,
+				A602EA2E2F47A89D00C40581 /* ZMUIToolkit.xcframework in Embed Frameworks */,
+				A6C9EA4F2F6A1A58006BBA5E /* Whiteboard.xcframework in Embed Frameworks */,
+				A6C9EA592F6A1A60006BBA5E /* ZoomVideoSDKScreenShare.xcframework in Embed Frameworks */,
+				A6C9EA532F6A1A5D006BBA5E /* zoomcml.xcframework in Embed Frameworks */,
+				A6C9EA552F6A1A5E006BBA5E /* ZoomTask.xcframework in Embed Frameworks */,
+				A6C9EA512F6A1A59006BBA5E /* zm_annoter_dynamic.xcframework in Embed Frameworks */,
+				A6C9EA4D2F6A1A57006BBA5E /* CptShare.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A659FDD12F45525600880509 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A602EA362F47A89D00C40581 /* ZMUIToolkit.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A69A77492F22C6EC009889B6 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A69A77482F22C6EC009889B6 /* ZMUIToolkitSampleBroadcastExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		49CF80532F0DB91000E2DA1E /* ZMUIToolkitSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZMUIToolkitSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A602EA152F47A89D00C40581 /* ZMUIToolkit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ZMUIToolkit.xcframework; path = ../lib/ZMUIToolkit.xcframework; sourceTree = SOURCE_ROOT; };
+		A69A77302F22C6EC009889B6 /* ZMUIToolkitSampleBroadcastExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ZMUIToolkitSampleBroadcastExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A69A77312F22C6EC009889B6 /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = System/Library/Frameworks/ReplayKit.framework; sourceTree = SDKROOT; };
+		A6AA6D7F2F2AA32400D397E8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		A6AA6D812F2AA32B00D397E8 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		A6AA6D832F2AA33100D397E8 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		A6AA6D852F2AA33900D397E8 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
+		A6C9EA372F6A1A52006BBA5E /* CptShare.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:BJ4HAAB9B3:Zoom Communications, Inc."; lastKnownFileType = wrapper.xcframework; path = CptShare.xcframework; sourceTree = "<group>"; };
+		A6C9EA382F6A1A52006BBA5E /* Whiteboard.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:BJ4HAAB9B3:Zoom Communications, Inc."; lastKnownFileType = wrapper.xcframework; path = Whiteboard.xcframework; sourceTree = "<group>"; };
+		A6C9EA392F6A1A52006BBA5E /* zm_annoter_dynamic.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:BJ4HAAB9B3:Zoom Communications, Inc."; lastKnownFileType = wrapper.xcframework; path = zm_annoter_dynamic.xcframework; sourceTree = "<group>"; };
+		A6C9EA3A2F6A1A52006BBA5E /* zoomcml.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:BJ4HAAB9B3:Zoom Communications, Inc."; lastKnownFileType = wrapper.xcframework; path = zoomcml.xcframework; sourceTree = "<group>"; };
+		A6C9EA3B2F6A1A52006BBA5E /* ZoomTask.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:BJ4HAAB9B3:Zoom Communications, Inc."; lastKnownFileType = wrapper.xcframework; path = ZoomTask.xcframework; sourceTree = "<group>"; };
+		A6C9EA3C2F6A1A52006BBA5E /* ZoomVideoSDK.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:BJ4HAAB9B3:Zoom Communications, Inc."; lastKnownFileType = wrapper.xcframework; path = ZoomVideoSDK.xcframework; sourceTree = "<group>"; };
+		A6C9EA3D2F6A1A52006BBA5E /* ZoomVideoSDKScreenShare.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:BJ4HAAB9B3:Zoom Communications, Inc."; lastKnownFileType = wrapper.xcframework; path = ZoomVideoSDKScreenShare.xcframework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A6249ECF2F2C229E00410AC2 /* Exceptions for "ZMUIToolkitSample" folder in "ZMUIToolkitSampleBroadcastExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ZMUIToolkitSampleConfig.swift,
+			);
+			target = A69A772F2F22C6EC009889B6 /* ZMUIToolkitSampleBroadcastExtension */;
+		};
+		A69A774E2F22C6EC009889B6 /* Exceptions for "ZMUIToolkitSampleBroadcastExtension" folder in "ZMUIToolkitSampleBroadcastExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = A69A772F2F22C6EC009889B6 /* ZMUIToolkitSampleBroadcastExtension */;
+		};
+		A6AA6EB92F2AC83800D397E8 /* Exceptions for "ZMUIToolkitSample" folder in "ZMUIToolkitSample" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 49CF80522F0DB91000E2DA1E /* ZMUIToolkitSample */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		49CF80552F0DB91000E2DA1E /* ZMUIToolkitSample */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A6AA6EB92F2AC83800D397E8 /* Exceptions for "ZMUIToolkitSample" folder in "ZMUIToolkitSample" target */,
+				A6249ECF2F2C229E00410AC2 /* Exceptions for "ZMUIToolkitSample" folder in "ZMUIToolkitSampleBroadcastExtension" target */,
+			);
+			path = ZMUIToolkitSample;
+			sourceTree = "<group>";
+		};
+		A69A77332F22C6EC009889B6 /* ZMUIToolkitSampleBroadcastExtension */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A69A774E2F22C6EC009889B6 /* Exceptions for "ZMUIToolkitSampleBroadcastExtension" folder in "ZMUIToolkitSampleBroadcastExtension" target */,
+			);
+			path = ZMUIToolkitSampleBroadcastExtension;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		49CF80502F0DB91000E2DA1E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A602EA262F47A89D00C40581 /* ZMUIToolkit.xcframework in Frameworks */,
+				A6C9EA522F6A1A5D006BBA5E /* zoomcml.xcframework in Frameworks */,
+				A6C9EA542F6A1A5E006BBA5E /* ZoomTask.xcframework in Frameworks */,
+				A6C9EA582F6A1A60006BBA5E /* ZoomVideoSDKScreenShare.xcframework in Frameworks */,
+				A6C9EA4C2F6A1A57006BBA5E /* CptShare.xcframework in Frameworks */,
+				A6C9EA562F6A1A5F006BBA5E /* ZoomVideoSDK.xcframework in Frameworks */,
+				A6C9EA502F6A1A59006BBA5E /* zm_annoter_dynamic.xcframework in Frameworks */,
+				A6C9EA4E2F6A1A58006BBA5E /* Whiteboard.xcframework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A69A772D2F22C6EC009889B6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A6AA6D822F2AA32B00D397E8 /* CoreMedia.framework in Frameworks */,
+				A6AA6D802F2AA32400D397E8 /* CoreGraphics.framework in Frameworks */,
+				A602EA1E2F47A89D00C40581 /* ZMUIToolkit.xcframework in Frameworks */,
+				A6AA6D862F2AA33900D397E8 /* VideoToolbox.framework in Frameworks */,
+				A69A77322F22C6EC009889B6 /* ReplayKit.framework in Frameworks */,
+				A6AA6D842F2AA33100D397E8 /* CoreVideo.framework in Frameworks */,
+				A6C9EA452F6A1A52006BBA5E /* zoomcml.xcframework in Frameworks */,
+				A6C9EA462F6A1A52006BBA5E /* ZoomVideoSDK.xcframework in Frameworks */,
+				A6C9EA472F6A1A52006BBA5E /* ZoomTask.xcframework in Frameworks */,
+				A6C9EA482F6A1A52006BBA5E /* ZoomVideoSDKScreenShare.xcframework in Frameworks */,
+				A6C9EA492F6A1A52006BBA5E /* Whiteboard.xcframework in Frameworks */,
+				A6C9EA4A2F6A1A52006BBA5E /* CptShare.xcframework in Frameworks */,
+				A6C9EA4B2F6A1A52006BBA5E /* zm_annoter_dynamic.xcframework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		49CF804A2F0DB91000E2DA1E = {
+			isa = PBXGroup;
+			children = (
+				49CF80552F0DB91000E2DA1E /* ZMUIToolkitSample */,
+				A69A77332F22C6EC009889B6 /* ZMUIToolkitSampleBroadcastExtension */,
+				49CF80612F0DBA5F00E2DA1E /* Frameworks */,
+				49CF80542F0DB91000E2DA1E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		49CF80542F0DB91000E2DA1E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				49CF80532F0DB91000E2DA1E /* ZMUIToolkitSample.app */,
+				A69A77302F22C6EC009889B6 /* ZMUIToolkitSampleBroadcastExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		49CF80612F0DBA5F00E2DA1E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A6C9EA372F6A1A52006BBA5E /* CptShare.xcframework */,
+				A6C9EA382F6A1A52006BBA5E /* Whiteboard.xcframework */,
+				A6C9EA392F6A1A52006BBA5E /* zm_annoter_dynamic.xcframework */,
+				A6C9EA3A2F6A1A52006BBA5E /* zoomcml.xcframework */,
+				A6C9EA3B2F6A1A52006BBA5E /* ZoomTask.xcframework */,
+				A6C9EA3C2F6A1A52006BBA5E /* ZoomVideoSDK.xcframework */,
+				A6C9EA3D2F6A1A52006BBA5E /* ZoomVideoSDKScreenShare.xcframework */,
+				A602EA152F47A89D00C40581 /* ZMUIToolkit.xcframework */,
+				A6AA6D852F2AA33900D397E8 /* VideoToolbox.framework */,
+				A6AA6D832F2AA33100D397E8 /* CoreVideo.framework */,
+				A6AA6D812F2AA32B00D397E8 /* CoreMedia.framework */,
+				A6AA6D7F2F2AA32400D397E8 /* CoreGraphics.framework */,
+				A69A77312F22C6EC009889B6 /* ReplayKit.framework */,
+			);
+			name = Frameworks;
+			path = ../lib;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		49CF80522F0DB91000E2DA1E /* ZMUIToolkitSample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 49CF805E2F0DB91500E2DA1E /* Build configuration list for PBXNativeTarget "ZMUIToolkitSample" */;
+			buildPhases = (
+				49CF804F2F0DB91000E2DA1E /* Sources */,
+				49CF80502F0DB91000E2DA1E /* Frameworks */,
+				49CF80512F0DB91000E2DA1E /* Resources */,
+				49CF80662F0DBA7300E2DA1E /* Embed Frameworks */,
+				A69A77492F22C6EC009889B6 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A69A77472F22C6EC009889B6 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				49CF80552F0DB91000E2DA1E /* ZMUIToolkitSample */,
+			);
+			name = ZMUIToolkitSample;
+			packageProductDependencies = (
+			);
+			productName = ZMUIToolkitSample;
+			productReference = 49CF80532F0DB91000E2DA1E /* ZMUIToolkitSample.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A69A772F2F22C6EC009889B6 /* ZMUIToolkitSampleBroadcastExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A69A774F2F22C6EC009889B6 /* Build configuration list for PBXNativeTarget "ZMUIToolkitSampleBroadcastExtension" */;
+			buildPhases = (
+				A69A772C2F22C6EC009889B6 /* Sources */,
+				A69A772D2F22C6EC009889B6 /* Frameworks */,
+				A69A772E2F22C6EC009889B6 /* Resources */,
+				A659FDD12F45525600880509 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				A69A77332F22C6EC009889B6 /* ZMUIToolkitSampleBroadcastExtension */,
+			);
+			name = ZMUIToolkitSampleBroadcastExtension;
+			packageProductDependencies = (
+			);
+			productName = ZMUIToolkitSampleBroadcastExtension;
+			productReference = A69A77302F22C6EC009889B6 /* ZMUIToolkitSampleBroadcastExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		49CF804B2F0DB91000E2DA1E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2620;
+				LastUpgradeCheck = 2620;
+				TargetAttributes = {
+					49CF80522F0DB91000E2DA1E = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					A69A772F2F22C6EC009889B6 = {
+						CreatedOnToolsVersion = 26.2;
+					};
+				};
+			};
+			buildConfigurationList = 49CF804E2F0DB91000E2DA1E /* Build configuration list for PBXProject "ZMUIToolkitSample" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 49CF804A2F0DB91000E2DA1E;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 49CF80542F0DB91000E2DA1E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				49CF80522F0DB91000E2DA1E /* ZMUIToolkitSample */,
+				A69A772F2F22C6EC009889B6 /* ZMUIToolkitSampleBroadcastExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		49CF80512F0DB91000E2DA1E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A69A772E2F22C6EC009889B6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		49CF804F2F0DB91000E2DA1E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A69A772C2F22C6EC009889B6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A69A77472F22C6EC009889B6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A69A772F2F22C6EC009889B6 /* ZMUIToolkitSampleBroadcastExtension */;
+			targetProxy = A69A77462F22C6EC009889B6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		49CF805C2F0DB91500E2DA1E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				EXCLUDED_ARCHS = x86_64;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		49CF805D2F0DB91500E2DA1E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				EXCLUDED_ARCHS = x86_64;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		49CF805F2F0DB91500E2DA1E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ZMUIToolkitSample/ZMUIToolkitSample.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/../lib",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ZMUIToolkitSample/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "ZoomVideo needs access to your bluetooth when you use this device.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "For people to see you during session, we need access to your camera.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "For people to hear you during session, we need access to your microphone.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "To share photos, we need access to your photo library.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lc++",
+					"-framework",
+					VideoToolbox,
+					"-framework",
+					CoreMedia,
+					"-framework",
+					CoreVideo,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		49CF80602F0DB91500E2DA1E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ZMUIToolkitSample/ZMUIToolkitSample.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/../lib",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ZMUIToolkitSample/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "ZoomVideo needs access to your bluetooth when you use this device.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "For people to see you during session, we need access to your camera.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "For people to hear you during session, we need access to your microphone.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "To share photos, we need access to your photo library.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lc++",
+					"-framework",
+					VideoToolbox,
+					"-framework",
+					CoreMedia,
+					"-framework",
+					CoreVideo,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A69A774A2F22C6EC009889B6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ZMUIToolkitSampleBroadcastExtension/ZMUIToolkitSampleBroadcastExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ZMUIToolkitSampleBroadcastExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ZMUIToolkitSampleBroadcastExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../lib",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lc++",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A69A774B2F22C6EC009889B6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ZMUIToolkitSampleBroadcastExtension/ZMUIToolkitSampleBroadcastExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ZMUIToolkitSampleBroadcastExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ZMUIToolkitSampleBroadcastExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../lib",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lc++",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		49CF804E2F0DB91000E2DA1E /* Build configuration list for PBXProject "ZMUIToolkitSample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				49CF805C2F0DB91500E2DA1E /* Debug */,
+				49CF805D2F0DB91500E2DA1E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		49CF805E2F0DB91500E2DA1E /* Build configuration list for PBXNativeTarget "ZMUIToolkitSample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				49CF805F2F0DB91500E2DA1E /* Debug */,
+				49CF80602F0DB91500E2DA1E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A69A774F2F22C6EC009889B6 /* Build configuration list for PBXNativeTarget "ZMUIToolkitSampleBroadcastExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A69A774A2F22C6EC009889B6 /* Debug */,
+				A69A774B2F22C6EC009889B6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 49CF804B2F0DB91000E2DA1E /* Project object */;
+}

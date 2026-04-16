@@ -1,0 +1,613 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.2.3 effective-5.10 (swiftlang-6.2.3.3.21 clang-1700.6.3.2)
+// swift-module-flags: -target arm64-apple-ios18.1 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name ZMUIToolkit
+// swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2.3
+import DeveloperToolsSupport
+import Foundation
+import ReplayKit
+import Swift
+import SwiftUI
+import UIKit
+@_exported import ZMUIToolkit
+import ZoomVideoSDK
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+@_Concurrency.MainActor @objc(ZMUIToolkitAudioBtn) open class ZMUIToolkitAudioBtn : ZMUIToolkit.ZMUIToolkitIconBtn {
+  @objc @_Concurrency.MainActor public init()
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @objc required dynamic public init?(coder: Foundation.NSCoder)
+  #endif
+  @objc deinit
+  @_Concurrency.MainActor @objc override dynamic public func didMoveToWindow()
+  @_Concurrency.MainActor public func setMuteAudioIcon(image: UIKit.UIImage)
+  @_Concurrency.MainActor public func setUnmuteAudioIcon(image: UIKit.UIImage)
+  @_Concurrency.MainActor public func setJoinAudioIcon(image: UIKit.UIImage)
+}
+@_Concurrency.MainActor @objc(ZMUIToolkitIconBtn) open class ZMUIToolkitIconBtn : ZMUIToolkit.ZMBadgeButton {
+  @_Concurrency.MainActor public init(descriptor: any ZMUIToolkit.ZMUIToolKitIconDescriptor)
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @objc required dynamic public init?(coder: Foundation.NSCoder)
+  #endif
+  @objc @_Concurrency.MainActor public func onButtonClicked()
+  @objc @_Concurrency.MainActor public func setBackgroundColor(color: UIKit.UIColor)
+  @objc @_Concurrency.MainActor public func setRadius(radius: CoreFoundation.CGFloat)
+  @objc @_Concurrency.MainActor public func setSize(size: CoreFoundation.CGSize)
+  @objc @_Concurrency.MainActor public func setPosition(x: CoreFoundation.CGFloat, y: CoreFoundation.CGFloat)
+  @objc @_Concurrency.MainActor public func setIconColor(color: UIKit.UIColor)
+  @objc @_Concurrency.MainActor public func setIcon(icon: UIKit.UIImage)
+  @objc @_Concurrency.MainActor public func setIconSize(_ size: CoreFoundation.CGSize)
+  @objc @_Concurrency.MainActor public func setIconPadding(padding: CoreFoundation.CGFloat)
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc @_Concurrency.MainActor public func setAccessibility(label: Swift.String?, hint: Swift.String?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc @_Concurrency.MainActor override public func setButtonText(_ title: Swift.String?)
+  #endif
+  @objc @_Concurrency.MainActor public func setFontSize(_ fontSize: CoreFoundation.CGFloat)
+  @_Concurrency.MainActor public func setFontWeight(_ weight: UIKit.UIFont.Weight)
+  @objc @_Concurrency.MainActor public func setFontWeightRawValue(_ weightValue: CoreFoundation.CGFloat)
+  @objc deinit
+}
+@_Concurrency.MainActor @objc(ZMUIToolkitLeaveSessionBtn) open class ZMUIToolkitLeaveSessionBtn : ZMUIToolkit.ZMUIToolkitIconBtn {
+  @objc @_Concurrency.MainActor public init()
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @objc required dynamic public init?(coder: Foundation.NSCoder)
+  #endif
+  @_Concurrency.MainActor public func setLeaveSessionIcon(image: UIKit.UIImage)
+  @objc deinit
+}
+@_Concurrency.MainActor @objc(ZMUIToolkitParticipantsBtn) open class ZMUIToolkitParticipantsBtn : ZMUIToolkit.ZMUIToolkitIconBtn {
+  @objc @_Concurrency.MainActor public init()
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @objc required dynamic public init?(coder: Foundation.NSCoder)
+  #endif
+  @objc deinit
+}
+@_Concurrency.MainActor @objc(ZMUIToolkitShareBtn) open class ZMUIToolkitShareBtn : ZMUIToolkit.ZMUIToolkitIconBtn {
+  @objc @_Concurrency.MainActor public init()
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @objc required dynamic public init?(coder: Foundation.NSCoder)
+  #endif
+  @_Concurrency.MainActor public func setStartShareIcon(image: UIKit.UIImage)
+  @_Concurrency.MainActor public func setStopShareIcon(image: UIKit.UIImage)
+  @objc deinit
+}
+@_Concurrency.MainActor @objc(ZMUIToolkitVideoBtn) open class ZMUIToolkitVideoBtn : ZMUIToolkit.ZMUIToolkitIconBtn {
+  @objc @_Concurrency.MainActor public init()
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @objc required dynamic public init?(coder: Foundation.NSCoder)
+  #endif
+  @objc deinit
+  @_Concurrency.MainActor @objc override dynamic public func didMoveToWindow()
+  @_Concurrency.MainActor public func setMuteVideoIcon(image: UIKit.UIImage)
+  @_Concurrency.MainActor public func setUnmuteVideoIcon(image: UIKit.UIImage)
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor open class ZMBadgeButton : ZMUIToolkit.IconButton {
+  @objc @_Concurrency.MainActor public var showBadgeBackground: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @objc @_Concurrency.MainActor public var badgeTextColor: UIKit.UIColor? {
+    @objc get
+    @objc set
+  }
+  @objc @_Concurrency.MainActor public var badgeWidth: CoreFoundation.CGFloat {
+    @objc get
+    @objc set
+  }
+  @objc @_Concurrency.MainActor public var badgeBackgroundColor: UIKit.UIColor? {
+    @objc get
+    @objc set
+  }
+  @objc @_Concurrency.MainActor public var badgeText: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc @_Concurrency.MainActor public var showBadge: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @_Concurrency.MainActor @objc override dynamic public func layoutSubviews()
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor public init(image: UIKit.UIImage?, size: CoreFoundation.CGSize, action: ((ZMUIToolkit.Button, UIKit.UIControl.Event) -> Swift.Void)? = nil)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @objc required dynamic public init?(coder: Foundation.NSCoder)
+  #endif
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor open class Button : UIKit.UIButton {
+  #if compiler(>=5.3) && $NonescapableTypes
+  @available(iOS, deprecated: 17.0, message: "Use registerForTraitChanges instead")
+  @_Concurrency.MainActor @objc override dynamic public func traitCollectionDidChange(_ previousTraitCollection: UIKit.UITraitCollection?)
+  #endif
+  @_Concurrency.MainActor @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @objc required dynamic public init?(coder: Foundation.NSCoder)
+  #endif
+  @_Concurrency.MainActor @objc override dynamic public func layoutSubviews()
+  @objc deinit
+}
+extension ZMUIToolkit.Button {
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @objc override dynamic public func contextMenuInteraction(_ interaction: UIKit.UIContextMenuInteraction, willDisplayMenuFor configuration: UIKit.UIContextMenuConfiguration, animator: (any UIKit.UIContextMenuInteractionAnimating)?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @objc override dynamic public func contextMenuInteraction(_ interaction: UIKit.UIContextMenuInteraction, willEndFor configuration: UIKit.UIContextMenuConfiguration, animator: (any UIKit.UIContextMenuInteractionAnimating)?)
+  #endif
+  @_Concurrency.MainActor @objc override dynamic public func menuAttachmentPoint(for configuration: UIKit.UIContextMenuConfiguration) -> CoreFoundation.CGPoint
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @objc override dynamic public func contextMenuInteraction(_ interaction: UIKit.UIContextMenuInteraction, configurationForMenuAtLocation location: CoreFoundation.CGPoint) -> UIKit.UIContextMenuConfiguration?
+  #endif
+}
+@objc @_hasMissingDesignatedInitializers @_Concurrency.MainActor open class IconButton : ZMUIToolkit.Button {
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @objc override dynamic public func setImage(_ image: UIKit.UIImage?, for state: UIKit.UIControl.State)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @objc override dynamic public var backgroundColor: UIKit.UIColor? {
+    @objc get
+    @objc set
+  }
+  #endif
+  @_Concurrency.MainActor @objc override dynamic public var isSelected: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @_Concurrency.MainActor @objc override dynamic public var isEnabled: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  #if compiler(>=5.3) && $NonescapableTypes
+  @available(iOS, deprecated: 17.0, message: "Use registerForTraitChanges instead")
+  @_Concurrency.MainActor @objc override dynamic public func traitCollectionDidChange(_ previousTraitCollection: UIKit.UITraitCollection?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @objc override dynamic public func touchesBegan(_ touches: Swift.Set<UIKit.UITouch>, with event: UIKit.UIEvent?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @objc override dynamic public func touchesEnded(_ touches: Swift.Set<UIKit.UITouch>, with event: UIKit.UIEvent?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @objc override dynamic public func touchesCancelled(_ touches: Swift.Set<UIKit.UITouch>, with event: UIKit.UIEvent?)
+  #endif
+  @_Concurrency.MainActor @objc override dynamic public var isHighlighted: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @objc required dynamic public init?(coder: Foundation.NSCoder)
+  #endif
+  @_Concurrency.MainActor @objc override dynamic public var intrinsicContentSize: CoreFoundation.CGSize {
+    @objc get
+  }
+  @_Concurrency.MainActor @objc override dynamic public func layoutSubviews()
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor public func setButtonText(_ title: Swift.String?)
+  #endif
+  @_Concurrency.MainActor public func setTextColor(_ color: UIKit.UIColor)
+  @_Concurrency.MainActor public func setTextFontSize(_ fontSize: CoreFoundation.CGFloat)
+  @_Concurrency.MainActor public func setTextSpacing(_ spacing: CoreFoundation.CGFloat)
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @objc override dynamic public func setTitle(_ title: Swift.String?, for state: UIKit.UIControl.State)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @objc override dynamic public func setAttributedTitle(_ title: Foundation.NSAttributedString?, for state: UIKit.UIControl.State)
+  #endif
+  @objc deinit
+}
+@_Concurrency.MainActor @objc(ZMUIToolkitRootVideoView) open class ZMUIToolkitRootVideoView : UIKit.UIView {
+  @_Concurrency.MainActor @objc dynamic public init()
+  @objc deinit
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @objc required dynamic public init?(coder: Foundation.NSCoder)
+  #endif
+  @objc @_Concurrency.MainActor public func setPosition(x: Swift.Int, y: Swift.Int)
+  @objc @_Concurrency.MainActor public func setSize(width: Swift.Int, height: Swift.Int)
+  @_Concurrency.MainActor @objc override dynamic public func layoutSubviews()
+  @_Concurrency.MainActor @objc override dynamic public func didMoveToWindow()
+}
+extension ZMUIToolkit.ZMUIToolkitRootVideoView : UIKit.UIScrollViewDelegate {
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func scrollViewDidEndDecelerating(_ scrollView: UIKit.UIScrollView)
+}
+@_inheritsConvenienceInitializers @_Concurrency.MainActor @objc(ZMUIToolkitSharePanelView) open class ZMUIToolkitSharePanelView : UIKit.UIView {
+  @_Concurrency.MainActor @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @objc required dynamic public init?(coder: Foundation.NSCoder)
+  #endif
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @_Concurrency.MainActor @objc(ZMUIToolkitShareReceiveView) open class ZMUIToolkitShareReceiveView : UIKit.UIView {
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @objc required dynamic public init?(coder: Foundation.NSCoder)
+  #endif
+  @_Concurrency.MainActor @objc override dynamic public func layoutSubviews()
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @_Concurrency.MainActor @objc(ZMUIToolkitVideoCell) open class ZMUIToolkitVideoCell : UIKit.UIView {
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @objc required dynamic public init?(coder: Foundation.NSCoder)
+  #endif
+  @_Concurrency.MainActor public func updateDisplayName()
+  @_Concurrency.MainActor public func updateActiveAudioStatus(_ status: Swift.Bool)
+  @_Concurrency.MainActor @objc override dynamic public func didMoveToSuperview()
+  @_Concurrency.MainActor @objc override dynamic public func layoutSubviews()
+  @objc @_Concurrency.MainActor public func setPosition(x: Swift.Int, y: Swift.Int)
+  @objc @_Concurrency.MainActor public func setSize(width: Swift.Int, height: Swift.Int)
+  @objc deinit
+}
+public struct ZMUIToolkitPanelButton {
+  public let title: Swift.String
+  public let style: ZMUIToolkit.ZMUIToolkitPanelButton.Style
+  public let initiallyEnabled: Swift.Bool
+  public let action: () -> Swift.Void
+  public enum Style {
+    case primary
+    case secondary
+    public static func == (a: ZMUIToolkit.ZMUIToolkitPanelButton.Style, b: ZMUIToolkit.ZMUIToolkitPanelButton.Style) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public init(title: Swift.String, style: ZMUIToolkit.ZMUIToolkitPanelButton.Style = .secondary, initiallyEnabled: Swift.Bool = true, action: @escaping () -> Swift.Void)
+}
+@_Concurrency.MainActor @objc(ZMUIToolkitParticipantsPanel) open class ZMUIToolkitParticipantsPanel : UIKit.UIView, UIKit.UITableViewDelegate {
+  @_Concurrency.MainActor public var configuration: ZMUIToolkit.ZMUIToolkitParticipantsPanelConfiguration {
+    get
+  }
+  @_Concurrency.MainActor public init(configuration: ZMUIToolkit.ZMUIToolkitParticipantsPanelConfiguration)
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @objc required dynamic public init?(coder: Foundation.NSCoder)
+  #endif
+  @objc deinit
+  @_Concurrency.MainActor @objc override dynamic open var isHidden: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @_Concurrency.MainActor public func setButtons(_ buttons: [ZMUIToolkit.ZMUIToolkitPanelButton])
+  @_Concurrency.MainActor public func setButtonEnabled(at index: Swift.Int, enabled: Swift.Bool)
+  @_Concurrency.MainActor public func refreshList()
+  #if compiler(>=5.3) && $NonescapableTypes
+  @available(iOS, deprecated: 17.0, message: "Use registerForTraitChanges instead")
+  @_Concurrency.MainActor @objc override dynamic open func traitCollectionDidChange(_ previousTraitCollection: UIKit.UITraitCollection?)
+  #endif
+  @_Concurrency.MainActor @objc override dynamic open func didMoveToWindow()
+  @_Concurrency.MainActor @objc override dynamic open func layoutSubviews()
+  @_Concurrency.MainActor @preconcurrency @objc public func tableView(_ tableView: UIKit.UITableView, didSelectRowAt indexPath: Foundation.IndexPath)
+  @_Concurrency.MainActor @preconcurrency @objc public func tableView(_ tableView: UIKit.UITableView, didDeselectRowAt indexPath: Foundation.IndexPath)
+}
+public struct ZMUIToolkitParticipantsPanelConfiguration {
+  public var title: Swift.String
+  public var cellStyle: ZMUIToolkit.ZMUIToolkitParticipantsPanelConfiguration.CellStyle
+  public var selectionMode: ZMUIToolkit.ZMUIToolkitParticipantsPanelConfiguration.SelectionMode
+  public var observeSDKEvents: Swift.Bool
+  public var showSearchBar: Swift.Bool
+  public enum CellStyle {
+    case full
+    case base
+    public static func == (a: ZMUIToolkit.ZMUIToolkitParticipantsPanelConfiguration.CellStyle, b: ZMUIToolkit.ZMUIToolkitParticipantsPanelConfiguration.CellStyle) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public enum SelectionMode {
+    case none
+    case tapAction
+    case persistentSelection
+    public static func == (a: ZMUIToolkit.ZMUIToolkitParticipantsPanelConfiguration.SelectionMode, b: ZMUIToolkit.ZMUIToolkitParticipantsPanelConfiguration.SelectionMode) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public init(title: Swift.String, cellStyle: ZMUIToolkit.ZMUIToolkitParticipantsPanelConfiguration.CellStyle = .full, selectionMode: ZMUIToolkit.ZMUIToolkitParticipantsPanelConfiguration.SelectionMode = .tapAction, observeSDKEvents: Swift.Bool = true, showSearchBar: Swift.Bool = true)
+}
+public protocol ZMUIToolkitObjectDescriptor {
+  var frame: CoreFoundation.CGRect { get }
+  var backgroundColor: UIKit.UIColor { get }
+  #if compiler(>=5.3) && $NonescapableTypes
+  var accessibilityLabel: Swift.String? { get }
+  #endif
+}
+public protocol ZMUIToolkitTextDescriptor : ZMUIToolkit.ZMUIToolkitObjectDescriptor {
+  var text: Swift.String { get }
+  var font: UIKit.UIFont { get }
+  var textPadding: Swift.Int { get }
+}
+public protocol ZMUIToolKitIconDescriptor : ZMUIToolkit.ZMUIToolkitObjectDescriptor {
+  var iconname: Swift.String { get }
+  var iconPadding: Swift.Int { get }
+  var iconColor: UIKit.UIColor { get }
+  var callback: (ZMUIToolkit.ZMUIToolkitIconBtn) -> Swift.Void { get }
+}
+public protocol ZMUIToolKitButtonDescriptor : ZMUIToolkit.ZMUIToolkitTextDescriptor {
+  var callback: () -> Swift.Void { get }
+}
+public protocol ZMUIToolKitLabelDescriptor : ZMUIToolkit.ZMUIToolkitTextDescriptor {
+  #if compiler(>=5.3) && $NonescapableTypes
+  var callback: (() -> Swift.Void)? { get }
+  #endif
+}
+public struct ZMUIToolkitIconBtnDescriptor : ZMUIToolkit.ZMUIToolKitIconDescriptor {
+  public let frame: CoreFoundation.CGRect
+  public let backgroundColor: UIKit.UIColor
+  public let accessibilityLabel: Swift.String?
+  public let iconname: Swift.String
+  public let iconPadding: Swift.Int
+  public let iconColor: UIKit.UIColor
+  public let callback: (ZMUIToolkit.ZMUIToolkitIconBtn) -> Swift.Void
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(frame: CoreFoundation.CGRect, backgroundColor: UIKit.UIColor, accessibilityLabel: Swift.String?, iconname: Swift.String, iconPadding: Swift.Int, iconColor: UIKit.UIColor, callback: @escaping (ZMUIToolkit.ZMUIToolkitIconBtn) -> Swift.Void)
+  #endif
+}
+@objc public enum ZMUIToolKitError : Swift.UInt {
+  case success
+  case wrong_Usage
+  case internal_Error
+  case uninitialize
+  case memory_Error
+  case load_Module_Error
+  case unLoad_Module_Error
+  case invalid_Parameter
+  case call_Too_Frequently
+  case no_Impl
+  case dont_Support_Feature
+  case unknown
+  case remove_Folder_Fail
+  case auth_Base
+  case auth_Error
+  case auth_Empty_Key_or_Secret
+  case auth_Wrong_Key_or_Secret
+  case auth_DoesNot_Support_SDK
+  case auth_Disable_SDK
+  case joinSession_NoSessionName
+  case joinSession_NoSessionToken
+  case joinSession_NoUserName
+  case joinSession_Invalid_SessionName
+  case joinSession_Invalid_Password
+  case joinSession_Invalid_SessionToken
+  case joinSession_SessionName_TooLong
+  case joinSession_Token_MismatchedSessionName
+  case joinSession_Token_NoSessionName
+  case joinSession_Token_RoleType_EmptyOrWrong
+  case joinSession_Token_UserIdentity_TooLong
+  case session_Base
+  case session_Module_Not_Found
+  case session_Service_Invalid
+  case session_Join_Failed
+  case session_No_Rights
+  case session_Already_In_Progress
+  case session_Dont_Support_SessionType
+  case session_You_Have_No_Share
+  case session_Reconnecting
+  case session_Disconnecting
+  case session_Not_Started
+  case session_Need_Password
+  case session_Password_Wrong
+  case session_Remote_DB_Error
+  case session_Invalid_Param
+  case session_Client_Incompatible
+  case session_Account_FreeMinutesExceeded
+  case session_Audio_Error
+  case session_Audio_No_Microphone
+  case session_Audio_No_Speaker
+  case session_Video_Error
+  case session_Video_Device_Error
+  case session_Live_Stream_Error
+  case session_Phone_Error
+  case dont_Support_Multi_Stream_Video_User
+  case fail_Assign_User_Privilege
+  case no_Recording_In_Process
+  case set_Virtual_Background_Fail
+  case malloc_Failed
+  case not_In_Session
+  case no_License
+  case video_Module_Not_Ready
+  case video_Module_Error
+  case video_device_error
+  case no_Video_Data
+  case share_Module_Not_Ready
+  case share_Module_Error
+  case no_Share_Data
+  case audio_Module_Not_Ready
+  case audio_Module_Error
+  case no_Audio_Data
+  case session_Share_Error
+  case session_Share_Module_Not_Ready
+  case session_Share_You_Are_Not_Sharing
+  case session_Share_Type_Is_Not_Support
+  case session_Share_Internal_Error
+  case session_Filetransfer_UnknownError
+  case session_Filetransfer_FileTypeBlocked
+  case session_Filetransfer_FileSizelimited
+  case spotlight_NotEnoughUsers
+  case spotlight_ToMuchSpotlightedUsers
+  case spotlight_UserCannotBeSpotlighted
+  case spotlight_UserWithoutVideo
+  case spotlight_UserNotSpotlighted
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.UInt)
+  #endif
+  public typealias RawValue = Swift.UInt
+  public var rawValue: Swift.UInt {
+    get
+  }
+}
+@objc public protocol ZMUIToolkitEventHandler {
+  @objc func onSessionJoin()
+  @objc func onSessionLeave(_ reason: ZMUIToolkit.ZMUIToolkitLeaveSessionReason)
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc func onUserJoin(_ users: [ZMUIToolkit.ZMUIToolkitUser]?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc func onUserLeave(_ users: [ZMUIToolkit.ZMUIToolkitUser]?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc func onUserVideoStatusChanged(_ users: [ZMUIToolkit.ZMUIToolkitUser]?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc func onUserAudioStatusChanged(_ users: [ZMUIToolkit.ZMUIToolkitUser]?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc func onUserShareStatusChanged(_ user: ZMUIToolkit.ZMUIToolkitUser?, shareStatus: ZMUIToolkit.ZMUIToolkitShareStatus)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc func onUserNameChanged(_ user: ZMUIToolkit.ZMUIToolkitUser?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc func onUserHostChanged(_ user: ZMUIToolkit.ZMUIToolkitUser?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc func onUserManagerChanged(_ user: ZMUIToolkit.ZMUIToolkitUser?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc func onUserActiveAudioChanged(_ users: [ZMUIToolkit.ZMUIToolkitUser]?)
+  #endif
+}
+extension ZMUIToolkit.ZMUIToolkitEventHandler {
+  public func onSessionJoin()
+  public func onSessionLeave(_ reason: ZMUIToolkit.ZMUIToolkitLeaveSessionReason)
+  #if compiler(>=5.3) && $NonescapableTypes
+  public func onUserJoin(_ users: [ZMUIToolkit.ZMUIToolkitUser]?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public func onUserLeave(_ users: [ZMUIToolkit.ZMUIToolkitUser]?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public func onUserVideoStatusChanged(_ users: [ZMUIToolkit.ZMUIToolkitUser]?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public func onUserAudioStatusChanged(_ users: [ZMUIToolkit.ZMUIToolkitUser]?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public func onUserShareStatusChanged(_ user: ZMUIToolkit.ZMUIToolkitUser?, shareStatus: ZMUIToolkit.ZMUIToolkitShareStatus)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public func onUserNameChanged(_ user: ZMUIToolkit.ZMUIToolkitUser?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public func onUserHostChanged(_ user: ZMUIToolkit.ZMUIToolkitUser?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public func onUserManagerChanged(_ user: ZMUIToolkit.ZMUIToolkitUser?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public func onUserActiveAudioChanged(_ users: [ZMUIToolkit.ZMUIToolkitUser]?)
+  #endif
+}
+@objc public enum ZMUIToolkitLeaveSessionReason : Swift.UInt {
+  case unknown
+  case bySelf
+  case kickByHost
+  case endByHost
+  case networkError
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.UInt)
+  #endif
+  public typealias RawValue = Swift.UInt
+  public var rawValue: Swift.UInt {
+    get
+  }
+}
+@_inheritsConvenienceInitializers @_Concurrency.MainActor @objc(ZMUIToolKitManager) public class ZMUIToolKitManager : ObjectiveC.NSObject {
+  @objc @_Concurrency.MainActor public static func initialize(initializer: ZMUIToolkit.ZMUIToolkitVideoSDKInitializer) -> ZMUIToolkit.ZMUIToolKitError
+  @objc @_Concurrency.MainActor public static func cleanup() -> ZMUIToolkit.ZMUIToolKitError
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc @_Concurrency.MainActor public static func joinSession(context: ZMUIToolkit.ZMUIToolkitVideoSDKSessionContext) -> ZMUIToolkit.ZMUIToolkitSession?
+  #endif
+  @objc @_Concurrency.MainActor public static func leaveSession(end: Swift.Bool) -> ZMUIToolkit.ZMUIToolKitError
+  @objc @_Concurrency.MainActor public static func setEventHandler(handler: any ZMUIToolkit.ZMUIToolkitEventHandler)
+  @_Concurrency.MainActor @objc override dynamic public init()
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @objc(ZMUIToolkitSession) public class ZMUIToolkitSession : ObjectiveC.NSObject {
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc public func sessionName() -> Swift.String?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc public func sessionID() -> Swift.String?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc public func sessionPassword() -> Swift.String?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc public func sessionPhonePasscode() -> Swift.String?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc public func sessionHostName() -> Swift.String?
+  #endif
+  @objc public func sessionNumber() -> Swift.UInt64
+  @objc deinit
+}
+@objc public enum ZMUIToolkitShareStatus : Swift.UInt {
+  case none
+  case start
+  case stop
+  case resume
+  case unknown
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.UInt)
+  #endif
+  public typealias RawValue = Swift.UInt
+  public var rawValue: Swift.UInt {
+    get
+  }
+}
+public enum ZMUIToolkitStrings {
+  public static var stringsBundle: Foundation.Bundle?
+}
+@_hasMissingDesignatedInitializers @objc(ZMUIToolkitUser) public class ZMUIToolkitUser : ObjectiveC.NSObject {
+  @objc final public let userName: Swift.String?
+  @objc final public let userId: Swift.Int32
+  @objc final public let isMySelf: Swift.Bool
+  @objc final public let isHost: Swift.Bool
+  @objc final public let isManager: Swift.Bool
+  @objc final public let micMuted: Swift.Bool
+  @objc final public let cameraOff: Swift.Bool
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc(ZMUIToolkitVideoSDKInitializer) public class ZMUIToolkitVideoSDKInitializer : ObjectiveC.NSObject {
+  public var domain: Swift.String
+  public var logFilePrefix: Swift.String
+  public var appGroupId: Swift.String
+  public var enableLog: Swift.Bool
+  public var speakerTestFilePath: Swift.String
+  public var bundleId: Swift.String
+  @objc override dynamic public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc(ZMUIToolkitVideoSDKSessionContext) public class ZMUIToolkitVideoSDKSessionContext : ObjectiveC.NSObject {
+  public var sessionName: Swift.String
+  public var sessionPassword: Swift.String
+  public var userName: Swift.String
+  public var token: Swift.String
+  public var sessionIdleTimeoutMins: Swift.Int
+  public var enable5GHighBandWidth: Swift.Bool
+  public var connect: Swift.Bool
+  public var mute: Swift.Bool
+  public var isMyVoiceInMix: Swift.Bool
+  public var autoAdjustSpeakerVolume: Swift.Bool
+  public var localVideoOn: Swift.Bool
+  public var multitaskingCameraAccessEnabled: Swift.Bool
+  @objc override dynamic public init()
+  @objc deinit
+}
+extension ZMUIToolkit.ZMUIToolkitPanelButton.Style : Swift.Equatable {}
+extension ZMUIToolkit.ZMUIToolkitPanelButton.Style : Swift.Hashable {}
+extension ZMUIToolkit.ZMUIToolkitParticipantsPanelConfiguration.CellStyle : Swift.Equatable {}
+extension ZMUIToolkit.ZMUIToolkitParticipantsPanelConfiguration.CellStyle : Swift.Hashable {}
+extension ZMUIToolkit.ZMUIToolkitParticipantsPanelConfiguration.SelectionMode : Swift.Equatable {}
+extension ZMUIToolkit.ZMUIToolkitParticipantsPanelConfiguration.SelectionMode : Swift.Hashable {}
+extension ZMUIToolkit.ZMUIToolKitError : Swift.Equatable {}
+extension ZMUIToolkit.ZMUIToolKitError : Swift.Hashable {}
+extension ZMUIToolkit.ZMUIToolKitError : Swift.RawRepresentable {}
+extension ZMUIToolkit.ZMUIToolkitLeaveSessionReason : Swift.Equatable {}
+extension ZMUIToolkit.ZMUIToolkitLeaveSessionReason : Swift.Hashable {}
+extension ZMUIToolkit.ZMUIToolkitLeaveSessionReason : Swift.RawRepresentable {}
+extension ZMUIToolkit.ZMUIToolKitManager : Swift.Sendable {}
+extension ZMUIToolkit.ZMUIToolkitShareStatus : Swift.Equatable {}
+extension ZMUIToolkit.ZMUIToolkitShareStatus : Swift.Hashable {}
+extension ZMUIToolkit.ZMUIToolkitShareStatus : Swift.RawRepresentable {}
