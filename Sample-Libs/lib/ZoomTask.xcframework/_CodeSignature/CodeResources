@@ -6,7 +6,7 @@
 	<dict>
 		<key>ios-arm64-simulator/ZoomTask.framework/Info.plist</key>
 		<data>
-		fxAmZh/ofh1AMD9fz+wHDZCYGj4=
+		iWjJewFpu5bkYbkqck8Rw7k47Gs=
 		</data>
 		<key>ios-arm64-simulator/ZoomTask.framework/PrivacyInfo.xcprivacy</key>
 		<data>
@@ -14,15 +14,15 @@
 		</data>
 		<key>ios-arm64-simulator/ZoomTask.framework/ZoomTask</key>
 		<data>
-		B2TtU1Kyxl5B5XRayz+QDgcAiLY=
+		UcBzzTYM8YJuGgWxjQL21Zb6S7o=
 		</data>
 		<key>ios-arm64-simulator/ZoomTask.framework/_CodeSignature/CodeResources</key>
 		<data>
-		7k7aG1+ZuCaI8LcoMSiBHY9cUmA=
+		k/DeK1cm7GEvOTTTj1VVjQmDA3M=
 		</data>
 		<key>ios-arm64/ZoomTask.framework/Info.plist</key>
 		<data>
-		NS+++Y252vexLSvV1yHAsIw4x58=
+		SLeTzvreJMVfI61zACsld/7jSpM=
 		</data>
 		<key>ios-arm64/ZoomTask.framework/PrivacyInfo.xcprivacy</key>
 		<data>
@@ -30,11 +30,11 @@
 		</data>
 		<key>ios-arm64/ZoomTask.framework/ZoomTask</key>
 		<data>
-		8e6KghDKvTJLzF9OA+7tcJhZQ1Q=
+		2ozK3zrDD1YjeFcXRLB8D6xzfbw=
 		</data>
 		<key>xros-arm64-simulator/ZoomTask.framework/Info.plist</key>
 		<data>
-		IdjhFcZtTRrGpDc+VVsT4XB+Xz4=
+		GflQVH7qCFm8eP4Sj8Qth09tGSc=
 		</data>
 		<key>xros-arm64-simulator/ZoomTask.framework/PrivacyInfo.xcprivacy</key>
 		<data>
@@ -42,15 +42,15 @@
 		</data>
 		<key>xros-arm64-simulator/ZoomTask.framework/ZoomTask</key>
 		<data>
-		9O7Im4OxBmuNZJUB0rSnQPNZuko=
+		gCssQOvlvv3N7UCeei0YR9YF6/w=
 		</data>
 		<key>xros-arm64-simulator/ZoomTask.framework/_CodeSignature/CodeResources</key>
 		<data>
-		l1posQHvgnbWl1OqMgiJ+ZwqQkU=
+		Ci+odNr5XJa9f5lRo95D+ArtoQA=
 		</data>
 		<key>xros-arm64/ZoomTask.framework/Info.plist</key>
 		<data>
-		W+wp8K9aP+2XLvp8znj3l1WIx8Q=
+		07t17ElXILJmUhhPi3vlgDujfSc=
 		</data>
 		<key>xros-arm64/ZoomTask.framework/PrivacyInfo.xcprivacy</key>
 		<data>
@@ -58,11 +58,7 @@
 		</data>
 		<key>xros-arm64/ZoomTask.framework/ZoomTask</key>
 		<data>
-		wTW2baRKtp5x6bMEfK8P6jR+AwI=
-		</data>
-		<key>xros-arm64/ZoomTask.framework/_CodeSignature/CodeResources</key>
-		<data>
-		7k7aG1+ZuCaI8LcoMSiBHY9cUmA=
+		Q6uuGbo67YtpU19ILxjzkK5R8io=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -71,11 +67,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			fxAmZh/ofh1AMD9fz+wHDZCYGj4=
+			iWjJewFpu5bkYbkqck8Rw7k47Gs=
 			</data>
 			<key>hash2</key>
 			<data>
-			zSte1KuNWZA6pqXYaD0dz6kKiXwE7UPhW1pGNy6hLFk=
+			B94Y9QCXxgApepONOE2nEtUJcuCHcjkjIGQ8TgMaPUw=
 			</data>
 		</dict>
 		<key>ios-arm64-simulator/ZoomTask.framework/PrivacyInfo.xcprivacy</key>
@@ -93,33 +89,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			B2TtU1Kyxl5B5XRayz+QDgcAiLY=
+			UcBzzTYM8YJuGgWxjQL21Zb6S7o=
 			</data>
 			<key>hash2</key>
 			<data>
-			WMY4UNFxIB9HbN60tgesfJwT7UBE6yo5xuDIv4UrxPU=
+			Cu1zYq0LCBt/LE0YtFu9KMK5Ls5Aktx2RiKV6ik8q6k=
 			</data>
 		</dict>
 		<key>ios-arm64-simulator/ZoomTask.framework/_CodeSignature/CodeResources</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			7k7aG1+ZuCaI8LcoMSiBHY9cUmA=
+			k/DeK1cm7GEvOTTTj1VVjQmDA3M=
 			</data>
 			<key>hash2</key>
 			<data>
-			+A6Epiqm69djdGe62jz2bopMOuEfYvRfjEExX1ej+Fc=
+			DnImLDqUQ5dxGw7oBoC9PXz7l4M0r6QN3nYKZ13u4BM=
 			</data>
 		</dict>
 		<key>ios-arm64/ZoomTask.framework/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			NS+++Y252vexLSvV1yHAsIw4x58=
+			SLeTzvreJMVfI61zACsld/7jSpM=
 			</data>
 			<key>hash2</key>
 			<data>
-			7h1RBCbUyLCgBVymAzyoSU9GsFLbTXJHgkT2pp176Lk=
+			TcBhlZ5A9j+Wil0r3WC52THVOvMsBkyrObh/No7Jlgg=
 			</data>
 		</dict>
 		<key>ios-arm64/ZoomTask.framework/PrivacyInfo.xcprivacy</key>
@@ -137,22 +133,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			8e6KghDKvTJLzF9OA+7tcJhZQ1Q=
+			2ozK3zrDD1YjeFcXRLB8D6xzfbw=
 			</data>
 			<key>hash2</key>
 			<data>
-			FV0yV3f20IqQZxnSxTCaq+UHGgnU5I6+yQPUUCt4oBk=
+			sioa7ocD9TlmobQSoPK3DdqkGFBX/Glmc6bQZnfs/H4=
 			</data>
 		</dict>
 		<key>xros-arm64-simulator/ZoomTask.framework/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			IdjhFcZtTRrGpDc+VVsT4XB+Xz4=
+			GflQVH7qCFm8eP4Sj8Qth09tGSc=
 			</data>
 			<key>hash2</key>
 			<data>
-			NtkKSVAvJWhYQ+4OXYiX2M6f1+H6ZKQjIGf85/kFP6M=
+			zO9KB6SUG9Ds0qGk40cU/ZZqXP3NfEz0mJB3qxWxRqw=
 			</data>
 		</dict>
 		<key>xros-arm64-simulator/ZoomTask.framework/PrivacyInfo.xcprivacy</key>
@@ -170,33 +166,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			9O7Im4OxBmuNZJUB0rSnQPNZuko=
+			gCssQOvlvv3N7UCeei0YR9YF6/w=
 			</data>
 			<key>hash2</key>
 			<data>
-			ahf39u+g+7fGrKhxRAkQoZWufMy4+w0AMYry+bwp12k=
+			nBFrllafGOtpMH2we4uqxXVs73h05vycbaymsh+9Tr4=
 			</data>
 		</dict>
 		<key>xros-arm64-simulator/ZoomTask.framework/_CodeSignature/CodeResources</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			l1posQHvgnbWl1OqMgiJ+ZwqQkU=
+			Ci+odNr5XJa9f5lRo95D+ArtoQA=
 			</data>
 			<key>hash2</key>
 			<data>
-			TOkuzrrGTHbaVPPyJHXD7ow2OrE500JO6lT3ofmgkkk=
+			Tl0KHvC2sJ2Cz74KvxRHof3PNUHtZ9u3cQ4iX0X7484=
 			</data>
 		</dict>
 		<key>xros-arm64/ZoomTask.framework/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			W+wp8K9aP+2XLvp8znj3l1WIx8Q=
+			07t17ElXILJmUhhPi3vlgDujfSc=
 			</data>
 			<key>hash2</key>
 			<data>
-			oBlmC4uScKVIbrvkGK2mz4vDaGVDFCsKQqMXWqLFLas=
+			utT9E+GhOY8dc+RfdUbMRgloy6T+kCt5jG2QmP5LsvU=
 			</data>
 		</dict>
 		<key>xros-arm64/ZoomTask.framework/PrivacyInfo.xcprivacy</key>
@@ -214,22 +210,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			wTW2baRKtp5x6bMEfK8P6jR+AwI=
+			Q6uuGbo67YtpU19ILxjzkK5R8io=
 			</data>
 			<key>hash2</key>
 			<data>
-			TYjfn6ty2lw51f8xJ+Bcys0OVRBb+FG6nSAFyiobngY=
-			</data>
-		</dict>
-		<key>xros-arm64/ZoomTask.framework/_CodeSignature/CodeResources</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			7k7aG1+ZuCaI8LcoMSiBHY9cUmA=
-			</data>
-			<key>hash2</key>
-			<data>
-			+A6Epiqm69djdGe62jz2bopMOuEfYvRfjEExX1ej+Fc=
+			1CD5UD2YKI9AfHmN7KmGfYGQcXPzGgCkhSaAiYxMQ0Y=
 			</data>
 		</dict>
 	</dict>

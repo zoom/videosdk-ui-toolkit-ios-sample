@@ -45,7 +45,7 @@
 
 /**
  * @brief Mutes the user's audio.
- * @param user The user whose audio will be muted. Use nil to mute self.
+ * @param user The user whose audio will be muted.
  * @return If the function succeeds, it returns Errors_Success. Otherwise, this function returns an error.
  * @warning Only host or manager can mute others audio.
  */
@@ -53,7 +53,7 @@
 
 /**
  * @brief Asks to unmute the user's audio.
- * @param user The user whose audio will be unmuted. Use nil to unmute self.
+ * @param user The user whose audio will be unmuted.
  * @return If the function succeeds, it returns Errors_Success. Otherwise, this function returns an error.
  * @warning Only host or manager can unmute others audio.
  * @warning This function will trigger the callback \link onHostAskUnmute \endlink.
@@ -86,7 +86,7 @@
 
 /**
  * @brief Subscribes to audio raw data.
- * @return If the function succeeds, it returns Errors_Success. Otherwise, this function returns an error.
+ * @return If the function succeeds, it returns @c Errors_Success. Otherwise, this function returns an error.
  * @warning Please check the callback "- (void)onMixedAudioRawDataReceived:(ZoomVideoSDKAudioRawData *)rawData".
  * @warning Please check the callback "- (void)onOneWayAudioRawDataReceived:(ZoomVideoSDKAudioRawData *)rawData user:(ZoomVideoSDKUser *)user".
  */

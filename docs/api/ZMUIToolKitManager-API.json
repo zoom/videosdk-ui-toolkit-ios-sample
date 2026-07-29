@@ -1,0 +1,507 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "module": "ZMUIToolKitManager",
+  "language": "Swift",
+  "platform": "iOS",
+  "version": "1.0",
+  "framework": "ZMUIToolkit",
+  "superclass": "NSObject",
+  "objcExposed": true,
+  "objcName": "ZMUIToolKitManager",
+  "concurrency": "initialize() and cleanup() are @MainActor. Access ZMUIToolKitManager from the main thread.",
+  "overview": "Central all-static setup and management class for the ZMUIToolkit framework. Holds the host's ZoomVideoSDK instance (videoSDK), owns the single SDK delegate slot by installing a CompositeZoomVideoSDKDelegate fan-out (videoSDKDelegate), manages the connected/cleaned-up lifecycle via initialize(videoSDK:bundleId:) and cleanup(), and exposes configuration flags such as cloudRecordingConsentDialogEnabled. Because ZoomVideoSDK.delegate accepts only one delegate, the toolkit centralizes ownership and fans events out to many weakly-held observers. Every self-managing toolkit component relies on this.",
+  "sourceFile": "ZMUIToolkit/ZMUIToolkit/Sources/ZMUIToolKitManager.swift",
+  "relatedSources": [
+    "ZMUIToolkit/ZMUIToolkit/Sources/CompositeZoomVideoSDKDelegate.swift",
+    "ZMUIToolkit/ZMUIToolkit/Sources/Video/ZMUIToolkitPiPController.swift"
+  ],
+  "typeDefinitions": [
+    { "name": "ZMUIToolKitManager", "kind": "class", "objcName": "ZMUIToolKitManager", "base": "NSObject", "role": "All-static manager. No instances; access via type-level (static) members." },
+    { "name": "CompositeZoomVideoSDKDelegate", "kind": "class", "access": "final", "objcName": "ZMUICompositeZoomVideoSDKDelegate", "role": "Weak fan-out ZoomVideoSDKDelegate. Register observers via add(_:) / remove(_:). Observers are held weakly." },
+    { "name": "ZoomVideoSDK", "kind": "sdkClass", "role": "The host's initialized Video SDK instance; provides session, helpers, and the delegate slot." },
+    { "name": "ZoomVideoSDKDelegate", "kind": "sdkProtocol", "role": "Observer protocol; register implementations via videoSDKDelegate.add(_:)." },
+    { "name": "ZMUIToolkitPiPController", "kind": "class", "access": "internal", "concurrency": "@MainActor", "role": "Singleton (.shared) owning AVKit Picture-in-Picture machinery; stop() is invoked by cleanup()." },
+    { "name": "Bool", "kind": "swiftType", "relevantValue": "initialize return value: true = delegate installed (Initialized), false = SDK not ready (remains Uninitialized)." }
+  ],
+  "lifecycle": {
+    "description": "ZMUIToolKitManager connects to an already-initialized ZoomVideoSDK and takes ownership of its delegate slot. It does NOT initialize the SDK itself. initialize must run on the main thread before any toolkit component reads videoSDK; cleanup must run before the host tears the SDK down.",
+    "required": [
+      "Host has an already-initialized ZoomVideoSDK instance.",
+      "initialize(videoSDK:bundleId:) called on the main thread (@MainActor) before constructing toolkit components that read ZMUIToolKitManager.videoSDK."
+    ],
+    "entryCallback": "initialize(videoSDK:bundleId:)",
+    "exitCallback": "cleanup()",
+    "notes": [
+      "The toolkit does not call ZoomVideoSDK.initialize; it connects to one you provide.",
+      "initialize returns Bool; check it. false means the delegate was NOT installed.",
+      "There is exactly one fan-out delegate (videoSDKDelegate), created once as a static let and reused for the process lifetime.",
+      "Child observers on videoSDKDelegate are held WEAKLY; retain your own observers.",
+      "cleanup() does NOT clear registered child observers; they survive across cleanup() / re-initialize(). Deallocated observers are dropped automatically."
+    ],
+    "entryPoints": [
+      {
+        "event": "initialize(videoSDK:bundleId:)",
+        "actions": [
+          "store bundleId (nil -> empty string)",
+          "store videoSDK reference",
+          "acceptance gate: perform an internal SDK usability check; if the SDK cannot be attached, returns false, clears stored references, and the delegate is NOT installed",
+          "on success: videoSDK.delegate = videoSDKDelegate; return true"
+        ]
+      }
+    ],
+    "exitPoints": [
+      {
+        "event": "cleanup()",
+        "actions": [
+          "ZMUIToolkitPiPController.shared.stop() — release PiP subscriptions so they do not outlive the session",
+          "clear delegate slot when videoSDK != nil AND videoSDK.delegate === videoSDKDelegate (toolkit still owns it)",
+          "_videoSDK = nil",
+          "_bundleId = \"\""
+        ],
+        "note": "Does NOT clear registered child observers on videoSDKDelegate."
+      }
+    ],
+    "delegateModel": "Exactly one fan-out delegate (videoSDKDelegate, a CompositeZoomVideoSDKDelegate) is installed onto ZoomVideoSDK.delegate by initialize. Integrators and toolkit components add/remove their own ZoomVideoSDKDelegate observers via videoSDKDelegate.add(_:) / remove(_:). Observers are held weakly. Do NOT reassign ZoomVideoSDK.delegate directly.",
+    "implicitSideEffects": {
+      "cleanup": {
+        "description": "Called by the host before destroying the SDK.",
+        "behavior": "Stops Picture-in-Picture, conditionally clears the owned SDK delegate slot, and releases the SDK reference and bundle id.",
+        "stateTransition": "Initialized -> Uninitialized",
+        "callback": "none (synchronous)",
+        "preserves": "Registered child observers on videoSDKDelegate are preserved (weakly) so listeners survive across re-initialization.",
+        "notes": [
+          "PiP is stopped here so it does not outlive the session.",
+          "Delegate slot is cleared when the toolkit still owns it (=== check); if the host has set a different delegate, it is left as-is.",
+          "Idempotent: safe to call when already Uninitialized."
+        ]
+      }
+    }
+  },
+  "states": {
+    "Uninitialized": {
+      "description": "videoSDK == nil and the delegate slot is not owned by the toolkit. Initial state at process start and after cleanup(). Toolkit components constructed in this state construct in a default state and tap actions take no action.",
+      "condition": "ZMUIToolKitManager.videoSDK == nil",
+      "allowedAPIs": ["initialize", "cleanup", "videoSDK (get)", "cloudRecordingConsentDialogEnabled (get/set)", "videoSDKDelegate.add", "videoSDKDelegate.remove"],
+      "forbiddenAPIs": [],
+      "notes": [
+        "Toolkit components read videoSDK and construct in a default state when nil.",
+        "cleanup() is still safe to call (idempotent)."
+      ]
+    },
+    "Initialized": {
+      "description": "videoSDK != nil and ZoomVideoSDK.delegate === videoSDKDelegate. Active state after a successful initialize(...) that returned true. Toolkit components are fully functional.",
+      "condition": "ZMUIToolKitManager.videoSDK != nil",
+      "allowedAPIs": ["cleanup", "initialize (re-point)", "videoSDK (get)", "cloudRecordingConsentDialogEnabled (get/set)", "videoSDKDelegate.add", "videoSDKDelegate.remove"],
+      "forbiddenAPIs": ["assigning ZoomVideoSDK.delegate directly"],
+      "notes": [
+        "ZoomVideoSDK.delegate is owned by the toolkit; register observers via videoSDKDelegate.add(_:).",
+        "Calling initialize again re-points the SDK reference and re-installs the delegate; if switching SDK instances, the old owned delegate slot is cleared first."
+      ]
+    }
+  },
+  "stateTransitions": {
+    "diagram": {
+      "Uninitialized": {
+        "transitions": ["Initialized"],
+        "triggers": {
+          "toInitialized": "initialize(videoSDK:bundleId:) returns true -> installs videoSDKDelegate",
+          "stayUninitialized": "initialize(...) returns false -> references cleared, delegate NOT installed"
+        },
+        "timing": "Synchronous: initialize returns Bool immediately.",
+        "notes": ["Treat initialize's Bool return as authoritative for toolkit delegate attachment, but use the host's ZoomVideoSDK.initialize(...) result to validate SDK initialization."]
+      },
+      "Initialized": {
+        "transitions": ["Uninitialized", "Initialized"],
+        "triggers": {
+          "toUninitialized": "cleanup() -> stops PiP, conditionally clears delegate slot, releases SDK",
+          "rePoint": "initialize(...) again -> if switching SDKs, clears the old owned delegate slot, then replaces the SDK ref and re-installs the delegate; existing observers retained"
+        },
+        "timing": "Synchronous.",
+        "notes": ["cleanup() does not clear registered observers."]
+      }
+    },
+    "queryMethods": {
+      "Uninitialized": "ZMUIToolKitManager.videoSDK == nil",
+      "Initialized": "ZMUIToolKitManager.videoSDK != nil (and ZoomVideoSDK.delegate === videoSDKDelegate)"
+    },
+    "timing": {
+      "initialize": {
+        "immediate": "Returns Bool synchronously; on true the SDK delegate slot is set before return.",
+        "callback": "none",
+        "typical": "Instant"
+      },
+      "cleanup": {
+        "immediate": "Synchronous; PiP stopped, delegate cleared (if owned), refs nilled before return.",
+        "callback": "none",
+        "typical": "Instant"
+      }
+    },
+    "automaticTransitions": {
+      "none": "ZMUIToolKitManager has no SDK-callback-driven automatic state transitions. State changes only via explicit initialize()/cleanup() calls."
+    }
+  },
+  "apis": {
+    "initialize": {
+      "signature": "@MainActor @objc static public func initialize(videoSDK: ZoomVideoSDK, bundleId: String?) -> Bool",
+      "returnType": "Bool",
+      "async": false,
+      "requiredState": "Uninitialized",
+      "nextState": "Initialized (on true) or Uninitialized (on false)",
+      "concurrency": "@MainActor",
+      "description": "Connects the toolkit to the host's ZoomVideoSDK instance and installs the toolkit's fan-out delegate onto ZoomVideoSDK.delegate.",
+      "parameters": [
+        { "name": "videoSDK", "type": "ZoomVideoSDK", "required": true, "description": "The ZoomVideoSDK instance the host initialized and wants the toolkit to observe." },
+        { "name": "bundleId", "type": "String?", "required": false, "description": "Broadcast Upload Extension bundle identifier (used by PiP/broadcast paths); nil is normalized to empty string." }
+      ],
+      "preconditionChecks": {
+        "beforeCall": [
+          { "check": "Called on main thread (@MainActor)", "code": "// must be on main actor" },
+          { "check": "Host initialized videoSDK first", "code": "// host performed ZoomVideoSDK.initialize(...) prior" }
+        ],
+        "validationCode": "let ok = ZMUIToolKitManager.initialize(videoSDK: sdk, bundleId: Bundle.main.bundleIdentifier)\nguard ok else {\n    // Toolkit did not claim the SDK delegate slot. Do not build toolkit UI.\n    return\n}"
+      },
+      "completion": {
+        "byCallback": null,
+        "setsState": "Initialized (on true)",
+        "timeout": null,
+        "alternativeCallbacks": []
+      },
+      "returnValue": {
+        "type": "Bool",
+        "successValue": "true",
+        "meaning": "true = videoSDKDelegate installed and the toolkit owns the SDK delegate slot (Initialized). false = the toolkit could not verify delegate ownership after assignment; stored references cleared; delegate NOT installed (remains Uninitialized). Validate SDK initialization separately via the host's ZoomVideoSDK.initialize(...) result."
+      },
+      "implicitEffects": [
+        "If re-pointing from another SDK instance, clears that old delegate slot when still owned by the toolkit.",
+        "Stores videoSDK and bundleId (nil -> empty string).",
+        "On success, sets videoSDK.delegate = videoSDKDelegate, taking ownership of the SDK delegate slot."
+      ],
+      "errorCodes": [],
+      "notes": [
+        "Does NOT call ZoomVideoSDK.initialize; the host remains responsible for SDK initialization.",
+        "Treat initialize's Bool return as authoritative when deciding whether toolkit delegate attachment succeeded.",
+        "On false, references are fully cleared so calling again is clean.",
+        "Call before constructing toolkit components that read ZMUIToolKitManager.videoSDK."
+      ],
+      "commonMistakes": [
+        "Not checking the Bool return value before building UI.",
+        "Calling off the main thread (violates @MainActor).",
+        "Constructing toolkit components before initialize.",
+        "Passing an SDK that the host has not actually initialized successfully."
+      ]
+    },
+    "cleanup": {
+      "signature": "@MainActor @objc static public func cleanup()",
+      "returnType": "Void",
+      "async": false,
+      "requiredState": "any (idempotent)",
+      "nextState": "Uninitialized",
+      "concurrency": "@MainActor",
+      "description": "Releases the toolkit's hold on the SDK before the host tears the SDK down.",
+      "parameters": [],
+      "preconditionChecks": {
+        "beforeCall": [
+          { "check": "Called on main thread (@MainActor)", "code": "// must be on main actor" }
+        ],
+        "validationCode": "ZMUIToolKitManager.cleanup() // safe to call even when already Uninitialized"
+      },
+      "completion": {
+        "byCallback": null,
+        "setsState": "Uninitialized",
+        "timeout": null,
+        "alternativeCallbacks": []
+      },
+      "returnValue": {
+        "type": "Void",
+        "successValue": "n/a",
+        "meaning": "Always succeeds; idempotent."
+      },
+      "implicitEffects": [
+        "Calls ZMUIToolkitPiPController.shared.stop() — unsubscribes active PiP video/share sources, retires receivers, flushes the display layer, tears down the AVPictureInPictureController.",
+        "Clears ZoomVideoSDK.delegate when the toolkit still owns it (sdk.delegate === videoSDKDelegate).",
+        "Sets videoSDK to nil and bundleId to empty string.",
+        "Does NOT clear registered child observers on videoSDKDelegate (they survive, held weakly)."
+      ],
+      "errorCodes": [],
+      "notes": [
+        "PiP is stopped first so it does not outlive the session.",
+        "Delegate-slot clearing is conditional on ownership; if the host has set a different delegate, it is left as-is.",
+        "Idempotent and safe to call multiple times."
+      ],
+      "commonMistakes": [
+        "Calling off the main thread (violates @MainActor).",
+        "Expecting cleanup() to remove registered observers (it does not).",
+        "Tearing down the SDK before calling cleanup() (leaves PiP holding an SDK pipe)."
+      ]
+    },
+    "videoSDK": {
+      "signature": "@objc public static var videoSDK: ZoomVideoSDK? { get }",
+      "returnType": "ZoomVideoSDK?",
+      "async": false,
+      "requiredState": "any",
+      "nextState": "unchanged",
+      "concurrency": "Access from the main thread.",
+      "description": "Read-only accessor for the connected SDK instance. nil before initialize and after cleanup. Toolkit components use it to obtain helpers and read session/user state.",
+      "parameters": [],
+      "preconditionChecks": {
+        "beforeCall": [],
+        "validationCode": "guard let sdk = ZMUIToolKitManager.videoSDK else { return }"
+      },
+      "completion": { "byCallback": null, "setsState": "unchanged", "timeout": null, "alternativeCallbacks": [] },
+      "returnValue": { "type": "ZoomVideoSDK?", "successValue": "non-nil", "meaning": "non-nil when Initialized; nil when Uninitialized/cleaned-up." },
+      "implicitEffects": [],
+      "errorCodes": [],
+      "notes": ["Read on the main thread."],
+      "commonMistakes": ["Force-unwrapping without checking for nil."]
+    },
+    "videoSDKDelegate": {
+      "signature": "@objc public static let videoSDKDelegate: CompositeZoomVideoSDKDelegate",
+      "returnType": "CompositeZoomVideoSDKDelegate",
+      "async": false,
+      "requiredState": "any",
+      "nextState": "unchanged",
+      "description": "The single, process-lifetime fan-out delegate. Register observers via videoSDKDelegate.add(_:) / remove via videoSDKDelegate.remove(_:). Only supported way to observe SDK events through the toolkit. Created once; not replaced by cleanup().",
+      "parameters": [],
+      "preconditionChecks": { "beforeCall": [], "validationCode": "ZMUIToolKitManager.videoSDKDelegate.add(myObserver)" },
+      "completion": { "byCallback": null, "setsState": "unchanged", "timeout": null, "alternativeCallbacks": [] },
+      "returnValue": { "type": "CompositeZoomVideoSDKDelegate", "successValue": "always non-nil", "meaning": "The shared fan-out delegate instance." },
+      "implicitEffects": [],
+      "errorCodes": [],
+      "notes": ["Observers are held weakly; retain them yourself.", "Survives cleanup()/re-initialize()."],
+      "commonMistakes": ["Not retaining the observer (weak storage drops it).", "Assigning to ZoomVideoSDK.delegate directly instead of using add(_:)."]
+    },
+    "cloudRecordingConsentDialogEnabled": {
+      "signature": "@objc public static var cloudRecordingConsentDialogEnabled: Bool { get set }",
+      "returnType": "Bool",
+      "async": false,
+      "requiredState": "any",
+      "nextState": "unchanged",
+      "concurrency": "Set on the main thread.",
+      "description": "Controls whether participants are shown the blocking cloud-recording consent dialog when a recording starts.",
+      "parameters": [],
+      "preconditionChecks": { "beforeCall": [], "validationCode": "ZMUIToolKitManager.cloudRecordingConsentDialogEnabled = false" },
+      "completion": { "byCallback": null, "setsState": "unchanged", "timeout": null, "alternativeCallbacks": [] },
+      "returnValue": { "type": "Bool", "successValue": "n/a", "meaning": "true (default) = blocking consent dialog shown; false = dialog suppressed, consent auto-accepted, non-blocking 'Recording started' toast shown instead." },
+      "implicitEffects": [],
+      "errorCodes": [],
+      "notes": ["Defaults to true.", "When false, consent is auto-accepted and a toast replaces the blocking dialog."],
+      "commonMistakes": ["Setting after a recording's consent dialog has already been presented."]
+    },
+    "bundleId": {
+      "signature": "@objc static var bundleId: String { get }",
+      "returnType": "String",
+      "async": false,
+      "requiredState": "any",
+      "nextState": "unchanged",
+      "access": "internal",
+      "description": "Internal read-only accessor returning the bundle id supplied to initialize (or empty string). Not part of the public API surface; documented for completeness. Consumed by PiP / broadcast-extension code paths.",
+      "parameters": [],
+      "preconditionChecks": { "beforeCall": [], "validationCode": "// internal use" },
+      "completion": { "byCallback": null, "setsState": "unchanged", "timeout": null, "alternativeCallbacks": [] },
+      "returnValue": { "type": "String", "successValue": "n/a", "meaning": "Bundle id from initialize, or empty string." },
+      "implicitEffects": [],
+      "errorCodes": [],
+      "notes": ["Internal; not public."],
+      "commonMistakes": []
+    }
+  },
+  "ownedType": {
+    "CompositeZoomVideoSDKDelegate": {
+      "objcName": "ZMUICompositeZoomVideoSDKDelegate",
+      "kind": "final class conforming to ZoomVideoSDKDelegate",
+      "description": "Forwards every ZoomVideoSDKDelegate callback to a set of weakly-held child delegates. videoSDKDelegate is an instance of this type.",
+      "registrationAPIs": {
+        "add": { "signature": "@objc(addDelegate:) public func add(_ delegate: ZoomVideoSDKDelegate)", "description": "Register an observer. Stored weakly." },
+        "remove": { "signature": "@objc(removeDelegate:) public func remove(_ delegate: ZoomVideoSDKDelegate)", "description": "Unregister an observer." }
+      },
+      "storage": "Observers held weakly; retain them yourself.",
+      "forwarding": "Every ZoomVideoSDKDelegate method is implemented and forwards to each live child via the optional-method form ($0.method?(...)), so observers only implement the callbacks they care about.",
+      "threading": "Callbacks delivered on whatever thread the SDK invokes them (main thread for UI-relevant events); the composite does not hop threads.",
+      "coverageAreas": [
+        "session lifecycle (onSessionJoin, onSessionLeave, onError, password)",
+        "user changes (join/leave/audio/video/host/manager/name)",
+        "share",
+        "live stream / streaming / broadcast",
+        "chat",
+        "audio raw data",
+        "phone / call-out",
+        "command channel",
+        "camera control",
+        "recording (onCloudRecordingStatus, onUserRecordAgreementNotification)",
+        "mute / mic test",
+        "multi-camera",
+        "system / permissions / SSL / proxy",
+        "live transcription",
+        "network status",
+        "annotation",
+        "subscribe failures",
+        "file transfer",
+        "video alpha / spotlight",
+        "UVC camera",
+        "sub-session",
+        "in-app screen share",
+        "whiteboard / canvas",
+        "real-time media streams"
+      ]
+    }
+  },
+  "callbacks": {
+    "note": "ZMUIToolKitManager itself does not implement ZoomVideoSDKDelegate callbacks. It owns videoSDKDelegate (CompositeZoomVideoSDKDelegate), which receives all SDK callbacks and forwards them to weakly-held observers registered via add(_:). See ownedType.CompositeZoomVideoSDKDelegate for the forwarded surface."
+  },
+  "rules": {
+    "required": [
+      "Call initialize(videoSDK:bundleId:) on the main thread, with an already-initialized SDK, before constructing toolkit components.",
+      "Check the Bool return value of initialize. false means the delegate was not installed and toolkit components will not receive events.",
+      "Call cleanup() on the main thread before tearing the SDK down (it releases PiP, which holds an SDK delegate/pipe that must not outlive the session).",
+      "Observe SDK events via videoSDKDelegate.add(_:); retain your observer (held weakly)."
+    ],
+    "forbidden": [
+      "Assigning anything directly to ZoomVideoSDK.delegate after initialize; the toolkit owns that slot. Register observers via videoSDKDelegate.add(_:). Reassigning the slot stops cleanup from clearing it (the === ownership check no longer matches).",
+      "Relying on cleanup() to clear your observers; they persist across re-initialize()."
+    ],
+    "invariants": [
+      { "rule": "videoSDKDelegate is a single static let created once.", "implication": "It is never replaced; cleanup() does not recreate or clear it." },
+      { "rule": "cleanup() clears ZoomVideoSDK.delegate only when sdk.delegate === videoSDKDelegate.", "implication": "If a third party set a different delegate, cleanup leaves it as-is." },
+      { "rule": "initialize fully clears stored references when it returns false.", "implication": "A false return leaves the manager cleanly Uninitialized; calling again is clean." }
+    ]
+  },
+  "errorHandling": {
+    "description": "ZMUIToolKitManager does not return SDK error codes. The only fallible operation is initialize, which signals failure via a Bool. cleanup is void and idempotent.",
+    "byAPI": {
+      "initialize": [
+        {
+          "errorCode": "true",
+          "meaning": "videoSDKDelegate installed; toolkit owns the SDK delegate slot; state is Initialized.",
+          "allowed": ["Proceed to construct toolkit components", "Register observers via videoSDKDelegate.add(_:)"],
+          "forbidden": ["Assigning ZoomVideoSDK.delegate directly"],
+          "retry": "No retry needed"
+        },
+        {
+          "errorCode": "false",
+          "meaning": "The toolkit could not verify delegate ownership after assignment. Stored references cleared; delegate NOT installed.",
+          "allowed": ["Verify you passed the live host SDK instance", "Call initialize again once the host lifecycle/setup issue has been corrected"],
+          "forbidden": ["Constructing toolkit components"],
+          "retry": "Call initialize again once the host lifecycle/setup issue has been resolved; references are already cleared so calling again is clean."
+        }
+      ],
+      "cleanup": [
+        {
+          "errorCode": "void",
+          "meaning": "Always succeeds; idempotent.",
+          "allowed": ["Call multiple times", "Call when already Uninitialized"],
+          "forbidden": [],
+          "retry": "No retry concept; safe to repeat."
+        }
+      ]
+    },
+    "retryGuidelines": {
+      "general": {
+        "neverRetryImmediately": false,
+        "alwaysCheckStateBeforeRetry": true,
+        "maxRetries": 1,
+        "backoffStrategy": "none"
+      },
+      "byErrorCode": {
+        "initialize_false": "Do not blindly retry; ensure you passed the live host SDK instance and that host setup completed successfully, then call initialize again.",
+        "cleanup": "Idempotent; repeat freely."
+      }
+    }
+  },
+  "examples": {
+    "initializeHappyPath": {
+      "title": "Initialize the toolkit (happy path)",
+      "intent": "Connect the toolkit to an already-initialized SDK on the main thread and verify success before building UI.",
+      "steps": [
+        { "step": 1, "precondition": "On main thread; host has an initialized ZoomVideoSDK", "action": "initialize", "api": "@MainActor @objc static public func initialize(videoSDK: ZoomVideoSDK, bundleId: String?) -> Bool", "expectState": "Initialized", "expectReturn": "true", "note": "Installs videoSDKDelegate onto ZoomVideoSDK.delegate." },
+        { "step": 2, "action": "construct toolkit component", "expectState": "Initialized", "expectResult": "Component reads ZMUIToolKitManager.videoSDK and is fully functional.", "note": "Do this only after initialize returned true." }
+      ],
+      "codeSnippet": {
+        "language": "swift",
+        "code": "// On the main thread, with the host's initialized ZoomVideoSDK.\nlet ok = ZMUIToolKitManager.initialize(videoSDK: sdk, bundleId: Bundle.main.bundleIdentifier)\nguard ok else {\n    // Toolkit did not claim the SDK delegate slot. Do not build toolkit UI.\n    return\n}\n// Now safe to construct toolkit components (they read ZMUIToolKitManager.videoSDK).\nlet audioButton = ZMUIToolkitAudioBtn()"
+      }
+    },
+    "registerObserver": {
+      "title": "Register a custom SDK event observer",
+      "intent": "Observe SDK events via the toolkit's fan-out delegate without reassigning ZoomVideoSDK.delegate.",
+      "steps": [
+        { "step": 1, "action": "create observer", "expectState": "any", "note": "Implement only the ZoomVideoSDKDelegate callbacks you need." },
+        { "step": 2, "action": "videoSDKDelegate.add(observer)", "api": "@objc(addDelegate:) public func add(_ delegate: ZoomVideoSDKDelegate)", "expectState": "unchanged", "note": "Held weakly — retain the observer yourself." }
+      ],
+      "codeSnippet": {
+        "language": "swift",
+        "code": "final class SessionLogger: NSObject, ZoomVideoSDKDelegate {\n    func onSessionJoin() { print(\"joined\") }\n    func onError(_ errorType: ZoomVideoSDKError, detail details: Int) { print(\"error \\(errorType)\") }\n}\nlet logger = SessionLogger()\nZMUIToolKitManager.videoSDKDelegate.add(logger) // held weakly — retain logger yourself\n// ... later, optionally:\n// ZMUIToolKitManager.videoSDKDelegate.remove(logger)"
+      }
+    },
+    "suppressConsentDialog": {
+      "title": "Suppress the blocking cloud-recording consent dialog",
+      "intent": "Auto-accept recording consent and show a non-blocking toast instead of the blocking dialog.",
+      "steps": [
+        { "step": 1, "action": "set cloudRecordingConsentDialogEnabled = false", "api": "@objc public static var cloudRecordingConsentDialogEnabled: Bool { get set }", "expectState": "unchanged", "note": "Set before a recording starts." }
+      ],
+      "codeSnippet": {
+        "language": "swift",
+        "code": "// Auto-accept consent and show a non-blocking toast instead of the blocking dialog.\nZMUIToolKitManager.cloudRecordingConsentDialogEnabled = false"
+      }
+    },
+    "teardown": {
+      "title": "Teardown before the SDK is destroyed",
+      "intent": "Cleanly release the toolkit's hold on the SDK before the host destroys it.",
+      "steps": [
+        { "step": 1, "precondition": "On main thread, before host calls ZoomVideoSDK cleanup/uninitialize", "action": "cleanup", "api": "@MainActor @objc static public func cleanup()", "expectState": "Uninitialized", "note": "Stops PiP, clears the owned delegate slot, nils videoSDK. Observers survive." }
+      ],
+      "codeSnippet": {
+        "language": "swift",
+        "code": "// On the main thread, before the host calls ZoomVideoSDK cleanup/uninitialize.\nZMUIToolKitManager.cleanup()\n// PiP is stopped, the SDK delegate slot is cleared (if still owned),\n// and ZMUIToolKitManager.videoSDK is now nil.\n// Registered observers on videoSDKDelegate are NOT removed and survive\n// across a subsequent initialize(...)."
+      }
+    },
+    "reinitialize": {
+      "title": "Re-initialize for a new session",
+      "intent": "Tear down and reconnect for a new session; previously-registered live observers automatically resume.",
+      "steps": [
+        { "step": 1, "action": "cleanup", "expectState": "Uninitialized", "note": "End previous session." },
+        { "step": 2, "action": "host re-inits ZoomVideoSDK / joins new session", "expectState": "Uninitialized", "note": "Host responsibility." },
+        { "step": 3, "action": "initialize", "expectState": "Initialized", "expectReturn": "true", "note": "Existing live observers resume receiving events." }
+      ],
+      "codeSnippet": {
+        "language": "swift",
+        "code": "ZMUIToolKitManager.cleanup()              // end previous session\n// ... host re-inits ZoomVideoSDK / joins a new session ...\nlet ok = ZMUIToolKitManager.initialize(videoSDK: sdk, bundleId: bundleId)\n// Previously-registered observers (still alive) automatically resume receiving events."
+      }
+    }
+  },
+  "codeSnippets": {
+    "guardedInitialize": {
+      "name": "Guarded initialize",
+      "code": "@MainActor\nfunc setupToolkit(_ sdk: ZoomVideoSDK) -> Bool {\n    let ok = ZMUIToolKitManager.initialize(videoSDK: sdk, bundleId: Bundle.main.bundleIdentifier)\n    if !ok {\n        assertionFailure(\"ZMUIToolKitManager.initialize failed: toolkit could not claim the SDK delegate slot\")\n    }\n    return ok\n}",
+      "usage": "Whenever connecting the toolkit to an SDK instance.",
+      "aiHint": "Always check the Bool; never assume initialize succeeded."
+    },
+    "safeSDKAccess": {
+      "name": "Safe access to the connected SDK",
+      "code": "guard let sdk = ZMUIToolKitManager.videoSDK else {\n    // Toolkit not initialized (or already cleaned up). Bail out / no-op.\n    return\n}\nlet mySelf = sdk.getSession()?.getMySelf()",
+      "usage": "Before reading session/user state or obtaining helpers from the SDK.",
+      "aiHint": "videoSDK is optional; guard against nil (Uninitialized/cleaned-up state)."
+    },
+    "observerLifecycle": {
+      "name": "Observer lifecycle (retain + remove)",
+      "code": "final class MyObserver: NSObject, ZoomVideoSDKDelegate { /* implement what you need */ }\nprivate let observer = MyObserver()   // strong property keeps it alive (composite is weak)\nfunc start() { ZMUIToolKitManager.videoSDKDelegate.add(observer) }\nfunc stop()  { ZMUIToolKitManager.videoSDKDelegate.remove(observer) }",
+      "usage": "When registering a custom ZoomVideoSDKDelegate observer.",
+      "aiHint": "The composite holds observers weakly; keep a strong reference or it will be dropped."
+    },
+    "teardown": {
+      "name": "Teardown before SDK destruction",
+      "code": "// On the main thread, before the host destroys the SDK.\nZMUIToolKitManager.cleanup()",
+      "usage": "At end of session, before the host calls ZoomVideoSDK cleanup/uninitialize.",
+      "aiHint": "Call on main thread; idempotent. Does not remove your observers."
+    }
+  },
+  "metadata": {
+    "documentVersion": "1.0.0",
+    "schemaVersion": "2.4.0",
+    "lastUpdated": "2026-06-24",
+    "status": "Published",
+    "platform": "iOS",
+    "generatedBy": "api-doc-generator",
+    "verification": "Behaviors verified directly against implementation source (ZMUIToolKitManager.swift, CompositeZoomVideoSDKDelegate.swift, ZMUIToolkitPiPController.swift): initialize Bool return and failure/rollback path, conditional delegate clearing in cleanup (=== ownership check), weak observer storage (NSHashTable.weakObjects), manager property access expectations, cloudRecordingConsentDialogEnabled semantics, and PiP stop ordering. Not assumed.",
+    "completeness": "JSON mirrors all content in ZMUIToolKitManager-API.md."
+  }
+}

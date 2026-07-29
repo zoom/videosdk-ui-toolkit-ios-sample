@@ -1,0 +1,237 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "module": "ZMUIToolkitAudioBtn",
+  "language": "Swift",
+  "platform": "iOS",
+  "version": "1.0",
+  "framework": "ZMUIToolkit",
+  "superclass": "ZMUIToolkitIconBtn",
+  "conformsTo": ["ZoomVideoSDKDelegate"],
+  "concurrency": "@MainActor",
+  "objcExposed": true,
+  "objcName": "ZMUIToolkitAudioBtn",
+  "overview": "A self-managing, icon-only audio control button for Zoom Video SDK sessions. On tap it joins audio, mutes, or unmutes the local participant based on current state. It registers as a delegate observer and automatically keeps its icon synchronized with the authoritative SDK audio status.",
+  "sourceFile": "ZMUIToolkit/ZMUIToolkit/Sources/Buttons/ZMUIToolkitAudioBtn.swift",
+  "typeDefinitions": [
+    {
+      "name": "AudioButtonType",
+      "kind": "enum",
+      "rawType": "Int",
+      "access": "internal",
+      "cases": [
+        { "name": "join", "rawValue": 1, "meaning": "Local user has not joined session audio (audioType == .none)", "defaultIcon": "JoinAudio" },
+        { "name": "mute", "rawValue": 2, "meaning": "Joined audio and currently muted", "defaultIcon": "MicMuted" },
+        { "name": "unmute", "rawValue": 3, "meaning": "Joined audio and currently unmuted (live mic)", "defaultIcon": "Mic" }
+      ],
+      "note": "Case names describe the CURRENT state, not the tap action. In .unmute (live) a tap mutes; in .mute a tap unmutes."
+    },
+    { "name": "ZMUIToolkitIconBtn", "kind": "class", "access": "open", "role": "superclass", "notes": "UIButton subclass providing icon/badge/layout configuration and click callback dispatch." },
+    { "name": "ZMUIToolkitIconBtnDescriptor", "kind": "struct", "access": "internal", "role": "initializer configuration", "fields": ["frame", "backgroundColor", "accessibilityLabel", "iconname", "iconPadding", "iconColor", "callback"] },
+    { "name": "ZMUIToolKitManager", "kind": "class", "role": "holds ZoomVideoSDK instance and videoSDKDelegate fan-out" },
+    { "name": "CompositeZoomVideoSDKDelegate", "kind": "class", "role": "weak fan-out delegate; register via add(_:) / remove(_:)" },
+    { "name": "ZoomVideoSDKAudioType", "kind": "sdkEnum", "relevantValue": ".none indicates audio not joined" },
+    { "name": "ZoomVideoSDKError", "kind": "sdkEnum", "relevantValue": ".Errors_Success indicates success" },
+    { "name": "ZoomVideoSDKAudioHelper", "kind": "sdkClass", "methods": ["startAudio()", "muteAudio(_:)", "unmuteAudio(_:)"] },
+    { "name": "ZoomVideoSDKUser", "kind": "sdkClass", "notes": "Local user obtained via getSession()?.getMySelf()" }
+  ],
+  "lifecycle": {
+    "prerequisites": [
+      "Zoom Video SDK initialized and registered with the toolkit via ZMUIToolKitManager.initialize(videoSDK:bundleId:) BEFORE constructing the button.",
+      "Construct and use on the main thread (@MainActor)."
+    ],
+    "ifNotInitialized": "If ZMUIToolKitManager.videoSDK is nil, the button constructs in the 'join' state and tap actions have no effect (callback guards on audio helper and self).",
+    "entryPoints": [
+      { "event": "init()", "actions": ["determine initial state from local audioStatus", "build descriptor (40x40, clear bg, secondaryLabel icon color, zero padding)", "super.init", "ZMUIToolKitManager.videoSDKDelegate.add(self)", "syncCurrentState()"] },
+      { "event": "didMoveToWindow()", "actions": ["syncCurrentState()"] }
+    ],
+    "exitPoints": [
+      { "event": "deinit", "actions": ["ZMUIToolKitManager.videoSDKDelegate.remove(self)"], "note": "Delegates are held weakly; removal is automatic cleanup." }
+    ],
+    "delegateModel": "The button does NOT assign itself to ZoomVideoSDK.delegate. It registers with the toolkit fan-out delegate ZMUIToolKitManager.videoSDKDelegate (CompositeZoomVideoSDKDelegate), enabling multiple observers. Child delegates are stored weakly."
+  },
+  "states": [
+    { "id": "join", "description": "Audio not joined (audioType == .none)", "icon": "JoinAudio", "tapAction": "startAudio" },
+    { "id": "mute", "description": "Joined and muted", "icon": "MicMuted", "tapAction": "unmute (with fallback chain)" },
+    { "id": "unmute", "description": "Joined and live (mic on)", "icon": "Mic", "tapAction": "mute" }
+  ],
+  "stateTransitions": [
+    { "from": "join", "trigger": "tap", "action": "audioHelper.startAudio()", "to": "unmute", "condition": "error == .Errors_Success (optimistic)" },
+    { "from": "mute", "trigger": "tap", "action": "unmuteAudio(myself) -> unmuteAudio(nil) -> startAudio() (each only if prior failed)", "to": "unmute", "condition": "first call returning .Errors_Success (optimistic)" },
+    { "from": "unmute", "trigger": "tap", "action": "audioHelper.muteAudio(myself)", "to": "mute", "condition": "error == .Errors_Success (optimistic)" },
+    { "from": "any", "trigger": "onSessionJoin callback", "action": "syncCurrentState()", "to": "matches SDK status", "condition": "authoritative" },
+    { "from": "any", "trigger": "onUserAudioStatusChanged (local user only)", "action": "syncCurrentState()", "to": "matches SDK status", "condition": "authoritative; only when local user is in changed list" },
+    { "from": "any", "trigger": "didMoveToWindow", "action": "syncCurrentState()", "to": "matches SDK status", "condition": "authoritative" }
+  ],
+  "resyncRule": {
+    "function": "syncCurrentState",
+    "logic": [
+      "audioType == .none -> switchTo(.join)",
+      "audioStatus.isMuted == true -> switchTo(.mute)",
+      "otherwise -> switchTo(.unmute)"
+    ]
+  },
+  "apis": [
+    {
+      "name": "init",
+      "signature": "@objc public init()",
+      "kind": "designated initializer",
+      "access": "public",
+      "description": "Reads local audio status to choose initial state/icon, constructs the button, registers as a delegate observer, and syncs state.",
+      "preconditions": ["Toolkit initialized via ZMUIToolKitManager.initialize (recommended)", "Main thread (@MainActor)"],
+      "sideEffects": ["Adds self to ZMUIToolKitManager.videoSDKDelegate"],
+      "returns": "configured ZMUIToolkitAudioBtn",
+      "errorCodes": []
+    },
+    {
+      "name": "init(coder:)",
+      "signature": "@MainActor required public init?(coder: NSCoder)",
+      "kind": "initializer",
+      "access": "public",
+      "description": "NOT SUPPORTED. Calls fatalError. Do not instantiate from Storyboard/XIB.",
+      "preconditions": [],
+      "sideEffects": ["Traps (fatalError)"],
+      "returns": "never",
+      "errorCodes": []
+    },
+    {
+      "name": "setMuteAudioIcon",
+      "signature": "public func setMuteAudioIcon(image: UIImage)",
+      "access": "public",
+      "description": "Overrides the icon used for the 'mute' (muted) state. Applied immediately if currently in the mute state.",
+      "parameters": [{ "name": "image", "type": "UIImage", "description": "Replacement muted-state icon" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Updates muteIcon; calls switchTo(.mute) if currentType == .mute"],
+      "errorCodes": []
+    },
+    {
+      "name": "setUnmuteAudioIcon",
+      "signature": "public func setUnmuteAudioIcon(image: UIImage)",
+      "access": "public",
+      "description": "Overrides the icon used for the 'unmute' (live mic) state. Applied immediately if currently in the unmute state.",
+      "parameters": [{ "name": "image", "type": "UIImage", "description": "Replacement live-state icon" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Updates unmuteIcon; calls switchTo(.unmute) if currentType == .unmute"],
+      "errorCodes": []
+    },
+    {
+      "name": "setJoinAudioIcon",
+      "signature": "public func setJoinAudioIcon(image: UIImage)",
+      "access": "public",
+      "description": "Overrides the icon used for the 'join' state. Applied immediately if currently in the join state.",
+      "parameters": [{ "name": "image", "type": "UIImage", "description": "Replacement join-state icon" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Updates joinIcon; calls switchTo(.join) if currentType == .join"],
+      "errorCodes": []
+    },
+    {
+      "name": "switchTo",
+      "signature": "internal func switchTo(type: AudioButtonType)",
+      "access": "internal",
+      "description": "Sets currentType and updates the displayed image to match. Internal; documented for completeness.",
+      "parameters": [{ "name": "type", "type": "AudioButtonType", "description": "Target state" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Sets currentType and the normal-state image"],
+      "errorCodes": []
+    },
+    {
+      "name": "syncCurrentState",
+      "signature": "private func syncCurrentState()",
+      "access": "private",
+      "description": "Recomputes state from the SDK's current audio status and calls switchTo(type:). Called from init, didMoveToWindow, onSessionJoin, onUserAudioStatusChanged.",
+      "parameters": [],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Calls switchTo(...)"],
+      "errorCodes": []
+    },
+    {
+      "name": "didMoveToWindow",
+      "signature": "public override func didMoveToWindow()",
+      "access": "public",
+      "description": "UIView override. Refreshes the icon to the current SDK audio state when the button is attached to the view hierarchy.",
+      "parameters": [],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["super.didMoveToWindow(); syncCurrentState()"],
+      "errorCodes": []
+    }
+  ],
+  "inheritedConfiguration": {
+    "from": "ZMUIToolkitIconBtn",
+    "commonSetters": ["setBackgroundColor(color:)", "setRadius(radius:)", "setSize(size:)", "setPosition(x:y:)", "setIconColor(color:)", "setIcon(icon:)", "setIconSize(_:)", "setIconPadding(padding:)", "setAccessibility(label:hint:)"],
+    "warning": "Do not use setIcon/setImage to represent audio state; it is transient and overwritten on the next resync. Use the per-state set*AudioIcon methods."
+  },
+  "callbacks": [
+    {
+      "name": "onSessionJoin",
+      "signature": "public func onSessionJoin()",
+      "source": "ZoomVideoSDKDelegate (via CompositeZoomVideoSDKDelegate)",
+      "threading": "main thread",
+      "description": "Fired when the local user joins the session. Resyncs the icon to the SDK audio status.",
+      "stateChange": "resyncs to match SDK audio status"
+    },
+    {
+      "name": "onUserAudioStatusChanged",
+      "signature": "public func onUserAudioStatusChanged(_ helper: ZoomVideoSDKAudioHelper?, user users: [ZoomVideoSDKUser]?)",
+      "source": "ZoomVideoSDKDelegate (via CompositeZoomVideoSDKDelegate)",
+      "threading": "main thread",
+      "description": "Fired when any user's audio status changes. Filters to the local user by ID and resyncs only when the local user is in the changed list. Primary mechanism for authoritative icon state (e.g. host-initiated mute).",
+      "stateChange": "resyncs to match SDK audio status for local-user changes only",
+      "inactiveConditions": ["users is nil", "local user ID cannot be resolved", "local user not in changed list"]
+    }
+  ],
+  "errorHandling": {
+    "strategy": "The tap callback inspects the ZoomVideoSDKError returned by each helper call. The icon is updated optimistically ONLY on .Errors_Success; otherwise no UI change is made and the authoritative onUserAudioStatusChanged callback reconciles state.",
+    "perAction": [
+      { "action": "join", "calls": ["startAudio()"], "onSuccess": "switchTo(.unmute)", "onFailure": "no UI change; rely on delegate resync" },
+      { "action": "unmute", "calls": ["unmuteAudio(myself)", "unmuteAudio(nil)", "startAudio()"], "callOrder": "each subsequent call only if the prior returned non-success", "onSuccess": "switchTo(.unmute) on first .Errors_Success", "onFailure": "if all three fail, no UI change" },
+      { "action": "mute", "calls": ["muteAudio(myself)"], "onSuccess": "switchTo(.mute)", "onFailure": "no UI change" }
+    ],
+    "unmuteFallbackRationale": "Self-unmute permissions vary by SDK state and participant role. Try explicit self-targeted unmute, then nil (local) unmute, then full startAudio() as last resort.",
+    "retryStrategy": "The icon updates on success and reconciles via the delegate. To respond to action outcomes, observe SDK events via ZMUIToolKitManager.videoSDKDelegate.add(_:).",
+    "recoveryActions": ["Authoritative state reconciled by onUserAudioStatusChanged"]
+  },
+  "rules": {
+    "required": [
+      "Initialize the toolkit (ZMUIToolKitManager.initialize) before constructing the button.",
+      "Construct and use the button on the main thread."
+    ],
+    "forbidden": [
+      "Instantiating via init?(coder:) / Interface Builder (traps with fatalError).",
+      "Assigning the button (or anything) directly to ZoomVideoSDK.delegate; use ZMUIToolKitManager.videoSDKDelegate.add(_:).",
+      "Using inherited setIcon/setImage to represent audio state; it is overwritten on next resync."
+    ]
+  },
+  "examples": [
+    {
+      "title": "Add the button to a toolbar (happy path)",
+      "scenario": "happy-path",
+      "code": "let audioButton = ZMUIToolkitAudioBtn()\naudioButton.setSize(size: CGSize(width: 44, height: 44))\ntoolbarStackView.addArrangedSubview(audioButton)\n// Self-registers for audio status updates and toggles join/mute/unmute on tap."
+    },
+    {
+      "title": "Customize per-state icons",
+      "scenario": "customization",
+      "code": "let audioButton = ZMUIToolkitAudioBtn()\naudioButton.setJoinAudioIcon(image: UIImage(named: \"custom_join\")!)\naudioButton.setMuteAudioIcon(image: UIImage(named: \"custom_muted\")!)\naudioButton.setUnmuteAudioIcon(image: UIImage(named: \"custom_live\")!)"
+    },
+    {
+      "title": "Respond to action outcomes via the delegate",
+      "scenario": "error-handling",
+      "code": "final class AudioErrorObserver: NSObject, ZoomVideoSDKDelegate {\n    func onError(_ errorType: ZoomVideoSDKError, detail details: Int) {\n        // Show retry UI, logging, etc.\n    }\n}\nlet observer = AudioErrorObserver()\nZMUIToolKitManager.videoSDKDelegate.add(observer) // held weakly — retain observer yourself"
+    },
+    {
+      "title": "Lifecycle / teardown",
+      "scenario": "teardown",
+      "code": "audioButton.removeFromSuperview()\n// audioButton = nil  // deinit -> ZMUIToolKitManager.videoSDKDelegate.remove(self)"
+    }
+  ],
+  "codeSnippets": [
+    {
+      "name": "determineCurrentAudioState",
+      "description": "Compute current audio state from the SDK (mirrors syncCurrentState).",
+      "code": "let status = ZMUIToolKitManager.videoSDK?.getSession()?.getMySelf()?.audioStatus()\nif status?.audioType == .none {\n    // not joined -> 'join'\n} else if status?.isMuted ?? false {\n    // muted -> 'mute'\n} else {\n    // live -> 'unmute'\n}"
+    }
+  ],
+  "metadata": {
+    "generatedBy": "api-doc-generator",
+    "verification": "Behaviors verified directly against implementation source (ZMUIToolkitAudioBtn.swift, ZMUIToolkitIconBtn.swift, ZMUIToolkitDescriptor.swift, ZMUIToolKitManager.swift, CompositeZoomVideoSDKDelegate.swift); not assumed.",
+    "completeness": "JSON mirrors all content in ZMUIToolkitAudioBtn-API.md."
+  }
+}

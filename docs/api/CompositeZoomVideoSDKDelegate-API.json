@@ -1,0 +1,339 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "module": "CompositeZoomVideoSDKDelegate",
+  "language": "Swift",
+  "platform": "iOS",
+  "version": "1.0",
+  "framework": "ZMUIToolkit",
+  "objcExposed": true,
+  "objcName": "ZMUICompositeZoomVideoSDKDelegate",
+  "superclass": "NSObject",
+  "declaration": "public final class",
+  "conformsTo": ["ZoomVideoSDKDelegate"],
+  "overview": "A fan-out (multicast) implementation of ZoomVideoSDKDelegate. The Zoom Video SDK exposes a single delegate slot; this class occupies that slot and re-broadcasts every callback it receives to a set of weakly-held child delegates, enabling many observers to listen to SDK events simultaneously. Exposed publicly as ZMUIToolKitManager.videoSDKDelegate. The public API is intentionally tiny: init(), add(_:), remove(_:); the dozens of ZoomVideoSDKDelegate methods are conformance plumbing, not APIs to call directly.",
+  "sourceFile": "ZMUIToolkit/ZMUIToolkit/Sources/CompositeZoomVideoSDKDelegate.swift",
+  "relatedFile": "ZMUIToolkit/ZMUIToolkit/Sources/ZMUIToolKitManager.swift",
+  "keyCharacteristics": [
+    "Single registration target: the toolkit assigns one instance to ZoomVideoSDK.delegate (via ZMUIToolKitManager.initialize) and exposes it as ZMUIToolKitManager.videoSDKDelegate.",
+    "Weak child storage via NSHashTable.weakObjects(); the composite holds children weakly and automatically removes deallocated ones.",
+    "Optional-callback forwarding: every ZoomVideoSDKDelegate method is optional; the composite forwards each via optional chaining ($0.onSomething?(...)), so a child only receives callbacks it implements.",
+    "Synchronous fan-out: iterates delegates.allObjects and invokes each registered child; stateless; returns nothing to the SDK from the fan-out."
+  ],
+  "typeDefinitions": [
+    { "name": "CompositeZoomVideoSDKDelegate", "kind": "class", "declaration": "public final class : NSObject", "objcName": "ZMUICompositeZoomVideoSDKDelegate", "role": "weak fan-out delegate", "publicAPI": ["init()", "add(_:)", "remove(_:)"] },
+    { "name": "ZoomVideoSDKDelegate", "kind": "sdkProtocol", "notes": "The protocol the composite conforms to and that child delegates must conform to. All methods are optional." },
+    { "name": "NSHashTable<AnyObject>", "kind": "foundationClass", "notes": "Configured via .weakObjects() for zeroing weak references and pointer-identity dedup. Backs the child store." },
+    { "name": "ZMUIToolKitManager", "kind": "class", "role": "owns the shared instance as static let videoSDKDelegate; assigns it to ZoomVideoSDK.delegate in initialize" },
+    { "name": "ZoomVideoSDK", "kind": "sdkClass", "notes": "Exposes a single delegate slot occupied by the composite." }
+  ],
+  "lifecycle": {
+    "prerequisites": [
+      "A single instance is created and owned by the toolkit as ZMUIToolKitManager.videoSDKDelegate (a static let). Integrators normally do NOT construct their own instance.",
+      "The instance becomes live (begins receiving SDK callbacks) only after ZMUIToolKitManager.initialize(videoSDK:bundleId:) runs, because that method assigns videoSDK.delegate = videoSDKDelegate. Before initialization, registered children receive nothing because the SDK has no delegate wired to the composite."
+    ],
+    "entryPoints": [
+      { "event": "ZMUIToolKitManager.initialize(videoSDK:bundleId:)", "actions": ["_videoSDK = videoSDK", "_videoSDK?.delegate = videoSDKDelegate"], "note": "From this point, SDK callbacks fan out to all registered children." }
+    ],
+    "exitPoints": [
+      { "event": "ZMUIToolKitManager.cleanup()", "actions": ["clears ZoomVideoSDK.delegate if toolkit still owns the slot (sdk.delegate === videoSDKDelegate)", "releases the SDK reference"], "note": "Registered child delegates are KEPT in the composite's weak table so listeners persist across SDK re-initialization. The composite itself is a static let and lives for the process lifetime." }
+    ],
+    "registrationModel": {
+      "register": "ZMUIToolKitManager.videoSDKDelegate.add(myObserver)  // Obj-C: [ZMUIToolKitManager.videoSDKDelegate addDelegate:myObserver];",
+      "unregister": "ZMUIToolKitManager.videoSDKDelegate.remove(myObserver)  // Obj-C: [ZMUIToolKitManager.videoSDKDelegate removeDelegate:myObserver];",
+      "guidance": "Always register through the composite rather than assigning directly to ZoomVideoSDK.delegate; the toolkit owns that slot, and registering here keeps every toolkit component connected. Use add(_:)/remove(_:)."
+    }
+  },
+  "memorySemantics": {
+    "summary": "The memory contract of the class.",
+    "childrenRetained": false,
+    "storage": "private let delegates = NSHashTable<AnyObject>.weakObjects()",
+    "points": [
+      "Children are held weakly. Each child is held by a weak (zeroing) reference.",
+      "The caller owns the child's lifetime. Retain your observer for as long as you want it to receive callbacks. If the only strong reference is dropped, the object is deallocated and removed from the table, and its callbacks stop.",
+      "No retain cycles: because storage is weak, registering does not create a retain cycle between the composite and its children. This is why toolkit views can add(self) in init without leaking.",
+      "remove(_:) in deinit is optional: a deallocated child is automatically removed from the weak table. Calling remove(_:) in deinit provides deterministic cleanup but is not required.",
+      "Duplicate adds are deduplicated by NSHashTable.weakObjects() using object pointer identity, so adding the same instance twice produces a single entry and a single delivery."
+    ]
+  },
+  "threading": {
+    "marshalsToMain": false,
+    "deliveryThread": "the thread the SDK invokes (typically main)",
+    "synchronous": true,
+    "points": [
+      "Callbacks are delivered to registered observers on the thread the SDK invokes. Each callback method calls forward { ... }, which iterates and invokes children on that thread.",
+      "In practice the Zoom Video SDK delivers ZoomVideoSDKDelegate callbacks on the main thread, so children typically receive them on main.",
+      "Guidance for children: Register and remove observers on the main thread, and dispatch to the main thread inside your observer if you update UI. Keep callback handlers fast."
+    ]
+  },
+  "apis": [
+    {
+      "name": "init",
+      "signature": "public override init()",
+      "kind": "initializer",
+      "access": "public",
+      "objcSelector": "init",
+      "description": "Default initializer. Calls super.init() and creates an empty weak child table. Integrators normally do not call this; they use the shared ZMUIToolKitManager.videoSDKDelegate instance.",
+      "preconditions": [],
+      "sideEffects": [],
+      "returns": "an empty composite with no registered children",
+      "errorCodes": []
+    },
+    {
+      "name": "add",
+      "signature": "@objc(addDelegate:) public func add(_ delegate: ZoomVideoSDKDelegate)",
+      "kind": "method",
+      "access": "public",
+      "objcSelector": "addDelegate:",
+      "description": "Registers a child delegate to receive forwarded SDK callbacks. The child is stored weakly.",
+      "parameters": [
+        { "name": "delegate", "type": "ZoomVideoSDKDelegate", "required": true, "description": "An object conforming to ZoomVideoSDKDelegate. Implement only the optional methods you care about." }
+      ],
+      "preconditions": ["Call from the main thread (consistent with ZMUIToolKitManager usage)."],
+      "sideEffects": ["Adds delegate to the weak hash table. Adding the same object more than once results in a single entry (pointer-identity dedup)."],
+      "memory": "The composite holds delegate weakly. The caller must keep a strong reference for as long as callbacks are needed.",
+      "errorCodes": []
+    },
+    {
+      "name": "remove",
+      "signature": "@objc(removeDelegate:) public func remove(_ delegate: ZoomVideoSDKDelegate)",
+      "kind": "method",
+      "access": "public",
+      "objcSelector": "removeDelegate:",
+      "description": "Unregisters a previously-added child delegate so it stops receiving forwarded callbacks.",
+      "parameters": [
+        { "name": "delegate", "type": "ZoomVideoSDKDelegate", "required": true, "description": "The object previously passed to add(_:)." }
+      ],
+      "preconditions": ["Call from the main thread."],
+      "sideEffects": ["Removes delegate from the weak hash table. Removing an object that was never added (or already removed/deallocated) has no effect."],
+      "errorCodes": []
+    },
+    {
+      "name": "forward",
+      "signature": "private func forward(_ block: (ZoomVideoSDKDelegate) -> Void)",
+      "kind": "method",
+      "access": "private",
+      "description": "Internal fan-out helper. Iterates delegates.allObjects, casts each entry to ZoomVideoSDKDelegate, and invokes block for it. Every public ZoomVideoSDKDelegate method on the composite delegates to this. Documented for completeness; not part of the public API surface.",
+      "parameters": [
+        { "name": "block", "type": "(ZoomVideoSDKDelegate) -> Void", "required": true, "description": "Closure invoked once per registered child." }
+      ],
+      "preconditions": [],
+      "sideEffects": ["Invokes block synchronously for each registered child in allObjects iteration order."],
+      "errorCodes": []
+    }
+  ],
+  "forwardingContract": {
+    "description": "Universal forwarding contract for every callback the composite implements.",
+    "semantic": "passthrough relay (no transformation of arguments)",
+    "stateChange": "none (the composite is stateless)",
+    "thread": "delivered on the thread the SDK invokes (typically main)",
+    "delivery": "synchronous, to each registered child that implements the optional method",
+    "optionalChaining": "forwarded via $0.onSomething?(...) so only children implementing the method receive it"
+  },
+  "callbacks": [
+    { "category": "Session lifecycle", "methods": [
+      { "name": "onSessionJoin", "signature": "public func onSessionJoin()", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onSessionLeave", "signature": "public func onSessionLeave(_ reason: ZoomVideoSDKSessionLeaveReason)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onError", "signature": "public func onError(_ ErrorType: ZoomVideoSDKError, detail details: Int)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onSessionNeedPassword", "signature": "public func onSessionNeedPassword(_ completion: ((String?, Bool) -> ZoomVideoSDKError)?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onSessionPasswordWrong", "signature": "public func onSessionPasswordWrong(_ completion: ((String?, Bool) -> ZoomVideoSDKError)?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false }
+    ]},
+    { "category": "User changes", "methods": [
+      { "name": "onUserJoin", "signature": "public func onUserJoin(_ helper: ZoomVideoSDKUserHelper?, users: [ZoomVideoSDKUser]?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onUserLeave", "signature": "public func onUserLeave(_ helper: ZoomVideoSDKUserHelper?, users: [ZoomVideoSDKUser]?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onUserVideoStatusChanged", "signature": "public func onUserVideoStatusChanged(_ helper: ZoomVideoSDKVideoHelper?, user users: [ZoomVideoSDKUser]?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onUserAudioStatusChanged", "signature": "public func onUserAudioStatusChanged(_ helper: ZoomVideoSDKAudioHelper?, user users: [ZoomVideoSDKUser]?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onUserActiveAudioChanged", "signature": "public func onUserActiveAudioChanged(_ helper: ZoomVideoSDKUserHelper?, users: [ZoomVideoSDKUser]?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onUserHostChanged", "signature": "public func onUserHostChanged(_ helper: ZoomVideoSDKUserHelper?, users user: ZoomVideoSDKUser?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onUserManagerChanged", "signature": "public func onUserManagerChanged(_ user: ZoomVideoSDKUser?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onUserNameChanged", "signature": "public func onUserNameChanged(_ user: ZoomVideoSDKUser?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false }
+    ]},
+    { "category": "Share", "methods": [
+      { "name": "onUserShareStatusChanged", "signature": "public func onUserShareStatusChanged(_ helper: ZoomVideoSDKShareHelper?, user: ZoomVideoSDKUser?, shareAction: ZoomVideoSDKShareAction?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onFailed(toStartShare:user:)", "signature": "public func onFailed(toStartShare helper: ZoomVideoSDKShareHelper, user: ZoomVideoSDKUser?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onShareSettingChanged", "signature": "public func onShareSettingChanged(_ setting: ZoomVideoSDKShareSetting)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onShareContentChanged", "signature": "public func onShareContentChanged(_ shareHelper: ZoomVideoSDKShareHelper?, user: ZoomVideoSDKUser?, shareAction: ZoomVideoSDKShareAction?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onShareCaptureSizeChanged", "signature": "public func onShareCaptureSizeChanged(_ shareHelper: ZoomVideoSDKShareHelper?, user: ZoomVideoSDKUser?, shareAction: ZoomVideoSDKShareAction?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onShareContentSizeChanged", "signature": "public func onShareContentSizeChanged(_ helper: ZoomVideoSDKShareHelper?, user: ZoomVideoSDKUser?, shareAction: ZoomVideoSDKShareAction?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onShareCanvasSubscribeFail", "signature": "public func onShareCanvasSubscribeFail(with user: ZoomVideoSDKUser?, view: UIView?, shareAction: ZoomVideoSDKShareAction?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false }
+    ]},
+    { "category": "Live stream / streaming", "methods": [
+      { "name": "onLiveStreamStatusChanged", "signature": "public func onLiveStreamStatusChanged(_ helper: ZoomVideoSDKLiveStreamHelper?, status: ZoomVideoSDKLiveStreamStatus)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onBindIncomingLiveStreamResponse", "signature": "public func onBindIncomingLiveStreamResponse(_ helper: ZoomVideoSDKIncomingLiveStreamHelper?, success: Bool, streamKeyID: String?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onUnbindIncomingLiveStreamResponse", "signature": "public func onUnbindIncomingLiveStreamResponse(_ helper: ZoomVideoSDKIncomingLiveStreamHelper?, success: Bool, streamKeyID: String?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onIncomingLiveStreamStatusResponse", "signature": "public func onIncomingLiveStreamStatusResponse(_ helper: ZoomVideoSDKIncomingLiveStreamHelper?, success: Bool, streamsStatusList: [ZoomVideoSDKIncomingLiveStreamStatus]?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onStartIncomingLiveStreamResponse", "signature": "public func onStartIncomingLiveStreamResponse(_ helper: ZoomVideoSDKIncomingLiveStreamHelper?, success: Bool, streamKeyID: String?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onStopIncomingLiveStreamResponse", "signature": "public func onStopIncomingLiveStreamResponse(_ helper: ZoomVideoSDKIncomingLiveStreamHelper?, success: Bool, streamKeyID: String?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onStartBroadcastResponse", "signature": "public func onStartBroadcastResponse(_ isSuccess: Bool, channelID: String)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onStopBroadcastResponse", "signature": "public func onStopBroadcastResponse(_ isSuccess: Bool)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onGetBroadcastControlStatus", "signature": "public func onGetBroadcastControlStatus(_ isSuccess: Bool, status: ZoomVideoSDKBroadcastControlStatus)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onStreamingJoinStatusChanged", "signature": "public func onStreamingJoinStatusChanged(_ status: ZoomVideoSDKStreamingJoinStatus)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false }
+    ]},
+    { "category": "Chat", "methods": [
+      { "name": "onChatPrivilegeChanged", "signature": "public func onChatPrivilegeChanged(_ helper: ZoomVideoSDKChatHelper?, privilege currentPrivilege: ZoomVideoSDKChatPrivilegeType)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onChatNewMessageNotify", "signature": "public func onChatNewMessageNotify(_ helper: ZoomVideoSDKChatHelper?, message chatMessage: ZoomVideoSDKChatMessage?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onChatMsgDeleteNotification", "signature": "public func onChatMsgDeleteNotification(_ helper: ZoomVideoSDKChatHelper?, messageID msgID: String, deleteBy type: ZoomVideoSDKChatMsgDeleteBy)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false }
+    ]},
+    { "category": "Audio raw data", "methods": [
+      { "name": "onMixedAudioRawDataReceived", "signature": "public func onMixedAudioRawDataReceived(_ rawData: ZoomVideoSDKAudioRawData?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onOneWayAudioRawDataReceived", "signature": "public func onOneWayAudioRawDataReceived(_ rawData: ZoomVideoSDKAudioRawData?, user: ZoomVideoSDKUser?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onSharedAudioRawDataReceived", "signature": "public func onSharedAudioRawDataReceived(_ rawData: ZoomVideoSDKAudioRawData?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onAudioLevelChanged", "signature": "public func onAudioLevelChanged(_ level: UInt, audioSharing bAudioSharing: Bool, user: ZoomVideoSDKUser?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onMyAudioSourceTypeChanged", "signature": "public func onMyAudioSourceTypeChanged(_ device: ZoomVideoSDKAudioDevice?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false }
+    ]},
+    { "category": "Phone / call out", "methods": [
+      { "name": "onInvite(by:fail:)", "signature": "public func onInvite(by status: ZoomVideoSDKPhoneStatus, fail failReason: ZoomVideoSDKPhoneFailedReason)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onCalloutJoinSuccess", "signature": "public func onCalloutJoinSuccess(_ user: ZoomVideoSDKUser?, phoneNumber: String?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onCallCRCDeviceStatusChanged", "signature": "public func onCallCRCDeviceStatusChanged(_ state: ZoomVideoSDKCRCCallStatus)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false }
+    ]},
+    { "category": "Command channel", "methods": [
+      { "name": "onCmdChannelConnectResult", "signature": "public func onCmdChannelConnectResult(_ success: Bool)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onCommandReceived", "signature": "public func onCommandReceived(_ commandContent: String?, send sender: ZoomVideoSDKUser?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false }
+    ]},
+    { "category": "Camera control", "methods": [
+      { "name": "onCameraControlRequestResult", "signature": "public func onCameraControlRequestResult(_ user: ZoomVideoSDKUser?, approved isApproved: Bool)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false }
+    ]},
+    { "category": "Recording", "methods": [
+      { "name": "onCloudRecordingStatus", "signature": "public func onCloudRecordingStatus(_ status: ZoomVideoSDKRecordingStatus, recordAgreementHandler handler: ZoomVideoSDKRecordAgreementHandler?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onUserRecordAgreementNotification", "signature": "public func onUserRecordAgreementNotification(_ user: ZoomVideoSDKUser?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false }
+    ]},
+    { "category": "Mute / mic test", "methods": [
+      { "name": "onHostAskUnmute", "signature": "public func onHostAskUnmute()", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onTestMicStatusChanged", "signature": "public func onTestMicStatusChanged(_ status: ZoomVideoSDKTestMicStatus)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onMicSpeakerVolumeChanged", "signature": "public func onMicSpeakerVolumeChanged(_ micVolume: Int32, speakerVolume: Int32)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false }
+    ]},
+    { "category": "Multi-camera", "methods": [
+      { "name": "onMultiCameraStreamStatusChanged(videoPipe)", "signature": "public func onMultiCameraStreamStatusChanged(_ status: ZoomVideoSDKMultiCameraStreamStatus, parentUser user: ZoomVideoSDKUser?, videoPipe: ZoomVideoSDKRawDataPipe?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onMultiCameraStreamStatusChanged(videoCanvas)", "signature": "public func onMultiCameraStreamStatusChanged(_ status: ZoomVideoSDKMultiCameraStreamStatus, parentUser user: ZoomVideoSDKUser?, videoCanvas: ZoomVideoSDKVideoCanvas?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false, "note": "Overloaded by trailing parameter (videoPipe vs videoCanvas)." }
+    ]},
+    { "category": "System / permissions", "methods": [
+      { "name": "onSystemPermissionRequired", "signature": "public func onSystemPermissionRequired(_ permissionType: ZoomVideoSDKSystemPermissionType)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onProxySettingNotification", "signature": "public func onProxySettingNotification(_ handler: ZoomVideoSDKProxySettingHandler)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onSSLCertVerifiedFailNotification", "signature": "public func onSSLCertVerifiedFailNotification(_ handler: ZoomVideoSDKSSLCertificateInfo)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false }
+    ]},
+    { "category": "Live transcription", "methods": [
+      { "name": "onLiveTranscriptionStatus", "signature": "public func onLiveTranscriptionStatus(_ status: ZoomVideoSDKLiveTranscriptionStatus)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onLiveTranscriptionMsgReceived", "signature": "public func onLiveTranscriptionMsgReceived(_ messageInfo: ZoomVideoSDKLiveTranscriptionMessageInfo?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onOriginalLanguageMsgReceived", "signature": "public func onOriginalLanguageMsgReceived(_ messageInfo: ZoomVideoSDKLiveTranscriptionMessageInfo?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onLiveTranscriptionMsgError", "signature": "public func onLiveTranscriptionMsgError(_ spokenLanguage: ZoomVideoSDKLiveTranscriptionLanguage?, transLanguage transcriptLanguage: ZoomVideoSDKLiveTranscriptionLanguage?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onSpokenLanguageChanged", "signature": "public func onSpokenLanguageChanged(_ spokenLanguage: ZoomVideoSDKLiveTranscriptionLanguage?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false }
+    ]},
+    { "category": "Network status", "methods": [
+      { "name": "onUserNetworkStatusChanged", "signature": "public func onUserNetworkStatusChanged(_ type: ZoomVideoSDKDataType, level: ZoomVideoSDKNetworkStatus, user: ZoomVideoSDKUser?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onUserOverallNetworkStatusChanged", "signature": "public func onUserOverallNetworkStatusChanged(_ level: ZoomVideoSDKNetworkStatus, user: ZoomVideoSDKUser?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onUserVideoNetworkStatusChanged", "signature": "public func onUserVideoNetworkStatusChanged(_ status: ZoomVideoSDKNetworkStatus, user: ZoomVideoSDKUser?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false }
+    ]},
+    { "category": "Annotation", "methods": [
+      { "name": "onAnnotationHelperCleanUp", "signature": "public func onAnnotationHelperCleanUp(_ helper: ZoomVideoSDKAnnotationHelper?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onAnnotationPrivilegeChange", "signature": "public func onAnnotationPrivilegeChange(with user: ZoomVideoSDKUser?, shareAction: ZoomVideoSDKShareAction?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onAnnotationToolTypeChanged", "signature": "public func onAnnotationToolTypeChanged(_ helper: ZoomVideoSDKAnnotationHelper?, view: UIView?, toolType: ZoomVideoSDKAnnotationToolType)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false }
+    ]},
+    { "category": "Subscribe failures", "methods": [
+      { "name": "onVideoCanvasSubscribeFail", "signature": "public func onVideoCanvasSubscribeFail(_ failReason: ZoomVideoSDKSubscribeFailReason, user: ZoomVideoSDKUser?, view: UIView?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false }
+    ]},
+    { "category": "File transfer", "methods": [
+      { "name": "onSendFileStatus", "signature": "public func onSendFileStatus(_ file: ZoomVideoSDKSendFile?, status: ZoomVideoSDKFileTransferStatus)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onReceiveFileStatus", "signature": "public func onReceiveFileStatus(_ file: ZoomVideoSDKReceiveFile?, status: ZoomVideoSDKFileTransferStatus)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false }
+    ]},
+    { "category": "Video alpha / spotlight", "methods": [
+      { "name": "onVideoAlphaChannelStatusChanged", "signature": "public func onVideoAlphaChannelStatusChanged(_ isAlphaChannelOn: Bool)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onSpotlightVideoChanged", "signature": "public func onSpotlightVideoChanged(_ videoHelper: ZoomVideoSDKVideoHelper?, userList: [ZoomVideoSDKUser]?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false }
+    ]},
+    { "category": "External / UVC camera", "methods": [
+      { "name": "onUVCCameraStatusChange", "signature": "public func onUVCCameraStatusChange(_ status: ZoomVideoSDKUVCCameraStatus)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false }
+    ]},
+    { "category": "Sub-session", "methods": [
+      { "name": "onSubSessionStatusChanged", "signature": "public func onSubSessionStatusChanged(_ status: ZoomVideoSDKSubSessionStatus, subSession pSubSessionKitList: [ZoomVideoSDKSubSessionKit])", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onSubSessionManagerHandle", "signature": "public func onSubSessionManagerHandle(_ pManager: ZoomVideoSDKSubSessionManager?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onSubSessionParticipantHandle", "signature": "public func onSubSessionParticipantHandle(_ pParticipant: ZoomVideoSDKSubSessionParticipant?)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onSubSessionUsersUpdate", "signature": "public func onSubSessionUsersUpdate(_ pSubSessionKit: ZoomVideoSDKSubSessionKit)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onBroadcastMessage(fromMainSession:userName:)", "signature": "public func onBroadcastMessage(fromMainSession sMessage: String, userName sUserName: String)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onSubSessionUserHelpRequestHandler", "signature": "public func onSubSessionUserHelpRequestHandler(_ pHandler: ZoomVideoSDKSubSessionUserHelpRequestHandler)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onSubSessionUserHelpRequestResult", "signature": "public func onSubSessionUserHelpRequestResult(_ result: ZoomVideoSDKUserHelpRequestResult)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false }
+    ]},
+    { "category": "In-app screen share", "methods": [
+      { "name": "on(inAppScreenShare:)", "signature": "public func on(inAppScreenShare code: RPRecordingErrorCode)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "on(inAppScreenShareAvailableChanged:)", "signature": "public func on(inAppScreenShareAvailableChanged available: Bool)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false }
+    ]},
+    { "category": "Whiteboard / canvas", "methods": [
+      { "name": "onUserWhiteboardShareStatusChanged", "signature": "public func onUserWhiteboardShareStatusChanged(_ user: ZoomVideoSDKUser, whiteboardhelper whiteboardHelper: ZoomVideoSDKWhiteboardHelper)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onCanvasSnapshotTaken", "signature": "public func onCanvasSnapshotTaken(_ user: ZoomVideoSDKUser, isShare: Bool)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onCanvasSnapshotIncompatible", "signature": "public func onCanvasSnapshotIncompatible(_ user: ZoomVideoSDKUser)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false }
+    ]},
+    { "category": "Real-time media streams", "methods": [
+      { "name": "onRealTimeMediaStreamsStatus", "signature": "public func onRealTimeMediaStreamsStatus(_ status: ZoomVideoSDKRealTimeMediaStreamsStatus)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false },
+      { "name": "onRealTimeMediaStreamsFail", "signature": "public func onRealTimeMediaStreamsFail(_ failReason: ZoomVideoSDKRealTimeMediaStreamsFailReason)", "thread": "main", "semantic": "passthrough", "stateChange": null, "mustHandle": false }
+    ]}
+  ],
+  "errorHandling": {
+    "description": "CompositeZoomVideoSDKDelegate does not produce or interpret errors. It is a pure relay.",
+    "points": [
+      "add(_:) and remove(_:) never fail and never throw. Duplicate adds and unknown removes have no effect.",
+      "Error-bearing SDK callbacks (e.g. onError(_:detail:), onFailed(toStartShare:user:), subscribe-fail callbacks) are forwarded verbatim to children. Interpreting and recovering from those errors is each child's responsibility.",
+      "Because fan-out is synchronous, keep callback handlers fast."
+    ]
+  },
+  "rules": {
+    "required": [
+      "Register observers via ZMUIToolKitManager.videoSDKDelegate.add(_:) (Obj-C addDelegate:). Unregister with remove(_:) (Obj-C removeDelegate:).",
+      "Keep a strong reference to any observer you register; the composite holds children weakly.",
+      "Call ZMUIToolKitManager.initialize(videoSDK:bundleId:) so the composite is wired to ZoomVideoSDK.delegate; otherwise registered children receive nothing.",
+      "Register and remove observers on the main thread, and dispatch to the main thread inside your observer if you update UI."
+    ],
+    "guidance": [
+      "Always register through the composite rather than assigning directly to ZoomVideoSDK.delegate. The toolkit owns that slot; registering here keeps every toolkit component connected.",
+      "Keep forwarded callback handlers fast, since fan-out is synchronous."
+    ]
+  },
+  "examples": [
+    {
+      "title": "Register a custom observer (happy path)",
+      "scenario": "happy-path",
+      "intent": "Register a ZoomVideoSDKDelegate observer and retain it correctly.",
+      "code": "final class MySessionObserver: NSObject, ZoomVideoSDKDelegate {\n    func onSessionJoin() { /* ... */ }\n    func onSessionLeave(_ reason: ZoomVideoSDKSessionLeaveReason) { /* ... */ }\n}\n\n// Retain the observer yourself — the composite holds it weakly.\nlet observer = MySessionObserver()\nself.sessionObserver = observer\nZMUIToolKitManager.videoSDKDelegate.add(observer)"
+    },
+    {
+      "title": "Observe SDK errors",
+      "scenario": "error-handling",
+      "intent": "Receive forwarded onError callbacks.",
+      "code": "final class ErrorObserver: NSObject, ZoomVideoSDKDelegate {\n    func onError(_ errorType: ZoomVideoSDKError, detail details: Int) {\n        // Surface retry UI, log, etc.\n    }\n}\nlet errorObserver = ErrorObserver()        // keep a strong reference\nZMUIToolKitManager.videoSDKDelegate.add(errorObserver)"
+    },
+    {
+      "title": "A self-registering UIKit component (weak storage avoids cycles)",
+      "scenario": "lifecycle",
+      "intent": "Show that adding self in init is safe because storage is weak; remove in deinit is defensive.",
+      "code": "final class MyAudioIndicator: UIView, ZoomVideoSDKDelegate {\n    override init(frame: CGRect) {\n        super.init(frame: frame)\n        // Safe: composite holds `self` weakly, so no retain cycle.\n        ZMUIToolKitManager.videoSDKDelegate.add(self)\n    }\n    deinit {\n        // Defensive: the weak table would drop us automatically anyway.\n        ZMUIToolKitManager.videoSDKDelegate.remove(self)\n    }\n    func onUserAudioStatusChanged(_ helper: ZoomVideoSDKAudioHelper?, user users: [ZoomVideoSDKUser]?) {\n        // Note: dispatch to main if you cannot rely on SDK main-thread delivery.\n    }\n    required init?(coder: NSCoder) { fatalError() }\n}"
+    },
+    {
+      "title": "Objective-C registration",
+      "scenario": "interop",
+      "intent": "Use the @objc selectors addDelegate:/removeDelegate: from Objective-C.",
+      "code": "MyObserver *observer = [MyObserver new];      // retain it yourself\n[ZMUIToolKitManager.videoSDKDelegate addDelegate:observer];\n// ...later...\n[ZMUIToolKitManager.videoSDKDelegate removeDelegate:observer];"
+    }
+  ],
+  "codeSnippets": [
+    {
+      "name": "registerAndRetain",
+      "description": "The composite stores children weakly; the caller MUST own the strong reference.",
+      "code": "let observer = MyObserver()\nself.myObserver = observer                       // strong property\nZMUIToolKitManager.videoSDKDelegate.add(observer)",
+      "usage": "Whenever registering an observer with the fan-out delegate.",
+      "aiHint": "Never register an observer without keeping a strong reference; the weak table will drop it otherwise."
+    },
+    {
+      "name": "mainThreadSafeCallback",
+      "description": "Callbacks are forwarded on the SDK's calling thread (usually main, not guaranteed). Dispatch to main before touching UIKit.",
+      "code": "func onUserVideoStatusChanged(_ helper: ZoomVideoSDKVideoHelper?, user users: [ZoomVideoSDKUser]?) {\n    DispatchQueue.main.async {\n        // Touch UIKit safely here.\n    }\n}",
+      "usage": "In any child callback that updates UI.",
+      "aiHint": "Use the composite as a direct callback relay, and dispatch to the main thread in your observer when updating UIKit."
+    }
+  ],
+  "metadata": {
+    "documentVersion": "1.0.0",
+    "schemaVersion": "2.4.0",
+    "lastUpdated": "2026-06-18",
+    "status": "Published",
+    "platform": "iOS",
+    "generatedBy": "api-doc-generator",
+    "verification": "Behaviors verified directly against implementation source (CompositeZoomVideoSDKDelegate.swift and ZMUIToolKitManager.swift): weak NSHashTable.weakObjects() storage, @objc(addDelegate:)/@objc(removeDelegate:) selectors, non-retaining children, optional-chaining forwarding ($0.onX?(...)), no internal thread marshaling; not assumed.",
+    "completeness": "JSON mirrors all content in CompositeZoomVideoSDKDelegate-API.md."
+  }
+}

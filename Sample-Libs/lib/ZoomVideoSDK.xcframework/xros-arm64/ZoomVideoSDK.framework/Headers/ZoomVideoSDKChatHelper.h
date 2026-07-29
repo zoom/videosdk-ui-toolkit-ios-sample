@@ -18,9 +18,14 @@
  */
 @property (nonatomic, strong) NSString   * _Nullable messageID;
 /**
- * @brief The sender user.
+ * @brief The sender user. When the message is from a broadcast streaming viewer, this returns nil.
  */
 @property (nonatomic, strong) ZoomVideoSDKUser   * _Nullable senderUser;
+
+/**
+ * @brief The sender's display name. This returns the sender's name for both session users and broadcast streaming viewers.
+ */
+@property (nonatomic, strong) NSString   * _Nullable senderName;
 
 /**
  * @brief The receiver user.

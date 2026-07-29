@@ -1,0 +1,222 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "module": "ZMUIToolkitLeaveSessionBtn",
+  "language": "Swift",
+  "platform": "iOS",
+  "version": "1.0",
+  "framework": "ZMUIToolkit",
+  "superclass": "ZMUIToolkitIconBtn",
+  "conformsTo": [],
+  "concurrency": "@MainActor",
+  "objcExposed": true,
+  "objcName": "ZMUIToolkitLeaveSessionBtn",
+  "overview": "A momentary action button that lets the local participant leave (or, if host, end) a Zoom Video SDK session. On tap it presents a host-aware action sheet. Hosts with remote users can transfer host role via an assign-host bottom panel before leaving, or end the session for all via a confirmation dialog. Has no persistent visual state machine and does not observe SDK events.",
+  "sourceFile": "ZMUIToolkit/ZMUIToolkit/Sources/Buttons/ZMUIToolkitLeaveSessionBtn.swift",
+  "delegateModel": "This button is not a ZoomVideoSDKDelegate, does not register/remove itself from ZMUIToolKitManager.videoSDKDelegate, and reads SDK state on demand (at tap time) rather than continuously syncing.",
+  "typeDefinitions": [
+    { "name": "ZMUIToolkitIconBtn", "kind": "class", "access": "open", "role": "superclass", "notes": "UIButton subclass providing icon/layout configuration and click callback dispatch." },
+    { "name": "ZMUIToolkitIconBtnDescriptor", "kind": "struct", "access": "internal", "role": "initializer configuration", "fields": ["frame", "backgroundColor", "accessibilityLabel", "iconname", "iconPadding", "iconColor", "callback"] },
+    { "name": "ZMUIToolKitManager", "kind": "class", "role": "holds ZoomVideoSDK instance and videoSDKDelegate fan-out" },
+    { "name": "ZMUIToolkitStrings", "kind": "enum", "role": "localization helper; set stringsBundle to customize text", "tableName": "ZMUIToolkit" },
+    { "name": "BottomPanelPresenter", "kind": "class", "access": "internal", "role": "presents/dismisses a single bottom panel; weakly references the panel VC" },
+    { "name": "CustomUIAlertController", "kind": "class", "access": "internal", "role": "custom modal alert used for the End-session confirmation dialog" },
+    { "name": "CustomUIAlertController.Action", "kind": "struct", "fields": ["title", "style (.default/.confirm/.cancel)", "handler"] },
+    { "name": "ZMUIToolkitParticipantsPanel", "kind": "class", "role": "bottom panel listing participants; used for assign-host" },
+    { "name": "ZMUIToolkitParticipantsPanelConfiguration", "kind": "struct", "fields": ["title", "cellStyle", "selectionMode", "observeSDKEvents", "showSearchBar"] },
+    { "name": "ZMUIToolkitPanelButton", "kind": "type", "fields": ["title", "style", "initiallyEnabled", "handler"] },
+    { "name": "ZoomVideoSDKUser", "kind": "sdkClass", "notes": "Local user via getMySelf(); remote users via getRemoteUsers(); isHost()" },
+    { "name": "ZoomVideoSDKUserHelper", "kind": "sdkClass", "methods": ["makeHost(_:)"] },
+    { "name": "ZoomVideoSDK.leaveSession(_:)", "kind": "sdkMethod", "notes": "Bool arg is the end-session flag: false = leave (session continues), true = end for all." }
+  ],
+  "lifecycle": {
+    "prerequisites": [
+      "Zoom Video SDK initialized and registered with the toolkit via ZMUIToolKitManager.initialize(videoSDK:bundleId:) before the button is tapped.",
+      "(Optional) Set ZMUIToolkitStrings.stringsBundle to localize menu/dialog text.",
+      "Construct and use on the main thread (@MainActor)."
+    ],
+    "initializationRequirement": "Initialize the toolkit before the button is used so it can resolve the local user's host status and perform the leave/end action. With the toolkit initialized, ZMUIToolKitManager.videoSDK resolves the local user, host status, and remote users.",
+    "entryPoints": [
+      { "event": "init()", "actions": ["build descriptor (40x40, red bg, LeaveSession icon, secondaryLabel icon color, zero padding)", "install tap callback (host-aware action sheet)", "super.init"], "note": "No SDK delegate registration is performed." }
+    ],
+    "exitPoints": [
+      { "event": "deinit", "actions": [], "note": "BottomPanelPresenter weakly references the presented panel VC." }
+    ],
+    "delegateModel": "None. The button does not observe SDK events; it reads SDK state imperatively at tap time."
+  },
+  "states": [
+    { "id": "idle", "description": "Single visual state. The button does not maintain a persistent state machine; the icon is fixed (LeaveSession, red background)." }
+  ],
+  "leaveFlow": {
+    "description": "Decision tree driven by tapping the button.",
+    "tree": [
+      { "condition": "localUser == nil", "result": "displayActionSheetMenu(isHost: false)" },
+      { "condition": "localUser present", "compute": "isHost = localUser.isHost()", "branches": [
+        { "condition": "isHost == false", "actionSheet": ["Leave session", "Cancel"], "leaveSession": "Leave session -> leaveSession(false)" },
+        { "condition": "isHost == true", "actionSheet": ["Leave session", "End session for all", "Cancel"], "subBranches": [
+          { "item": "Leave session", "branches": [
+            { "condition": "remoteUsers.count > 0", "result": "showAssignHostPanel()", "thenAssignAndLeave": "makeHost(selected) + leaveSession(false)" },
+            { "condition": "remoteUsers.count == 0", "result": "leaveSession(true)" }
+          ]},
+          { "item": "End session for all", "result": "confirmation dialog (CustomUIAlertController) -> Confirm -> leaveSession(true)" }
+        ]}
+      ]}
+    ]
+  },
+  "leaveSessionFlagSemantics": {
+    "leaveSession(false)": "Local user leaves; session continues for others.",
+    "leaveSession(true)": "Session ends for all participants."
+  },
+  "apis": [
+    {
+      "name": "init",
+      "signature": "@objc public init()",
+      "kind": "designated initializer",
+      "access": "public",
+      "description": "Builds the button (40x40, red background, LeaveSession icon, secondaryLabel icon color, zero padding) and installs the tap callback that presents the host-aware action sheet.",
+      "preconditions": ["Toolkit initialized via ZMUIToolKitManager.initialize", "Main thread (@MainActor)"],
+      "sideEffects": ["Beyond super.init, no delegate registration is performed"],
+      "returns": "configured ZMUIToolkitLeaveSessionBtn",
+      "errorCodes": []
+    },
+    {
+      "name": "init(coder:)",
+      "signature": "@MainActor required public init?(coder: NSCoder)",
+      "kind": "initializer",
+      "access": "public",
+      "description": "NOT SUPPORTED. Calls fatalError. Do not instantiate from Storyboard/XIB.",
+      "preconditions": [],
+      "sideEffects": ["Traps (fatalError)"],
+      "returns": "never",
+      "errorCodes": []
+    },
+    {
+      "name": "setLeaveSessionIcon",
+      "signature": "public func setLeaveSessionIcon(image: UIImage)",
+      "access": "public",
+      "description": "Replaces the button's icon immediately via setImage(image, for: .normal). Single visual state.",
+      "parameters": [{ "name": "image", "type": "UIImage", "description": "Replacement icon" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Sets normal-state image"],
+      "errorCodes": []
+    },
+    {
+      "name": "displayActionSheetMenu",
+      "signature": "func displayActionSheetMenu(isHost: Bool)",
+      "access": "internal",
+      "description": "Builds and presents the leave/end action sheet (UIAlertController .actionSheet). Adds 'End session for all' only when isHost == true. Configures iPad popover anchoring to the button and presents from UIApplication.topViewController().",
+      "parameters": [{ "name": "isHost", "type": "Bool", "description": "Whether the local user is host; controls inclusion of the End-session item" }],
+      "preconditions": ["Main thread", "A presentable top view controller exists"],
+      "sideEffects": ["Presents a UIAlertController action sheet"],
+      "errorCodes": []
+    },
+    {
+      "name": "showAssignHostPanel",
+      "signature": "private func showAssignHostPanel()",
+      "access": "private",
+      "description": "Toggles a bottom panel via BottomPanelPresenter: dismisses if already presented, otherwise presents the assign-host participants panel.",
+      "parameters": [],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Presents or dismisses a bottom panel"],
+      "errorCodes": []
+    },
+    {
+      "name": "createAssignHostPanel",
+      "signature": "private func createAssignHostPanel() -> ZMUIToolkitParticipantsPanel",
+      "access": "private",
+      "description": "Builds a ZMUIToolkitParticipantsPanel (title 'Assign a host', base cell style, persistent single selection, observeSDKEvents: false, search bar). Adds a single 'Assign and Leave' primary button (initially disabled) enabled only when a participant is selected (onSelectionChanged).",
+      "parameters": [],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Constructs and configures a participants panel"],
+      "returns": "ZMUIToolkitParticipantsPanel",
+      "errorCodes": []
+    },
+    {
+      "name": "assignHostAndLeave",
+      "signature": "private func assignHostAndLeave(panel: ZMUIToolkitParticipantsPanel?)",
+      "access": "private",
+      "description": "Resolves the selected participant to its SDK ZoomVideoSDKUser (matching getID()), calls userHelper.makeHost(user), then leaveSession(false), and dismisses the panel. Takes no action if there is no selection or the user cannot be resolved.",
+      "parameters": [{ "name": "panel", "type": "ZMUIToolkitParticipantsPanel?", "description": "The assign-host panel holding the current selection" }],
+      "preconditions": ["Main thread", "A participant is selected"],
+      "sideEffects": ["makeHost(selected user)", "leaveSession(false)", "dismiss panel"],
+      "errorCodes": []
+    }
+  ],
+  "inheritedConfiguration": {
+    "from": "ZMUIToolkitIconBtn",
+    "commonSetters": ["setBackgroundColor(color:)", "setRadius(radius:)", "setSize(size:)", "setPosition(x:y:)", "setIconColor(color:)", "setIcon(icon:)", "setIconSize(_:)", "setIconPadding(padding:)", "setAccessibility(label:hint:)"]
+  },
+  "callbacks": {
+    "sdkDelegateCallbacks": [],
+    "note": "This button implements no SDK delegate callbacks. It interacts with the SDK imperatively at the moment of user interaction.",
+    "internalUICallbacks": [
+      { "name": "tap callback", "source": "ZMUIToolkitIconBtn click action", "description": "Resolves host status and presents the action sheet." },
+      { "name": "ZMUIToolkitParticipantsPanel.onSelectionChanged", "description": "Enables/disables the 'Assign and Leave' button based on selection." }
+    ]
+  },
+  "localizedStrings": {
+    "resolver": "ZMUIToolkitStrings.string(for:default:)",
+    "customization": "Set ZMUIToolkitStrings.stringsBundle and provide a ZMUIToolkit.strings table.",
+    "keys": [
+      { "key": "leave_session", "default": "Leave session", "usedFor": "First action sheet item" },
+      { "key": "end_session_for_all", "default": "End session for all", "usedFor": "Host-only action sheet item" },
+      { "key": "cancel", "default": "Cancel", "usedFor": "Action sheet + confirm dialog cancel" },
+      { "key": "end_session_alert_title", "default": "End session for all", "usedFor": "Confirm dialog title" },
+      { "key": "end_session_alert_message", "default": "Are you sure you want to end the session for all participants?", "usedFor": "Confirm dialog message" },
+      { "key": "confirm", "default": "Confirm", "usedFor": "Confirm dialog confirm button" },
+      { "key": "assign_host", "default": "Assign a host", "usedFor": "Assign-host panel title" },
+      { "key": "assign_and_leave", "default": "Assign and Leave", "usedFor": "Assign-host panel primary button" }
+    ]
+  },
+  "outcomeHandling": {
+    "model": "The button drives the SDK calls (leaveSession(_:), makeHost(_:)) imperatively at tap time.",
+    "initializationRequirement": "Initialize the toolkit before the button is used so it can resolve the local user's host status and perform the leave/end action.",
+    "observingOutcomes": ["To respond to the leave/end outcome, observe SDK session events (e.g. onSessionLeave) via ZMUIToolKitManager.videoSDKDelegate.add(_:)."]
+  },
+  "rules": {
+    "required": [
+      "Initialize the toolkit (ZMUIToolKitManager.initialize) before the button is tapped.",
+      "Construct and use the button on the main thread."
+    ],
+    "forbidden": [
+      "Instantiating via init?(coder:) / Interface Builder (traps with fatalError)."
+    ],
+    "notes": [
+      "The button reads SDK state at tap time only; it does not observe SDK events.",
+      "Presentation uses UIApplication.topViewController(); ensure a presentable top view controller exists when tapped."
+    ]
+  },
+  "examples": [
+    {
+      "title": "Add the button to a toolbar (happy path)",
+      "scenario": "happy-path",
+      "code": "let leaveButton = ZMUIToolkitLeaveSessionBtn()\nleaveButton.setSize(size: CGSize(width: 44, height: 44))\ntoolbarStackView.addArrangedSubview(leaveButton)\n// Tapping presents the host-aware leave/end action sheet automatically."
+    },
+    {
+      "title": "Customize the icon and localize the strings",
+      "scenario": "customization",
+      "code": "let leaveButton = ZMUIToolkitLeaveSessionBtn()\nleaveButton.setLeaveSessionIcon(image: UIImage(named: \"custom_leave\")!)\nZMUIToolkitStrings.stringsBundle = Bundle.main"
+    },
+    {
+      "title": "React to the actual leave/end outcome",
+      "scenario": "error-handling",
+      "code": "final class SessionExitObserver: NSObject, ZoomVideoSDKDelegate {\n    func onSessionLeave(_ reason: ZoomVideoSDKSessionLeaveReason) {\n        // Tear down UI, navigate away, etc.\n    }\n}\nlet observer = SessionExitObserver()\nZMUIToolKitManager.videoSDKDelegate.add(observer) // held weakly — retain observer yourself"
+    }
+  ],
+  "codeSnippets": [
+    {
+      "name": "resolveHostStatus",
+      "description": "Resolve host status the way the button does.",
+      "code": "let localUser = ZMUIToolKitManager.videoSDK?.getSession()?.getMySelf()\nlet isHost = localUser?.isHost() ?? false"
+    },
+    {
+      "name": "leaveOrAssignHost",
+      "description": "Decide leave vs. assign-host on the host path.",
+      "code": "let remoteCount = ZMUIToolKitManager.videoSDK?.getSession()?.getRemoteUsers()?.count ?? 0\nif remoteCount > 0 {\n    // present assign-host panel\n} else {\n    ZMUIToolKitManager.videoSDK?.leaveSession(true) // end empty session\n}"
+    }
+  ],
+  "metadata": {
+    "generatedBy": "api-doc-generator",
+    "verification": "Behaviors verified directly against implementation source (ZMUIToolkitLeaveSessionBtn.swift, ZMUIToolkitStrings.swift, BottomPanelPresenter.swift, CustomUIAlertController.swift); not assumed.",
+    "completeness": "JSON mirrors all content in ZMUIToolkitLeaveSessionBtn-API.md."
+  }
+}

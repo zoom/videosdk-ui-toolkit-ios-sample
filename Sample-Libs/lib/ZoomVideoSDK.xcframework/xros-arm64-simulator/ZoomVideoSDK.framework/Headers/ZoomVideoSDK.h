@@ -24,6 +24,7 @@
 #import <ZoomVideoSDK/ZoomVideoSDKVideoSettingHelper.h>
 #import <ZoomVideoSDK/ZoomVideoSDKTestAudioDeviceHelper.h>
 #import <ZoomVideoSDK/ZoomVideoSDKLiveTranscriptionHelper.h>
+#import <ZoomVideoSDK/ZoomVideoSDKVoiceInterpretationHelper.h>
 #import <ZoomVideoSDK/ZoomVideoSDKNetworkConnectionHelper.h>
 #import <ZoomVideoSDK/ZoomVideoSDKVirtualBackgroundHelper.h>
 #import <ZoomVideoSDK/ZoomVideoSDKCRCHelper.h>
@@ -32,6 +33,7 @@
 #import <ZoomVideoSDK/ZoomVideoSDKSubSessionHelper.h>
 #import <ZoomVideoSDK/ZoomVideoSDKWhiteboardHelper.h>
 #import <ZoomVideoSDK/ZoomVideoSDKBroadcastStreamingHelper.h>
+#import <ZoomVideoSDK/ZoomVideoSDKEmojiReactionHelper.h>
 #import <ZoomVideoSDK/ZoomVideoRealTimeMediaStreamsHelper.h>
 
 /**
@@ -197,6 +199,29 @@
  * @brief [Optional] Session virtual speaker.
  */
 @property (weak, nonatomic) id<ZoomVideoSDKVirtualAudioSpeaker> _Nullable virtualAudioSpeakerDelegate;
+
+/**
+ * @brief [Optional] Whether to automatically load multiple video streams when joining the session.
+ * @note Default value: YES. Set to NO to disable auto-loading of multi-stream video.
+ */
+@property (nonatomic, assign) BOOL autoLoadMutliStream;
+/**
+ * @brief [Optional] The frame data format used for external video source initialization.
+ * @note Effective when externalVideoSourceDelegate is set. Default is ZoomVideoSDKFrameDataFormat_I420.
+ */
+@property (nonatomic, assign) ZoomVideoSDKFrameDataFormat externalVideoSourceDataFormat;
+@end
+
+/**
+ * @class ZoomVideoSDKPreJoinParam
+ * @brief Pre-join parameters for the two-step join flow.
+ * @note When timeoutInterval is 0, the SDK defaults to 30 seconds. Valid non-zero values are 1 to 60 seconds.
+ */
+@interface ZoomVideoSDKPreJoinParam : NSObject
+/**
+ * @brief The prepare join wait time in seconds. 0 uses the SDK default.
+ */
+@property (nonatomic, assign) NSUInteger timeoutInterval;
 @end
 
 /**
@@ -215,7 +240,12 @@
 /**
  * @brief Returns ZoomVideoSDK instance.
  */
-+ (ZoomVideoSDK * _Nullable)shareInstance;
++ (ZoomVideoSDK * _Nullable)shareInstance DEPRECATED_MSG_ATTRIBUTE("Use sharedInstance instead");
+
+/**
+ * @brief Returns ZoomVideoSDK instance.
+ */
++ (ZoomVideoSDK * _Nullable)sharedInstance;
 
 /**
  * @brief Initializes the Zoom SDK with the appropriate parameters in the ZoomVideoSDKInitParams object.
@@ -228,7 +258,7 @@
 /**
  * @brief Uninitializes the Zoom SDK.
  * @return If the function succeeds, it returns Errors_Success. Otherwise, this function returns an error.
- * @warning Only cleanup successfully after initialized.
+ * @warning This function cannot be called while in a session. Leave the session before calling -[ZoomVideoSDK cleanup].
  */
 - (ZoomVideoSDKError)cleanup;
 
@@ -238,6 +268,28 @@
  * @return If the function succeeds, it returns a ZoomVideoSDKSession object. Otherwise, this function fails and returns nil.
  */
 - (ZoomVideoSDKSession * _Nullable)joinSession:(ZoomVideoSDKSessionContext * _Nonnull)context;
+
+/**
+ * @brief Pre-joins a session in the two-step join flow. Call commitJoin to confirm or cancelPrepareJoin to cancel.
+ * @param context The session context parameters.
+ * @param preJoinParam The pre-join parameters. Do not pass nil; set timeoutInterval to 0 to use the SDK default. Valid non-zero values are 1 to 60 seconds.
+ * @return If the function succeeds, it returns a ZoomVideoSDKSession object. Otherwise, this function fails and returns nil.
+ * @note This API is intended for joining a session that has already been started by a host. If no host has started the session, this call fails.
+ */
+- (ZoomVideoSDKSession * _Nullable)prepareJoin:(ZoomVideoSDKSessionContext * _Nonnull)context preJoinParam:(ZoomVideoSDKPreJoinParam * _Nonnull)preJoinParam;
+
+/**
+ * @brief Confirms the join after prepareJoin:preJoinParam:. Valid in the two-step join flow.
+ * @return If the function succeeds, it returns Errors_Success. Otherwise, this function returns an error.
+ * @note If the commit fails asynchronously, onError is triggered.
+ */
+- (ZoomVideoSDKError)commitJoin;
+
+/**
+ * @brief Cancels the prepare join. Valid in the two-step join flow.
+ * @return If the function succeeds, it returns Errors_Success. Otherwise, this function returns an error.
+ */
+- (ZoomVideoSDKError)cancelPrepareJoin;
 
 /**
  * @brief Leaves a session previously joined through joinSession method call. When successful, the SDK will attempt to leave a session. Use the callbacks in the delegate to confirm whether the SDK actually left.
@@ -361,6 +413,12 @@
 - (ZoomVideoSDKLiveTranscriptionHelper * _Nullable)getLiveTranscriptionHelper;
 
 /**
+ * @brief Gets the voice interpretation helper object.
+ * @return If the function succeeds, it returns a ZoomVideoSDKVoiceInterpretationHelper object. Otherwise, this function fails and returns nil.
+ */
+- (ZoomVideoSDKVoiceInterpretationHelper * _Nullable)getVoiceInterpretationHelper;
+
+/**
  * @brief Gets the virtual background helper object.
  * @return If the function succeeds, it returns a ZoomVideoSDKVirtualBackgroundHelper object. Otherwise, this function fails and returns nil.
  */
@@ -402,6 +460,12 @@
  * @return If the function succeeds, it returns a ZoomVideoSDKBroadcastStreamingViewerHelper object. Otherwise, this function fails and returns nil.
  */
 - (ZoomVideoSDKBroadcastStreamingViewerHelper * _Nullable)getBroadcastStreamingViewerHelper;
+
+/**
+ * @brief Gets the emoji reaction helper object.
+ * @return If the function succeeds, it returns a ZoomVideoSDKEmojiReactionHelper object. Otherwise, this function fails and returns nil.
+ */
+- (ZoomVideoSDKEmojiReactionHelper * _Nullable)getEmojiReactionHelper;
 
 /**
  * @brief Gets the whiteboard helper object.

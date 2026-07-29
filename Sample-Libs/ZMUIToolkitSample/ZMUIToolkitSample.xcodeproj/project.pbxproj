@@ -7,23 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A602EA1E2F47A89D00C40581 /* ZMUIToolkit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A602EA152F47A89D00C40581 /* ZMUIToolkit.xcframework */; };
 		A602EA262F47A89D00C40581 /* ZMUIToolkit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A602EA152F47A89D00C40581 /* ZMUIToolkit.xcframework */; };
 		A602EA2E2F47A89D00C40581 /* ZMUIToolkit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A602EA152F47A89D00C40581 /* ZMUIToolkit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		A602EA362F47A89D00C40581 /* ZMUIToolkit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A602EA152F47A89D00C40581 /* ZMUIToolkit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A69A77322F22C6EC009889B6 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A69A77312F22C6EC009889B6 /* ReplayKit.framework */; };
 		A69A77482F22C6EC009889B6 /* ZMUIToolkitSampleBroadcastExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A69A77302F22C6EC009889B6 /* ZMUIToolkitSampleBroadcastExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A6AA6D802F2AA32400D397E8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6AA6D7F2F2AA32400D397E8 /* CoreGraphics.framework */; };
 		A6AA6D822F2AA32B00D397E8 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6AA6D812F2AA32B00D397E8 /* CoreMedia.framework */; };
 		A6AA6D842F2AA33100D397E8 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6AA6D832F2AA33100D397E8 /* CoreVideo.framework */; };
 		A6AA6D862F2AA33900D397E8 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6AA6D852F2AA33900D397E8 /* VideoToolbox.framework */; };
-		A6C9EA452F6A1A52006BBA5E /* zoomcml.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA3A2F6A1A52006BBA5E /* zoomcml.xcframework */; };
-		A6C9EA462F6A1A52006BBA5E /* ZoomVideoSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA3C2F6A1A52006BBA5E /* ZoomVideoSDK.xcframework */; };
-		A6C9EA472F6A1A52006BBA5E /* ZoomTask.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA3B2F6A1A52006BBA5E /* ZoomTask.xcframework */; };
 		A6C9EA482F6A1A52006BBA5E /* ZoomVideoSDKScreenShare.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA3D2F6A1A52006BBA5E /* ZoomVideoSDKScreenShare.xcframework */; };
-		A6C9EA492F6A1A52006BBA5E /* Whiteboard.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA382F6A1A52006BBA5E /* Whiteboard.xcframework */; };
-		A6C9EA4A2F6A1A52006BBA5E /* CptShare.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA372F6A1A52006BBA5E /* CptShare.xcframework */; };
-		A6C9EA4B2F6A1A52006BBA5E /* zm_annoter_dynamic.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA392F6A1A52006BBA5E /* zm_annoter_dynamic.xcframework */; };
 		A6C9EA4C2F6A1A57006BBA5E /* CptShare.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA372F6A1A52006BBA5E /* CptShare.xcframework */; };
 		A6C9EA4D2F6A1A57006BBA5E /* CptShare.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA372F6A1A52006BBA5E /* CptShare.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A6C9EA4E2F6A1A58006BBA5E /* Whiteboard.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA382F6A1A52006BBA5E /* Whiteboard.xcframework */; };
@@ -36,8 +28,10 @@
 		A6C9EA552F6A1A5E006BBA5E /* ZoomTask.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA3B2F6A1A52006BBA5E /* ZoomTask.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A6C9EA562F6A1A5F006BBA5E /* ZoomVideoSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA3C2F6A1A52006BBA5E /* ZoomVideoSDK.xcframework */; };
 		A6C9EA572F6A1A5F006BBA5E /* ZoomVideoSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA3C2F6A1A52006BBA5E /* ZoomVideoSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		A6C9EA582F6A1A60006BBA5E /* ZoomVideoSDKScreenShare.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA3D2F6A1A52006BBA5E /* ZoomVideoSDKScreenShare.xcframework */; };
-		A6C9EA592F6A1A60006BBA5E /* ZoomVideoSDKScreenShare.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA3D2F6A1A52006BBA5E /* ZoomVideoSDKScreenShare.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A6C9EA582F6A1A60006BBA5E /* util.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA3E2F6A1A52006BBA5E /* util.xcframework */; };
+		A6C9EA592F6A1A60006BBA5E /* util.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA3E2F6A1A52006BBA5E /* util.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A6C9EA5A2F6A1A61006BBA5E /* zContext.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA3F2F6A1A52006BBA5E /* zContext.xcframework */; };
+		A6C9EA5B2F6A1A61006BBA5E /* zContext.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A6C9EA3F2F6A1A52006BBA5E /* zContext.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,22 +54,12 @@
 				A6C9EA572F6A1A5F006BBA5E /* ZoomVideoSDK.xcframework in Embed Frameworks */,
 				A602EA2E2F47A89D00C40581 /* ZMUIToolkit.xcframework in Embed Frameworks */,
 				A6C9EA4F2F6A1A58006BBA5E /* Whiteboard.xcframework in Embed Frameworks */,
-				A6C9EA592F6A1A60006BBA5E /* ZoomVideoSDKScreenShare.xcframework in Embed Frameworks */,
 				A6C9EA532F6A1A5D006BBA5E /* zoomcml.xcframework in Embed Frameworks */,
 				A6C9EA552F6A1A5E006BBA5E /* ZoomTask.xcframework in Embed Frameworks */,
 				A6C9EA512F6A1A59006BBA5E /* zm_annoter_dynamic.xcframework in Embed Frameworks */,
+				A6C9EA592F6A1A60006BBA5E /* util.xcframework in Embed Frameworks */,
+				A6C9EA5B2F6A1A61006BBA5E /* zContext.xcframework in Embed Frameworks */,
 				A6C9EA4D2F6A1A57006BBA5E /* CptShare.xcframework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A659FDD12F45525600880509 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				A602EA362F47A89D00C40581 /* ZMUIToolkit.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -109,6 +93,8 @@
 		A6C9EA3B2F6A1A52006BBA5E /* ZoomTask.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:BJ4HAAB9B3:Zoom Communications, Inc."; lastKnownFileType = wrapper.xcframework; path = ZoomTask.xcframework; sourceTree = "<group>"; };
 		A6C9EA3C2F6A1A52006BBA5E /* ZoomVideoSDK.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:BJ4HAAB9B3:Zoom Communications, Inc."; lastKnownFileType = wrapper.xcframework; path = ZoomVideoSDK.xcframework; sourceTree = "<group>"; };
 		A6C9EA3D2F6A1A52006BBA5E /* ZoomVideoSDKScreenShare.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:BJ4HAAB9B3:Zoom Communications, Inc."; lastKnownFileType = wrapper.xcframework; path = ZoomVideoSDKScreenShare.xcframework; sourceTree = "<group>"; };
+		A6C9EA3E2F6A1A52006BBA5E /* util.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:BJ4HAAB9B3:Zoom Communications, Inc."; lastKnownFileType = wrapper.xcframework; path = util.xcframework; sourceTree = "<group>"; };
+		A6C9EA3F2F6A1A52006BBA5E /* zContext.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:BJ4HAAB9B3:Zoom Communications, Inc."; lastKnownFileType = wrapper.xcframework; path = zContext.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -163,9 +149,10 @@
 				A602EA262F47A89D00C40581 /* ZMUIToolkit.xcframework in Frameworks */,
 				A6C9EA522F6A1A5D006BBA5E /* zoomcml.xcframework in Frameworks */,
 				A6C9EA542F6A1A5E006BBA5E /* ZoomTask.xcframework in Frameworks */,
-				A6C9EA582F6A1A60006BBA5E /* ZoomVideoSDKScreenShare.xcframework in Frameworks */,
 				A6C9EA4C2F6A1A57006BBA5E /* CptShare.xcframework in Frameworks */,
 				A6C9EA562F6A1A5F006BBA5E /* ZoomVideoSDK.xcframework in Frameworks */,
+				A6C9EA582F6A1A60006BBA5E /* util.xcframework in Frameworks */,
+				A6C9EA5A2F6A1A61006BBA5E /* zContext.xcframework in Frameworks */,
 				A6C9EA502F6A1A59006BBA5E /* zm_annoter_dynamic.xcframework in Frameworks */,
 				A6C9EA4E2F6A1A58006BBA5E /* Whiteboard.xcframework in Frameworks */,
 			);
@@ -177,17 +164,10 @@
 			files = (
 				A6AA6D822F2AA32B00D397E8 /* CoreMedia.framework in Frameworks */,
 				A6AA6D802F2AA32400D397E8 /* CoreGraphics.framework in Frameworks */,
-				A602EA1E2F47A89D00C40581 /* ZMUIToolkit.xcframework in Frameworks */,
 				A6AA6D862F2AA33900D397E8 /* VideoToolbox.framework in Frameworks */,
 				A69A77322F22C6EC009889B6 /* ReplayKit.framework in Frameworks */,
 				A6AA6D842F2AA33100D397E8 /* CoreVideo.framework in Frameworks */,
-				A6C9EA452F6A1A52006BBA5E /* zoomcml.xcframework in Frameworks */,
-				A6C9EA462F6A1A52006BBA5E /* ZoomVideoSDK.xcframework in Frameworks */,
-				A6C9EA472F6A1A52006BBA5E /* ZoomTask.xcframework in Frameworks */,
 				A6C9EA482F6A1A52006BBA5E /* ZoomVideoSDKScreenShare.xcframework in Frameworks */,
-				A6C9EA492F6A1A52006BBA5E /* Whiteboard.xcframework in Frameworks */,
-				A6C9EA4A2F6A1A52006BBA5E /* CptShare.xcframework in Frameworks */,
-				A6C9EA4B2F6A1A52006BBA5E /* zm_annoter_dynamic.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,6 +203,8 @@
 				A6C9EA3B2F6A1A52006BBA5E /* ZoomTask.xcframework */,
 				A6C9EA3C2F6A1A52006BBA5E /* ZoomVideoSDK.xcframework */,
 				A6C9EA3D2F6A1A52006BBA5E /* ZoomVideoSDKScreenShare.xcframework */,
+				A6C9EA3E2F6A1A52006BBA5E /* util.xcframework */,
+				A6C9EA3F2F6A1A52006BBA5E /* zContext.xcframework */,
 				A602EA152F47A89D00C40581 /* ZMUIToolkit.xcframework */,
 				A6AA6D852F2AA33900D397E8 /* VideoToolbox.framework */,
 				A6AA6D832F2AA33100D397E8 /* CoreVideo.framework */,
@@ -269,7 +251,6 @@
 				A69A772C2F22C6EC009889B6 /* Sources */,
 				A69A772D2F22C6EC009889B6 /* Frameworks */,
 				A69A772E2F22C6EC009889B6 /* Resources */,
-				A659FDD12F45525600880509 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -500,6 +481,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -549,6 +531,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -596,7 +579,13 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/../lib/ZoomVideoSDKScreenShare.xcframework/ios-arm64/ZoomVideoSDKScreenShare.framework/Headers",
+					"$(PROJECT_DIR)/../lib/ZoomVideoSDKScreenShare.xcframework/ios-arm64-simulator/ZoomVideoSDKScreenShare.framework/Headers",
+				);
 				INFOPLIST_FILE = ZMUIToolkitSampleBroadcastExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ZMUIToolkitSampleBroadcastExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -618,6 +607,7 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "ZMUIToolkitSampleBroadcastExtension/ZMUIToolkitSampleBroadcastExtension-Bridging-Header.h";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -631,7 +621,13 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/../lib/ZoomVideoSDKScreenShare.xcframework/ios-arm64/ZoomVideoSDKScreenShare.framework/Headers",
+					"$(PROJECT_DIR)/../lib/ZoomVideoSDKScreenShare.xcframework/ios-arm64-simulator/ZoomVideoSDKScreenShare.framework/Headers",
+				);
 				INFOPLIST_FILE = ZMUIToolkitSampleBroadcastExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ZMUIToolkitSampleBroadcastExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -653,6 +649,7 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "ZMUIToolkitSampleBroadcastExtension/ZMUIToolkitSampleBroadcastExtension-Bridging-Header.h";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

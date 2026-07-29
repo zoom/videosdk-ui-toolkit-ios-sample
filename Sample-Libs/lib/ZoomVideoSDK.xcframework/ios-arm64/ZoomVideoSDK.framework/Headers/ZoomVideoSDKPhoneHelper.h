@@ -65,6 +65,9 @@
 /**
  * @class ZoomVideoSDKInvitePhoneUserInfo
  * @brief Information for inviting phone users.
+ * @note languageCode and variantId must be used together (both provided or both nil).
+ *       Use getPhoneWelcomeMessageInfoList to retrieve the list of valid language codes and variant IDs.
+ *       If provided with an invalid value, invitePhoneUser: returns Errors_Session_Invalid_Param.
  */
 @interface ZoomVideoSDKInvitePhoneUserInfo : NSObject
 /**
@@ -91,6 +94,40 @@
  * @brief Determines whether to play a greeting prompt tone when joining the session.
  */
 @property (nonatomic, assign) BOOL     bGreeting;
+
+/**
+ * @brief Determines whether to enable machine-answer detection for this callout.
+ */
+@property (nonatomic, assign) BOOL     bDetectMachine;
+
+/**
+ * @brief Optional: The welcome message's language code, such as "en-US", "zh-CN".
+ */
+@property (nonatomic, copy) NSString     * _Nullable languageCode;
+
+/**
+ * @brief Optional: The welcome message's variant ID (e.g., "variant_001").
+ */
+@property (nonatomic, copy) NSString     * _Nullable variantId;
+@end
+
+/**
+ * @class ZoomVideoSDKPhoneWelcomeMessageInfo
+ * @brief Welcome message information for phone invitation.
+ */
+@interface ZoomVideoSDKPhoneWelcomeMessageInfo : NSObject
+/**
+ * @brief The current information's language code, such as "en-US", "zh-CN".
+ */
+@property (nonatomic, copy) NSString     * _Nullable languageCode;
+/**
+ * @brief The current information's language name, such as "English (US)", "Chinese (China)".
+ */
+@property (nonatomic, copy) NSString     * _Nullable languageName;
+/**
+ * @brief The current information's variant ID.
+ */
+@property (nonatomic, copy) NSString     * _Nullable variantId;
 @end
 
 /**
@@ -146,5 +183,13 @@ DEPRECATED_MSG_ATTRIBUTE("use invitePhoneUser: instead");
  * @return If the function succeeds, it returns an NSArray of ZoomVideoSDKDialInNumberInfo objects. Otherwise, this function fails and returns nil.
  */
 - (NSArray <ZoomVideoSDKDialInNumberInfo *> * _Nullable)getSessionDialInNumbers;
+
+/**
+ * @brief Gets the list of multilingual welcome message information.
+ * @return If the function succeeds, it returns an NSArray of welcome message information objects. Returns an empty list if no languages are configured. Otherwise, this function fails and returns nil.
+ * @note Use this method to query valid language codes and variant IDs before passing them to invitePhoneUser: via ZoomVideoSDKInvitePhoneUserInfo.
+ *       The welcome messages must be pre-uploaded to the Zoom web portal. Each language may have multiple variants with user-defined identifiers.
+ */
+- (NSArray <ZoomVideoSDKPhoneWelcomeMessageInfo *>* _Nullable)getPhoneWelcomeMessageInfoList;
 
 @end

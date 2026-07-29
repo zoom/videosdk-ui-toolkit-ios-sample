@@ -43,6 +43,60 @@
 "share_panel_device_audio" = "Share device audio";
 "share_panel_stop_button" = "Stop Sharing";
 
+/* More Action Sheet */
+"more" = "More";
+"settings" = "Settings";
+"record" = "Record";
+"stop_recording" = "Stop recording";
+"pause_recording" = "Pause recording";
+"resume_recording" = "Resume recording";
+"pause_share" = "Pause sharing";
+"resume_share" = "Resume sharing";
+
+/* Recording - Start/Stop Dialogs */
+"start" = "Start";
+"stop" = "Stop";
+"start_recording_alert_title" = "Start recording";
+"start_recording_alert_message" = "After the recording starts, all participants will be informed and the meeting audio, video and shared screen view will be recorded to the cloud.";
+"stop_recording_alert_title" = "Stop Recording";
+"stop_recording_alert_message" = "You will receive an email notification when the cloud recording is ready.";
+
+/* Recording - Participant Consent Dialog */
+"recording_consent_title" = "This meeting is being recorded";
+"recording_consent_message" = "By staying in this meeting, you consent to being recorded.";
+"do_not_ask_again" = "Do not ask me again.";
+"leave_meeting" = "Leave meeting";
+"got_it" = "Got it";
+
+/* Settings Panel */
+"my_name" = "My Name";
+"general" = "General";
+"statistics" = "Statistics";
+"video" = "Video";
+
+/* Edit Name Page */
+"edit_your_name" = "Edit Your Name";
+"save" = "Save";
+"name_placeholder" = "Enter your name";
+
+/* Video Settings Page */
+"enable_pip_mode" = "Enable PiP Mode";
+"pip_mode_footer" = "When enabled, video continues to play in a small floating window after you leave the app.";
+
+/* QoS Panel */
+"qos_tab_audio" = "Audio";
+"qos_tab_video" = "Video";
+"qos_tab_screen_sharing" = "Screen sharing";
+"qos_item_name" = "Item name";
+"qos_send" = "Send";
+"qos_receive" = "Receive";
+"qos_frequency" = "Frequency";
+"qos_latency" = "Latency";
+"qos_jitter" = "Jitter";
+"qos_packet_loss" = "Packet loss - avg(max)";
+"qos_resolution" = "Resolution";
+"qos_fps" = "Frames per second";
+
 /* Toast Messages */
 "became_host" = "You've become the host.";
 "became_co_host" = "You've become the co-host.";
@@ -53,3 +107,6 @@
 "kicked_by_host" = "You were kicked from the session by the host.";
 "network_error" = "A network error occurred, causing you to leave the session.";
 "unknown_error" = "An unknown issue has occurred, causing you to leave the session.";
+"recording_stopped" = "Recording stopped";
+"recording_paused" = "Recording paused";
+"recording_resumed" = "Recording resumed";

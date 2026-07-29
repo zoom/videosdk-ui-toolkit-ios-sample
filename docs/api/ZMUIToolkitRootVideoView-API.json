@@ -1,0 +1,452 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "module": "ZMUIToolkitRootVideoView",
+  "language": "Swift",
+  "platform": "iOS",
+  "version": "1.0",
+  "framework": "ZMUIToolkit",
+  "superclass": "UIView",
+  "conformsTo": ["ZoomVideoSDKDelegate", "UIScrollViewDelegate"],
+  "objcExposed": true,
+  "objcName": "ZMUIToolkitRootVideoView",
+  "concurrency": "@MainActor",
+  "overview": "The toolkit's top-level, self-managing video surface for Zoom Video SDK sessions. Renders a horizontally paged scroll view of (optional local share panel) + (remote share receive views) + (participant camera grid pages), a page control, a floating self-video overlay (in multi-user mode), a cloud-recording badge, and integrates system Picture-in-Picture. It registers with ZMUIToolKitManager.videoSDKDelegate (NOT ZoomVideoSDK.delegate directly) on window attach and reacts to SDK delegate callbacks to keep the grid, shares, recording badge, and PiP source authoritative. Also observes device orientation, app active/resign, and PiP-enabled notifications.",
+  "sourceFile": "ZMUIToolkit/ZMUIToolkit/Sources/Video/ZMUIToolkitRootVideoView.swift",
+  "typeDefinitions": [
+    { "name": "ZMUIToolkitVideoPage", "kind": "class", "access": "internal", "role": "video grid page", "notes": "UIView holding up to 4 ZMUIToolkitVideoCells; 1 participant => primary (full-size) layout, 2-4 => grid layout. Renders only when not hidden." },
+    { "name": "ZMUIToolkitVideoCell", "kind": "class", "access": "internal", "role": "single participant camera cell", "methods": ["renderVideo()", "turnOffVideo()", "updateMuteIcon()", "updateDisplayName()", "updateActiveAudioStatus(_:)"], "fields": ["userID"] },
+    { "name": "ZMUIToolkitVideoOverlayLayerView", "kind": "class", "access": "internal", "role": "floating layer hosting the self-overlay cell above grid pages" },
+    { "name": "ZMUIToolkitSharePanelView", "kind": "class", "access": "internal", "role": "local screen-share controls panel", "notes": "Stop Sharing button + 'Share device audio' UISwitch. Always page index 0 when present." },
+    { "name": "ZMUIToolkitShareReceiveView", "kind": "class", "access": "internal", "role": "renders one remote share", "fields": ["shareAction", "sharingUserID", "shareSourceId"], "methods": ["appearOnScreen()", "disappearFromScreen()"], "notes": "Marks the canvas subscribed on .Errors_Success and retries the subscription on the next layout/appear." },
+    { "name": "ZMUIToolkitShareViewManager", "kind": "singleton", "access": "@MainActor", "role": "owns all share receive views", "methods": ["getOrCreateShareView(user:shareAction:)", "getShareView(shareSourceId:)", "removeShareView(shareSourceId:)"], "notes": "Prevents duplicate subscriptions when parent views are recreated (rotation)." },
+    { "name": "ZMRecordingIndicatorView", "kind": "class", "access": "internal", "role": "'REC'/paused badge", "methods": ["setPaused(_:)"] },
+    { "name": "ZMRecordingManager", "kind": "singleton", "conformsTo": ["ZoomVideoSDKDelegate"], "role": "owns recording consent dialog/toast and recording state", "fields": ["isRecording", "isPaused"], "notes": "init() of the video view touches ZMRecordingManager.shared so it is registered as an SDK delegate." },
+    { "name": "ZMUIToolkitPiPController", "kind": "singleton", "conformsTo": ["AVPictureInPictureControllerDelegate"], "role": "system Picture-in-Picture", "methods": ["attach(to:)", "detach()", "setActiveSource(_:)", "stopPiPIfActive()", "discardStoppedShare(shareSourceId:)", "sessionDidEnd()", "stop()"], "activeSource": ["case user(ZoomVideoSDKUser)", "case share(ZoomVideoSDKShareAction)"] },
+    { "name": "ZMUIToolkitPiPSettingsStore", "kind": "store", "role": "persists PiP-enabled flag", "fields": ["pipEnabledDidChangeNotification"] },
+    { "name": "ZMUIToolKitManager", "kind": "class", "role": "holds ZoomVideoSDK instance, videoSDKDelegate fan-out, cloudRecordingConsentDialogEnabled" },
+    { "name": "CompositeZoomVideoSDKDelegate", "kind": "class", "role": "weak fan-out delegate; register via add(_:) / remove(_:)" },
+    { "name": "ZoomVideoSDKShareAction", "kind": "sdkClass", "methods": ["getShareStatus()", "getShareSourceId()", "getShareCanvas()"] },
+    { "name": "ZoomVideoSDKShareStatus", "kind": "sdkEnum", "values": [".start", ".resume", ".pause", ".stop", ".none"] },
+    { "name": "ZoomVideoSDKRecordingStatus", "kind": "sdkEnum", "values": [".start", ".pause", ".stop"], "notes": "Other statuses ignored by this view." },
+    { "name": "ZoomVideoSDKUser", "kind": "sdkClass", "methods": ["getID()", "getVideoCanvas()", "audioStatus()", "getShareActionList()"] },
+    { "name": "ZoomVideoSDKSessionLeaveReason", "kind": "sdkEnum", "notes": "Reason passed to onSessionLeave." },
+    { "name": "ZoomVideoSDKSubscribeFailReason", "kind": "sdkEnum", "notes": "Video subscribe failure reason." }
+  ],
+  "lifecycle": {
+    "description": "Construction builds subviews and observers. Delegate registration, rendering, and PiP attachment are driven by window attachment (didMoveToWindow): add the view to a window to begin receiving live session updates. The view becomes useful after ZMUIToolKitManager.initialize and once added to a window.",
+    "prerequisites": [
+      "Zoom Video SDK initialized and registered with the toolkit via ZMUIToolKitManager.initialize(videoSDK:bundleId:) BEFORE the view can render real session content.",
+      "Construct and use on the main thread (@MainActor).",
+      "Add the view to a window/view hierarchy; delegate registration and rendering happen on didMoveToWindow."
+    ],
+    "ifNotInitialized": "If ZMUIToolKitManager.videoSDK?.getSession() is nil at init, the view skips populating users/shares/PiP and waits for onSessionJoin/onUserJoin callbacks.",
+    "entryPoints": [
+      { "event": "init()", "actions": ["build scrollView/pageControl/selfOverlayLayerView/recordingIndicatorView", "touch ZMRecordingManager.shared (registers it as an SDK delegate)", "syncRecordingIndicator()", "create first (empty) ZMUIToolkitVideoPage", "register NotificationCenter observers (orientation, willResignActive, didBecomeActive, pipEnabledDidChange)", "if session exists: displayallUsers(), displayActiveRemoteShares(), updatePiPActiveUser()"], "note": "Adds self to the delegate fan-out on window attach (didMoveToWindow)." },
+      { "event": "didMoveToWindow() [window != nil]", "actions": ["ZMUIToolKitManager.videoSDKDelegate.add(self)", "syncRecordingIndicator()", "if app active: updateRenderStates()", "ZMUIToolkitPiPController.shared.attach(to: self)", "updatePiPActiveUser()"] }
+    ],
+    "exitPoints": [
+      { "event": "didMoveToWindow() [window == nil]", "actions": ["ZMUIToolKitManager.videoSDKDelegate.remove(self)", "remove tracked share views from scrollView (singleton retains them)", "ZMUIToolkitPiPController.shared.detach()", "updateRenderStates() (stop rendering)"] },
+      { "event": "deinit", "actions": ["ZMUIToolKitManager.videoSDKDelegate.remove(self)", "NotificationCenter.default.removeObserver(self)"], "note": "The fan-out holds delegates weakly." }
+    ],
+    "delegateModel": "The view does NOT assign itself to ZoomVideoSDK.delegate. It registers with the toolkit fan-out delegate ZMUIToolKitManager.videoSDKDelegate (CompositeZoomVideoSDKDelegate) on window attach, enabling multiple observers. Child delegates are stored weakly.",
+    "implicitSideEffects": {
+      "onSessionLeave": {
+        "description": "Session ended.",
+        "behavior": "Calls ZMUIToolkitPiPController.shared.sessionDidEnd() to tear down PiP for the ended session.",
+        "callback": "onSessionLeave(_:)",
+        "notes": ["Tears PiP down for the ended session.", "Does not itself clear the grid; the view is typically removed afterward."]
+      },
+      "onWindowDetach": {
+        "description": "View removed from window (window == nil in didMoveToWindow).",
+        "behavior": "Removes delegate, removes share views from scrollView, detaches PiP, stops rendering.",
+        "callback": "didMoveToWindow()",
+        "notes": ["Add the view to a window to begin receiving live session updates; it observes SDK events while on screen and stops when removed."]
+      },
+      "onAppResignActive": {
+        "description": "App backgrounds.",
+        "behavior": "updateRenderStates() stops inline rendering; system PiP renders off its own raw-data subscription.",
+        "callback": "UIApplication.willResignActiveNotification",
+        "notes": ["Inline canvases disappear; PiP continues independently."]
+      },
+      "onAppBecomeActive": {
+        "description": "App returns to foreground while in a window.",
+        "behavior": "Stops any active system PiP window (stopPiPIfActive) and resumes inline rendering.",
+        "callback": "UIApplication.didBecomeActiveNotification",
+        "notes": []
+      },
+      "onDeviceRotation": {
+        "description": "Device orientation changed.",
+        "behavior": "rotateMyVideo(orientation), rebalanceVideoPagesForCurrentLayout(), re-sync remote shares (may need re-adding to new view instance).",
+        "callback": "UIDevice.orientationDidChangeNotification",
+        "notes": []
+      }
+    }
+  },
+  "pageModel": {
+    "orderedPages": "[ sharePanelView? ] + [ remote share receive views per activeShareSourceIds ] + [ video grid pages ]",
+    "localSharePanel": "ZMUIToolkitSharePanelView; present only while local user shares; always index 0 when present.",
+    "remoteShares": "One ZMUIToolkitShareReceiveView per active remote share source; first remote share at remoteShareStartIndex (0 if no local panel, else 1).",
+    "videoGridPages": "ZMUIToolkitVideoPage displays up to 4 participant video cells per page; 1 participant => primary layout, 2-4 => grid; overflow on additional pages.",
+    "currentPageIndex": "currPgIdx indexes into allPages; adjusted on share add/remove, user leave, rebalance, and scroll.",
+    "renderGating": "Visible page renders video; off-screen pages call disappearFromScreen() to unsubscribe. Gated by shouldRenderPageContent (window != nil && app state == .active).",
+    "selfPresentation": {
+      "shouldUseSelfOverlay": "!addedUsers.isEmpty (any remote users present).",
+      "multiUser": "Local camera removed from grid pages; shown by floating selfOverlayLayerView overlay cell above grid pages. Hidden on share pages or invalid current page.",
+      "solo": "Local user inserted as a full-size cell in the first video page; overlay hidden."
+    }
+  },
+  "behaviorFlags": [
+    { "name": "shouldRenderPageContent", "value": "window != nil && UIApplication.shared.applicationState == .active", "meaning": "Gates whether the visible page and self-overlay subscribe/render video." },
+    { "name": "shouldUseSelfOverlay", "value": "!addedUsers.isEmpty", "meaning": "Drives overlay-vs-solo self presentation (addedUsers tracks remote users only)." },
+    { "name": "remoteShareStartIndex", "value": "0 if no local share panel, else 1", "meaning": "First remote-share page index." },
+    { "name": "currPgIdx", "value": "index into allPages of the visible page", "meaning": "Adjusted on share add/remove, user leave, rebalance, and scroll." }
+  ],
+  "apis": [
+    {
+      "name": "init",
+      "signature": "@objc public init()",
+      "kind": "designated initializer",
+      "access": "public",
+      "description": "Builds all subviews, registers notification observers, ensures the recording manager exists, and (if a session is active) populates users, remote shares, and the PiP source.",
+      "preconditions": ["Toolkit initialized via ZMUIToolKitManager.initialize (recommended)", "Main thread (@MainActor)"],
+      "sideEffects": ["Touches ZMRecordingManager.shared (registers it as an SDK delegate)", "Adds NotificationCenter observers (orientation, willResignActive, didBecomeActive, pipEnabledDidChange)", "If session exists: displayallUsers(), displayActiveRemoteShares(), updatePiPActiveUser()", "Does NOT add self to the delegate fan-out (deferred to didMoveToWindow)"],
+      "returns": "configured ZMUIToolkitRootVideoView",
+      "errorCodes": []
+    },
+    {
+      "name": "init(coder:)",
+      "signature": "required public init?(coder: NSCoder)",
+      "kind": "initializer",
+      "access": "public",
+      "description": "NOT SUPPORTED. Calls fatalError. Do not instantiate from Storyboard/XIB.",
+      "preconditions": [],
+      "sideEffects": ["Traps (fatalError)"],
+      "returns": "never",
+      "errorCodes": []
+    },
+    {
+      "name": "setPosition",
+      "signature": "@objc public func setPosition(x: Int, y: Int)",
+      "access": "public",
+      "description": "Sets the view origin, preserving current size.",
+      "parameters": [
+        { "name": "x", "type": "Int", "description": "New origin x in points" },
+        { "name": "y", "type": "Int", "description": "New origin y in points" }
+      ],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Updates frame origin"],
+      "errorCodes": []
+    },
+    {
+      "name": "setSize",
+      "signature": "@objc public func setSize(width: Int, height: Int)",
+      "access": "public",
+      "description": "Sets the view size, preserving current origin. Triggers layoutSubviews which recomputes page frames and rebalances grid pages if the per-page cell count changed.",
+      "parameters": [
+        { "name": "width", "type": "Int", "description": "New width in points" },
+        { "name": "height", "type": "Int", "description": "New height in points" }
+      ],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Updates frame size; triggers layoutSubviews"],
+      "errorCodes": []
+    },
+    {
+      "name": "layoutSubviews",
+      "signature": "public override func layoutSubviews()",
+      "access": "public",
+      "description": "Lays out scrollView, self-overlay layer, page control, recording indicator; brings them to front; rebalances video pages if maxVideoCellsPerPage() changed. Called by UIKit.",
+      "parameters": [],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["applyScrollViewLayout(); layoutPageControl(); layoutRecordingIndicator(); possible rebalanceVideoPagesForCurrentLayout()"],
+      "errorCodes": []
+    },
+    {
+      "name": "didMoveToWindow",
+      "signature": "public override func didMoveToWindow()",
+      "access": "public",
+      "description": "Window attach/detach hook. On attach: add delegate, sync recording indicator, resume rendering (if active), attach PiP, update PiP source. On detach: remove delegate, remove share views from scrollView, detach PiP, stop rendering.",
+      "parameters": [],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Delegate add/remove; PiP attach/detach; render state updates"],
+      "errorCodes": []
+    }
+  ],
+  "internalHelpers": [
+    "displayallUsers()", "displayActiveRemoteShares()", "addUsersToVideoPages(users:)",
+    "addSharePanel()", "removeSharePanel()", "ensureShareViewDisplayed(user:shareAction:)", "removeRemoteShareReceiveView(shareSourceId:)",
+    "updatePageVisibility()", "updateRenderStates()", "applyScrollViewLayout()", "showPage(index:)",
+    "updatePiPActiveUser()", "activeRemoteShareForPiP()", "liveShareAction(forSourceId:)", "currentVideoPageUserIDs()",
+    "syncRecordingIndicator()", "updateRecordingIndicator(visible:paused:)", "rebalanceVideoPagesForCurrentLayout()",
+    "ensureSelfOverlayCell()", "updateSelfOverlayState()", "hideSelfOverlay()", "synchronizeSelfPresentation()", "syncActiveRemoteShares(for:)"
+  ],
+  "callbacks": [
+    {
+      "name": "onSessionJoin",
+      "signature": "public func onSessionJoin()",
+      "source": "ZoomVideoSDKDelegate (via CompositeZoomVideoSDKDelegate)",
+      "threading": "main thread",
+      "mustHandle": true,
+      "description": "Local user joined the session. Syncs active remote shares for existing remote users.",
+      "effect": "ensures in-progress remote shares get a receive view/page",
+      "noOpConditions": ["no session", "no remote users"]
+    },
+    {
+      "name": "onSessionLeave",
+      "signature": "public func onSessionLeave(_ reason: ZoomVideoSDKSessionLeaveReason)",
+      "source": "ZoomVideoSDKDelegate",
+      "threading": "main thread",
+      "mustHandle": true,
+      "description": "Session ended. Calls ZMUIToolkitPiPController.shared.sessionDidEnd() to tear down PiP for the ended session.",
+      "effect": "tears PiP down for the ended session",
+      "parameters": [{ "name": "reason", "type": "ZoomVideoSDKSessionLeaveReason", "description": "Why the session ended" }]
+    },
+    {
+      "name": "onUserJoin",
+      "signature": "public func onUserJoin(_ helper: ZoomVideoSDKUserHelper?, users: [ZoomVideoSDKUser]?)",
+      "source": "ZoomVideoSDKDelegate",
+      "threading": "main thread",
+      "mustHandle": true,
+      "description": "New users joined. Adds them to grid pages, syncs any remote shares they already have, re-evaluates PiP source.",
+      "effect": "addUsersToVideoPages; syncActiveRemoteShares; updatePiPActiveUser",
+      "noOpConditions": ["users is nil"],
+      "parameters": [
+        { "name": "helper", "type": "ZoomVideoSDKUserHelper?", "nullable": true, "description": "SDK user helper (unused)" },
+        { "name": "users", "type": "[ZoomVideoSDKUser]?", "nullable": true, "description": "Newly joined users" }
+      ]
+    },
+    {
+      "name": "onUserLeave",
+      "signature": "public func onUserLeave(_ helper: ZoomVideoSDKUserHelper?, users: [ZoomVideoSDKUser]?)",
+      "source": "ZoomVideoSDKDelegate",
+      "threading": "main thread",
+      "mustHandle": true,
+      "description": "Users left. Removes their remote share pages, deletes their video cell, compacts grid pages (pulls a cell from tail page, drops emptied trailing pages), updates page visibility and PiP.",
+      "effect": "remove share pages; delete cells; compact pages; updatePageVisibility; updatePiPActiveUser",
+      "noOpConditions": ["users is nil"],
+      "parameters": [
+        { "name": "helper", "type": "ZoomVideoSDKUserHelper?", "nullable": true, "description": "SDK user helper (unused)" },
+        { "name": "users", "type": "[ZoomVideoSDKUser]?", "nullable": true, "description": "Users who left" }
+      ]
+    },
+    {
+      "name": "onUserAudioStatusChanged",
+      "signature": "public func onUserAudioStatusChanged(_ helper: ZoomVideoSDKAudioHelper?, user users: [ZoomVideoSDKUser]?)",
+      "source": "ZoomVideoSDKDelegate",
+      "threading": "main thread",
+      "mustHandle": true,
+      "description": "Updates the mute icon on each affected user's grid cell, and on the self-overlay cell for the local user.",
+      "effect": "page.updateMuteIcon; selfOverlayCell.updateMuteIcon for local user",
+      "noOpConditions": ["users is nil"],
+      "parameters": [
+        { "name": "helper", "type": "ZoomVideoSDKAudioHelper?", "nullable": true, "description": "SDK audio helper (unused)" },
+        { "name": "users", "type": "[ZoomVideoSDKUser]?", "nullable": true, "description": "Users whose audio status changed" }
+      ]
+    },
+    {
+      "name": "onUserActiveAudioChanged",
+      "signature": "public func onUserActiveAudioChanged(_ helper: ZoomVideoSDKUserHelper?, users: [ZoomVideoSDKUser]?)",
+      "source": "ZoomVideoSDKDelegate",
+      "threading": "main thread",
+      "mustHandle": true,
+      "description": "Computes actively-talking user IDs (audioStatus()?.talking == true) and updates the active-speaker highlight on all grid cells and the self-overlay cell.",
+      "effect": "page.syncActiveAudioStatus; selfOverlayCell.updateActiveAudioStatus",
+      "noOpConditions": ["users is nil"],
+      "parameters": [
+        { "name": "helper", "type": "ZoomVideoSDKUserHelper?", "nullable": true, "description": "SDK user helper (unused)" },
+        { "name": "users", "type": "[ZoomVideoSDKUser]?", "nullable": true, "description": "Users whose active-audio state changed" }
+      ]
+    },
+    {
+      "name": "onUserVideoStatusChanged",
+      "signature": "public func onUserVideoStatusChanged(_ helper: ZoomVideoSDKVideoHelper?, user users: [ZoomVideoSDKUser]?)",
+      "source": "ZoomVideoSDKDelegate",
+      "threading": "main thread",
+      "mustHandle": true,
+      "description": "Renders or turns off video for each user based on canvas videoStatus().on (including the self-overlay cell for the local user), then re-evaluates PiP source. Skips users with no video canvas.",
+      "effect": "turnOnVideo/turnOffVideo per page; selfOverlayCell render/turnOff; updatePiPActiveUser",
+      "noOpConditions": ["users is nil"],
+      "parameters": [
+        { "name": "helper", "type": "ZoomVideoSDKVideoHelper?", "nullable": true, "description": "SDK video helper (unused)" },
+        { "name": "users", "type": "[ZoomVideoSDKUser]?", "nullable": true, "description": "Users whose video state changed" }
+      ]
+    },
+    {
+      "name": "onUserNameChanged",
+      "signature": "public func onUserNameChanged(_ user: ZoomVideoSDKUser?)",
+      "source": "ZoomVideoSDKDelegate",
+      "threading": "main thread",
+      "mustHandle": true,
+      "description": "Updates the displayed name on the user's grid cell and the self-overlay cell if it is the local user.",
+      "effect": "page.updateDisplayName; selfOverlayCell.updateDisplayName for local user",
+      "noOpConditions": ["user/ID is nil"],
+      "parameters": [{ "name": "user", "type": "ZoomVideoSDKUser?", "nullable": true, "description": "User whose name changed" }]
+    },
+    {
+      "name": "onVideoCanvasSubscribeFail",
+      "signature": "public func onVideoCanvasSubscribeFail(_ failReason: ZoomVideoSDKSubscribeFailReason, user: ZoomVideoSDKUser?, view: UIView?)",
+      "source": "ZoomVideoSDKDelegate",
+      "threading": "main thread (dispatched via Task { @MainActor })",
+      "mustHandle": true,
+      "description": "Video subscription failed. Turns off that user's video on all grid pages and refreshes page visibility. No retry.",
+      "effect": "turnOffVideo on all pages; updatePageVisibility",
+      "noOpConditions": ["user is nil"],
+      "parameters": [
+        { "name": "failReason", "type": "ZoomVideoSDKSubscribeFailReason", "description": "Failure reason" },
+        { "name": "user", "type": "ZoomVideoSDKUser?", "nullable": true, "description": "User whose canvas failed to subscribe" },
+        { "name": "view", "type": "UIView?", "nullable": true, "description": "The view that failed (unused)" }
+      ]
+    },
+    {
+      "name": "onUserShareStatusChanged",
+      "signature": "public func onUserShareStatusChanged(_ helper: ZoomVideoSDKShareHelper?, user: ZoomVideoSDKUser?, shareAction: ZoomVideoSDKShareAction?)",
+      "source": "ZoomVideoSDKDelegate",
+      "threading": "main thread",
+      "mustHandle": true,
+      "description": "Primary share driver. Local user: .start/.resume => add local share panel page and jump to it (page 0); .none/.stop => remove panel. Remote user: .start/.resume => ensure remote share receive view/page and jump to it; .none/.stop => remove that remote share page.",
+      "stateTransition": {
+        "local .start/.resume": "add share panel; showPage(0)",
+        "local .none/.stop": "remove share panel",
+        "remote .start/.resume": "ensureShareViewDisplayed; showPage(remote index)",
+        "remote .none/.stop": "removeRemoteShareReceiveView"
+      },
+      "noOpConditions": ["local user is nil", "user is nil", "shareAction is nil", "status not in {start,resume,none,stop}"],
+      "parameters": [
+        { "name": "helper", "type": "ZoomVideoSDKShareHelper?", "nullable": true, "description": "SDK share helper (unused)" },
+        { "name": "user", "type": "ZoomVideoSDKUser?", "nullable": true, "description": "The sharing user" },
+        { "name": "shareAction", "type": "ZoomVideoSDKShareAction?", "nullable": true, "description": "The share action (status, source id, canvas)" }
+      ]
+    },
+    {
+      "name": "onCloudRecordingStatus",
+      "signature": "public func onCloudRecordingStatus(_ status: ZoomVideoSDKRecordingStatus, recordAgreementHandler handler: ZoomVideoSDKRecordAgreementHandler?)",
+      "source": "ZoomVideoSDKDelegate",
+      "threading": "main thread",
+      "mustHandle": true,
+      "description": "Drives the recording indicator badge only. .start => visible/not paused (red REC); .pause => visible/paused (grey pause); .stop => hidden; other statuses ignored.",
+      "stateTransition": {
+        ".start": "indicator visible, not paused",
+        ".pause": "indicator visible, paused",
+        ".stop": "indicator hidden"
+      },
+      "parameters": [
+        { "name": "status", "type": "ZoomVideoSDKRecordingStatus", "description": "Recording status" },
+        { "name": "handler", "type": "ZoomVideoSDKRecordAgreementHandler?", "nullable": true, "required": false, "ifNotHandled": "Consent is NOT handled by this view; ZMRecordingManager.shared handles the consent dialog/toast.", "mustCall": [], "description": "Record agreement (consent) handler — NOT called by this view." }
+      ],
+      "notes": [
+        "This view does NOT call recordAgreementHandler.",
+        "Consent dialog/toast handled by ZMRecordingManager.shared (registered by init()).",
+        "Consent dialog behavior governed by ZMUIToolKitManager.cloudRecordingConsentDialogEnabled."
+      ]
+    },
+    {
+      "name": "scrollViewDidEndDecelerating",
+      "signature": "public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView)",
+      "source": "UIScrollViewDelegate",
+      "threading": "main thread",
+      "mustHandle": true,
+      "description": "After a user swipe settles: compute new page index, hide/disappear previous page, show/refresh new page (refresh metadata tags for video pages), update self-overlay, page control, and PiP source.",
+      "effect": "currPgIdx update; render previous off / new on; updateSelfOverlayState; updatePageControlState; updatePiPActiveUser",
+      "noOpConditions": ["page width 0", "index unchanged", "index out of range"],
+      "parameters": [{ "name": "scrollView", "type": "UIScrollView", "description": "The paged scroll view" }]
+    }
+  ],
+  "notificationObservers": [
+    { "notification": "UIDevice.orientationDidChangeNotification", "handler": "handleDeviceOrientationChange", "effect": "rotateMyVideo; rebalanceVideoPagesForCurrentLayout; syncActiveRemoteShares (re-add to new view instance)" },
+    { "notification": "UIApplication.willResignActiveNotification", "handler": "handleAppWillResignActive", "effect": "updateRenderStates() — stop inline rendering (PiP renders independently)" },
+    { "notification": "UIApplication.didBecomeActiveNotification", "handler": "handleAppDidBecomeActive", "effect": "if in window: stopPiPIfActive(); updateRenderStates() resume rendering" },
+    { "notification": "ZMUIToolkitPiPSettingsStore.pipEnabledDidChangeNotification", "handler": "handlePiPEnabledChanged", "effect": "updatePiPActiveUser()" }
+  ],
+  "pipSourceSelection": {
+    "function": "updatePiPActiveUser",
+    "priority": [
+      "1. Active remote screen share (activeRemoteShareForPiP — prefers currently-viewed share, else first live one). Local ReplayKit shares ignored.",
+      "2. A visible remote camera that is on (from currentVideoPageUserIDs()).",
+      "3. The local camera if it is on.",
+      "4. Else nothing (setActiveSource(nil))."
+    ],
+    "handoff": "ZMUIToolkitPiPController.shared.setActiveSource(_:) (dedupes internally).",
+    "attachment": "PiP attached on window-attach; detached on window-detach / cleanup() / sessionDidEnd()."
+  },
+  "errorHandling": {
+    "description": "This view does not surface SDK-level errors (onError) itself. State is reconciled by subsequent SDK delegate callbacks.",
+    "byArea": [
+      { "area": "video canvas subscribe fail", "handling": "onVideoCanvasSubscribeFail turns off that cell." },
+      { "area": "remote share canvas subscription", "handling": "Delegated to ZMUIToolkitShareReceiveView; marks subscribed on .Errors_Success and retries the subscription on the next layoutSubviews/appearOnScreen." },
+      { "area": "PiP subscription", "handling": "ZMUIToolkitPiPController retires receivers as sessions and sources change." }
+    ],
+    "retryStrategy": "State is reconciled by subsequent SDK delegate callbacks. To observe SDK events (including errors), register your own ZoomVideoSDKDelegate via ZMUIToolKitManager.videoSDKDelegate.add(_:).",
+    "recoveryActions": ["State reconciled by subsequent SDK delegate callbacks."]
+  },
+  "rules": {
+    "required": [
+      "Initialize the toolkit (ZMUIToolKitManager.initialize) before the view can render real session content.",
+      "Construct and use the view on the main thread (@MainActor).",
+      "Add the view to a window/view hierarchy — delegate registration, rendering, and PiP attachment are driven by didMoveToWindow; the view observes SDK events while on screen and stops when removed, so place it in your view hierarchy to receive live session updates."
+    ],
+    "forbidden": [
+      "Instantiating via init?(coder:) / Interface Builder (traps with fatalError).",
+      "Assigning this view (or anything) directly to ZoomVideoSDK.delegate; use ZMUIToolKitManager.videoSDKDelegate.add(_:)."
+    ],
+    "invariants": [
+      { "rule": "Remote share receive views are owned by the ZMUIToolkitShareViewManager singleton.", "implication": "This view only adds/removes them from its scroll view, so they survive parent recreation during rotation." }
+    ]
+  },
+  "examples": [
+    {
+      "title": "Embed the full video surface (happy path)",
+      "scenario": "happy-path",
+      "intent": "Drop the self-managing video surface into a container with no manual wiring.",
+      "code": "// Assumes ZMUIToolKitManager.initialize(videoSDK:bundleId:) was already called.\nlet videoView = ZMUIToolkitRootVideoView()\nvideoView.translatesAutoresizingMaskIntoConstraints = false\ncontainerView.addSubview(videoView)\nNSLayoutConstraint.activate([\n    videoView.topAnchor.constraint(equalTo: containerView.topAnchor),\n    videoView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),\n    videoView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),\n    videoView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)\n])\n// Self-registers on window attach and renders grid, shares, recording badge, and PiP."
+    },
+    {
+      "title": "Frame-based placement (Objective-C friendly)",
+      "scenario": "layout",
+      "intent": "Position and size the view using the @objc convenience setters.",
+      "code": "let videoView = ZMUIToolkitRootVideoView()\nview.addSubview(videoView)\nvideoView.setPosition(x: 0, y: 0)\nvideoView.setSize(width: Int(view.bounds.width), height: Int(view.bounds.height))"
+    },
+    {
+      "title": "Observe SDK errors yourself",
+      "scenario": "error-handling",
+      "intent": "The view does not surface SDK errors; register your own observer.",
+      "code": "final class SessionErrorObserver: NSObject, ZoomVideoSDKDelegate {\n    func onError(_ errorType: ZoomVideoSDKError, detail details: Int) {\n        // Show retry UI, logging, etc.\n    }\n}\nlet observer = SessionErrorObserver()\nZMUIToolKitManager.videoSDKDelegate.add(observer) // held weakly — retain observer yourself"
+    },
+    {
+      "title": "Control the cloud-recording consent dialog",
+      "scenario": "recording",
+      "intent": "Suppress the blocking consent dialog (auto-accept + toast) before recording starts.",
+      "code": "// Set before recording starts; a non-blocking 'Recording started' toast is shown instead.\nZMUIToolKitManager.cloudRecordingConsentDialogEnabled = false\n// The root video view's recording badge reflects start/pause/stop regardless."
+    },
+    {
+      "title": "Lifecycle / teardown",
+      "scenario": "teardown",
+      "intent": "Detach cleanly and release SDK resources.",
+      "code": "// Removing from the window triggers delegate removal, PiP detach, and render stop.\nvideoView.removeFromSuperview()\n// Before tearing down the SDK, release PiP subscriptions and the delegate slot:\nZMUIToolKitManager.cleanup()"
+    }
+  ],
+  "codeSnippets": [
+    {
+      "name": "determinePiPActiveSource",
+      "description": "Mirror the updatePiPActiveUser priority (share > visible remote camera on > local camera on > none).",
+      "code": "let session = ZMUIToolKitManager.videoSDK?.getSession()\nlet myID = session?.getMySelf()?.getID()\nlet remotes = session?.getRemoteUsers() ?? []\nlet remoteCameraOn = remotes.first {\n    $0.getID() != myID && $0.getVideoCanvas()?.videoStatus()?.on == true\n}\n// else fall back to local camera if on, else nothing.",
+      "usage": "When reasoning about which content should drive PiP.",
+      "aiHint": "Remote screen share always wins; local ReplayKit shares are ignored."
+    },
+    {
+      "name": "registerObserverThroughFanOut",
+      "description": "Add your own ZoomVideoSDKDelegate without touching ZoomVideoSDK.delegate.",
+      "code": "final class MyObserver: NSObject, ZoomVideoSDKDelegate {\n    func onUserShareStatusChanged(_ helper: ZoomVideoSDKShareHelper?,\n                                  user: ZoomVideoSDKUser?,\n                                  shareAction: ZoomVideoSDKShareAction?) {\n        // react to shares without disturbing the root video view\n    }\n}\nlet obs = MyObserver()\nZMUIToolKitManager.videoSDKDelegate.add(obs) // weak — retain obs",
+      "usage": "Whenever an integrator needs to observe SDK events alongside the toolkit.",
+      "aiHint": "The fan-out holds delegates weakly; keep a strong reference to your observer."
+    }
+  ],
+  "metadata": {
+    "documentVersion": "1.0.0",
+    "schemaVersion": "2.4.0",
+    "lastUpdated": "2026-06-18",
+    "status": "Published",
+    "platform": "iOS",
+    "generatedBy": "api-doc-generator",
+    "verification": "Behaviors verified directly against implementation source (ZMUIToolkitRootVideoView.swift) and collaborators (ZMUIToolkitVideoPage, ZMUIToolkitShareReceiveView, ZMUIToolkitSharePanelView, ZMUIToolkitShareViewManager, ZMRecordingIndicatorView, ZMUIToolkitPiPController, ZMUIToolKitManager, CompositeZoomVideoSDKDelegate); not assumed.",
+    "completeness": "JSON mirrors all content in ZMUIToolkitRootVideoView-API.md."
+  }
+}

@@ -1,0 +1,294 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "module": "ZMUIToolkitParticipantsBtn",
+  "language": "Swift",
+  "platform": "iOS",
+  "version": "1.0",
+  "framework": "ZMUIToolkit",
+  "superclass": "ZMUIToolkitIconBtn",
+  "conformsTo": ["ZoomVideoSDKDelegate"],
+  "concurrency": "@MainActor",
+  "objcExposed": true,
+  "objcName": "ZMUIToolkitParticipantsBtn",
+  "overview": "A self-managing, icon-only participants control button for Zoom Video SDK sessions. It displays a fixed Participants icon with a numeric badge showing the live participant count (remote users + self), registers as a delegate observer to keep the badge synchronized with user join/leave and session lifecycle events, and on tap toggles a bottom-sheet participants panel. The panel offers per-participant moderation actions (mute/unmute, make host, make co-host, rename, remove) and host-only bottom buttons (Mute all, Ask all to unmute).",
+  "sourceFile": "ZMUIToolkit/ZMUIToolkit/Sources/Buttons/ZMUIToolkitParticipantsBtn.swift",
+  "typeDefinitions": [
+    { "name": "ZMUIToolkitIconBtn", "kind": "class", "access": "open", "role": "superclass", "notes": "UIButton subclass providing icon/badge/layout configuration and click callback dispatch. Exposes @objc badge properties used by this button: showBadge, badgeText, showBadgeBackground, badgeTextColor, badgeBackgroundColor, badgeWidth." },
+    { "name": "ZMUIToolkitIconBtnDescriptor", "kind": "struct", "access": "internal", "role": "initializer configuration", "fields": ["frame", "backgroundColor", "accessibilityLabel", "iconname", "iconPadding", "iconColor", "callback"] },
+    { "name": "ZMUIToolKitManager", "kind": "class", "role": "holds ZoomVideoSDK instance and videoSDKDelegate fan-out; audio/user helpers accessed via videoSDK?.getAudioHelper()/getUserHelper()" },
+    { "name": "CompositeZoomVideoSDKDelegate", "kind": "class", "role": "weak fan-out delegate; register via add(_:) / remove(_:)" },
+    { "name": "BottomPanelPresenter", "kind": "class", "access": "internal final", "role": "presents/dismisses a bottom-sheet panel modally over UIApplication.topViewController() on the main queue; isPresented reflects current presentation state" },
+    { "name": "ZMUIToolkitParticipantsPanel", "kind": "class", "access": "internal", "role": "bottom-sheet participant list with search; self-registers as SDK observer while visible (observeSDKEvents); surfaces onParticipantTapped and setButtons(_:)" },
+    {
+      "name": "ZMUIToolkitParticipantsPanelConfiguration",
+      "kind": "struct",
+      "access": "internal",
+      "fields": ["title", "cellStyle", "selectionMode", "observeSDKEvents", "showSearchBar"],
+      "enums": {
+        "cellStyle": [".full", ".base"],
+        "selectionMode": [".none", ".tapAction", ".persistentSelection"]
+      },
+      "configuredByButton": { "cellStyle": ".full", "selectionMode": ".tapAction", "observeSDKEvents": true, "showSearchBar": true }
+    },
+    { "name": "ZMUIToolkitPanelButton", "kind": "struct", "access": "internal", "fields": ["title", "style", "initiallyEnabled", "action"], "styleValues": [".primary", ".secondary"] },
+    { "name": "ZMUIToolkitParticipant", "kind": "struct", "access": "internal", "fields": ["name", "id (Int32)", "muted", "sharing", "camera", "isHost", "isManager", "isMe"], "notes": "Snapshot built from a ZoomVideoSDKUser at list-build time." },
+    { "name": "CustomActionSheet", "kind": "internal", "role": "presents a titled action sheet of CustomActionSheet.Action items from the top view controller; only shown if at least one action is available" },
+    { "name": "ZMToastManager", "kind": "class", "methods": ["showAllMuted()", "showRequestSent()"], "notes": "Non-blocking toasts shown by Mute all / Ask all to unmute." },
+    { "name": "ZoomVideoSDKSessionLeaveReason", "kind": "sdkEnum", "relevantValue": "Reason passed to onSessionLeave(_:)" },
+    { "name": "ZoomVideoSDKUser", "kind": "sdkClass", "methods": ["getID()", "getName()", "isHost()", "isManager()", "audioStatus()"], "notes": "Local user via getSession()?.getMySelf(); remotes via getRemoteUsers()." },
+    { "name": "ZoomVideoSDKAudioHelper", "kind": "sdkClass", "methods": ["muteAudio(_:)", "unmuteAudio(_:)", "muteAllAudio(_:)", "unmuteAllAudio()"] },
+    { "name": "ZoomVideoSDKUserHelper", "kind": "sdkClass", "methods": ["makeHost(_:)", "makeManager(_:)", "remove(_:)", "changeName(_:with:)"] }
+  ],
+  "lifecycle": {
+    "prerequisites": [
+      "Zoom Video SDK initialized and registered with the toolkit via ZMUIToolKitManager.initialize(videoSDK:bundleId:) BEFORE constructing the button.",
+      "Construct and use on the main thread (@MainActor)."
+    ],
+    "ifNotInitialized": "If ZMUIToolKitManager.videoSDK is nil or there is no active session, refreshParticipantBadge() hides the badge (showBadge = false, badgeText = nil). A tap still presents an (empty) panel; createParticipantsPanel/refreshList produce no participants because getSession() is nil.",
+    "entryPoints": [
+      { "event": "init()", "actions": ["build panel-toggle tap callback", "build descriptor (40x40, clear bg, secondaryLabel icon color, zero padding, icon 'Participants')", "super.init(descriptor:)", "setImage(icon, for: .normal)", "showBadgeBackground = false", "badgeTextColor = .secondaryLabel", "ZMUIToolKitManager.videoSDKDelegate.add(self)", "refreshParticipantBadge()"] }
+    ],
+    "exitPoints": [
+      { "event": "deinit", "actions": ["ZMUIToolKitManager.videoSDKDelegate.remove(self)"], "note": "Delegates are held weakly." }
+    ],
+    "badgeRefresh": "The badge refreshes at construction and on the listed delegate events (session join/leave, user join/leave).",
+    "delegateModel": "The button does NOT assign itself to ZoomVideoSDK.delegate. It registers with the toolkit fan-out delegate ZMUIToolKitManager.videoSDKDelegate (CompositeZoomVideoSDKDelegate), enabling multiple observers. Child delegates are stored weakly. The presented ZMUIToolkitParticipantsPanel independently registers/unregisters with the same fan-out delegate while visible."
+  },
+  "states": {
+    "note": "This button has no enumerated icon-state machine. Observable runtime state is the badge value and whether the panel is presented.",
+    "aspects": [
+      { "aspect": "badge", "source": "refreshParticipantBadge()", "values": ["hidden (no session or count == 0)", "visible with text = participant count"] },
+      { "aspect": "panel", "source": "BottomPanelPresenter.isPresented", "values": ["false (dismissed)", "true (presented)"] }
+    ]
+  },
+  "badgeRule": {
+    "function": "refreshParticipantBadge",
+    "logic": [
+      "session = ZMUIToolKitManager.videoSDK?.getSession()",
+      "if session == nil -> showBadge = false; badgeText = nil; return",
+      "remoteCount = session.getRemoteUsers()?.count ?? 0",
+      "selfCount = session.getMySelf() == nil ? 0 : 1",
+      "participantCount = remoteCount + selfCount",
+      "if participantCount > 0 -> badgeText = String(participantCount); showBadge = true",
+      "else -> badgeText = nil; showBadge = false"
+    ]
+  },
+  "panelToggleRule": {
+    "function": "tap callback (descriptor.callback via onButtonClicked)",
+    "logic": [
+      "if presenter.isPresented -> presenter.dismiss()",
+      "else -> presenter.present { createParticipantsPanel() }"
+    ]
+  },
+  "stateTransitions": [
+    { "trigger": "init()", "action": "refreshParticipantBadge()", "effect": "initial badge count" },
+    { "trigger": "onSessionJoin", "action": "refreshParticipantBadge()", "effect": "badge recomputed from SDK session" },
+    { "trigger": "onSessionLeave(_:)", "action": "refreshParticipantBadge()", "effect": "badge recomputed; usually hidden" },
+    { "trigger": "onUserJoin(_:users:)", "action": "refreshParticipantBadge()", "effect": "badge recomputed once the SDK roster reflects the change" },
+    { "trigger": "onUserLeave(_:users:)", "action": "refreshParticipantBadge()", "effect": "badge recomputed once the SDK roster reflects the change" },
+    { "trigger": "tap", "action": "toggle panel via BottomPanelPresenter", "effect": "present (creates panel) or dismiss" }
+  ],
+  "behaviorNotes": [
+    "Host/manager actions are determined from the local user's role when the panel is opened (from getMySelf()?.isHost()/isManager()). To reflect a role change, re-open the panel to recompute available actions."
+  ],
+  "apis": [
+    {
+      "name": "init",
+      "signature": "@objc public init()",
+      "kind": "designated initializer",
+      "access": "public",
+      "description": "Builds the panel-toggle tap callback, constructs the icon button (40x40, clear bg, secondaryLabel icon color, zero padding, 'Participants' icon), configures a borderless badge with secondaryLabel text color, registers as a delegate observer, and computes the initial badge count.",
+      "preconditions": ["Toolkit initialized via ZMUIToolKitManager.initialize (recommended)", "Main thread (@MainActor)"],
+      "sideEffects": ["Adds self to ZMUIToolKitManager.videoSDKDelegate", "Sets showBadgeBackground = false and badgeTextColor = .secondaryLabel", "Calls refreshParticipantBadge()"],
+      "returns": "configured ZMUIToolkitParticipantsBtn",
+      "errorCodes": []
+    },
+    {
+      "name": "init(coder:)",
+      "signature": "@MainActor required public init?(coder: NSCoder)",
+      "kind": "initializer",
+      "access": "public",
+      "description": "NOT SUPPORTED. Calls fatalError. Do not instantiate from Storyboard/XIB.",
+      "preconditions": [],
+      "sideEffects": ["Traps (fatalError)"],
+      "returns": "never",
+      "errorCodes": []
+    },
+    {
+      "name": "tap (panel toggle)",
+      "signature": "descriptor.callback dispatched via ZMUIToolkitIconBtn.onButtonClicked()",
+      "access": "public (behavior)",
+      "description": "On tap, toggles the participants panel: if presenter.isPresented it dismisses; otherwise it presents a freshly created ZMUIToolkitParticipantsPanel. Presentation/dismissal is dispatched to the main queue by BottomPanelPresenter and shown modally over UIApplication.topViewController().",
+      "parameters": [],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Presents or dismisses a modal bottom-sheet panel"],
+      "errorCodes": []
+    },
+    {
+      "name": "refreshParticipantBadge",
+      "signature": "private func refreshParticipantBadge()",
+      "access": "private",
+      "description": "Recomputes the participant count (remote users + self) from the SDK session and updates showBadge / badgeText. Called from init, onSessionJoin, onSessionLeave, onUserJoin, onUserLeave. Documented for completeness.",
+      "parameters": [],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Sets showBadge and badgeText (hides badge when no session or count == 0)"],
+      "errorCodes": []
+    },
+    {
+      "name": "createParticipantsPanel",
+      "signature": "private func createParticipantsPanel() -> ZMUIToolkitParticipantsPanel",
+      "access": "private",
+      "description": "Builds a ZMUIToolkitParticipantsPanel (cellStyle .full, selectionMode .tapAction, observeSDKEvents true, showSearchBar true), wires onParticipantTapped to present a per-participant action sheet, and if the local user isHost() attaches host-only bottom buttons: 'Mute all' (muteAllAudio(false) + 'All muted' toast) and 'Ask all to unmute' (unmuteAllAudio() + 'Request sent' toast).",
+      "parameters": [],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Creates a panel view and (for hosts) registers two bottom buttons with optimistic toasts"],
+      "errorCodes": []
+    }
+  ],
+  "inheritedBadgeConfiguration": {
+    "from": "ZMUIToolkitIconBtn",
+    "properties": ["showBadge: Bool", "badgeText: String?", "showBadgeBackground: Bool", "badgeTextColor: UIColor?", "badgeBackgroundColor: UIColor?", "badgeWidth: CGFloat"],
+    "warning": "badgeText/showBadge are driven automatically by refreshParticipantBadge(); manual writes are overwritten on the next roster/lifecycle callback. Visual-only properties (badgeTextColor, badgeBackgroundColor, showBadgeBackground, badgeWidth) are safe to customize."
+  },
+  "inheritedConfiguration": {
+    "from": "ZMUIToolkitIconBtn",
+    "commonSetters": ["setBackgroundColor(color:)", "setRadius(radius:)", "setSize(size:)", "setPosition(x:y:)", "setIconColor(color:)", "setIcon(icon:)", "setIconSize(_:)", "setIconPadding(padding:)", "setAccessibility(label:hint:)"]
+  },
+  "panelActions": {
+    "perParticipantActionSheet": {
+      "presentedWhen": "panel.onParticipantTapped fires (a participant row is tapped)",
+      "visibilityRules": [
+        { "action": "Ask to unmute audio", "calls": "audioHelper.unmuteAudio(user)", "shownWhen": "(isCurrentUserHost || isCurrentUserManager) && !isSelf && participant.muted" },
+        { "action": "Mute audio", "calls": "audioHelper.muteAudio(user)", "shownWhen": "(isCurrentUserHost || isCurrentUserManager) && !isSelf && !participant.muted" },
+        { "action": "Make host", "calls": "userHelper.makeHost(user)", "shownWhen": "isCurrentUserHost && !isSelf && !participant.isHost" },
+        { "action": "Make co-host", "calls": "userHelper.makeManager(user)", "shownWhen": "isCurrentUserHost && !isSelf && !participant.isHost && !participant.isManager" },
+        { "action": "Rename", "calls": "userHelper.changeName(newName, with: user) via rename alert", "shownWhen": "isCurrentUserHost || isSelf" },
+        { "action": "Remove from session", "calls": "userHelper.remove(user)", "shownWhen": "isCurrentUserHost && !isSelf", "destructive": true }
+      ],
+      "notes": [
+        "Action sheet is presented when at least one action is available (actions array non-empty).",
+        "Most actions call panel.refreshList() after invocation to update the row state.",
+        "Roles are determined from getMySelf()?.isHost()/isManager() when the panel is opened."
+      ]
+    },
+    "hostBottomButtons": {
+      "shownWhen": "getMySelf()?.isHost() == true (determined when the panel is opened)",
+      "buttons": [
+        { "title": "Mute all", "style": ".secondary", "calls": "audioHelper.muteAllAudio(false)", "toast": "ZMToastManager.shared.showAllMuted()" },
+        { "title": "Ask all to unmute", "style": ".secondary", "calls": "audioHelper.unmuteAllAudio()", "toast": "ZMToastManager.shared.showRequestSent()" }
+      ]
+    }
+  },
+  "callbacks": [
+    {
+      "name": "onSessionJoin",
+      "signature": "public func onSessionJoin()",
+      "source": "ZoomVideoSDKDelegate (via CompositeZoomVideoSDKDelegate)",
+      "threading": "main thread",
+      "description": "Fired when the local user joins the session. Refreshes the participant-count badge.",
+      "stateChange": "badge recomputed from SDK session",
+      "calls": ["refreshParticipantBadge()"]
+    },
+    {
+      "name": "onSessionLeave",
+      "signature": "public func onSessionLeave(_ reason: ZoomVideoSDKSessionLeaveReason)",
+      "source": "ZoomVideoSDKDelegate (via CompositeZoomVideoSDKDelegate)",
+      "threading": "main thread",
+      "description": "Fired when the local user leaves/ends the session. Refreshes the badge (typically hides it because getSession() is no longer valid or the count becomes 0).",
+      "stateChange": "badge recomputed; usually hidden",
+      "calls": ["refreshParticipantBadge()"]
+    },
+    {
+      "name": "onUserJoin",
+      "signature": "public func onUserJoin(_ helper: ZoomVideoSDKUserHelper?, users: [ZoomVideoSDKUser]?)",
+      "source": "ZoomVideoSDKDelegate (via CompositeZoomVideoSDKDelegate)",
+      "threading": "main thread",
+      "description": "Fired when one or more users join. Refreshes the participant-count badge once the SDK roster reflects the change.",
+      "stateChange": "badge recomputed",
+      "calls": ["refreshParticipantBadge()"]
+    },
+    {
+      "name": "onUserLeave",
+      "signature": "public func onUserLeave(_ helper: ZoomVideoSDKUserHelper?, users: [ZoomVideoSDKUser]?)",
+      "source": "ZoomVideoSDKDelegate (via CompositeZoomVideoSDKDelegate)",
+      "threading": "main thread",
+      "description": "Fired when one or more users leave. Refreshes the participant-count badge once the SDK roster reflects the change.",
+      "stateChange": "badge recomputed",
+      "calls": ["refreshParticipantBadge()"]
+    }
+  ],
+  "moderationActions": {
+    "strategy": "Moderation actions are issued to the SDK from the panel. To respond to outcomes, observe SDK events via ZMUIToolKitManager.videoSDKDelegate.add(_:).",
+    "perAction": [
+      { "action": "Mute one", "calls": "audioHelper.muteAudio(user)" },
+      { "action": "Ask to unmute one", "calls": "audioHelper.unmuteAudio(user)" },
+      { "action": "Make host", "calls": "userHelper.makeHost(user)" },
+      { "action": "Make co-host", "calls": "userHelper.makeManager(user)" },
+      { "action": "Remove", "calls": "userHelper.remove(user)" },
+      { "action": "Rename", "calls": "userHelper.changeName(newName, with: user)" },
+      { "action": "Mute all (host)", "calls": "audioHelper.muteAllAudio(false)", "toast": "'All muted' toast shown" },
+      { "action": "Ask all to unmute (host)", "calls": "audioHelper.unmuteAllAudio()", "toast": "'Request sent' toast shown" }
+    ],
+    "targetResolution": "Each action resolves the target user via findUser(for:) (matches getMySelf() then getRemoteUsers() by getID()) and fetches the relevant helper from ZMUIToolKitManager.videoSDK. If either is unavailable, the action does not run. commitRename applies only when the new name is non-empty and changed.",
+    "observingOutcomes": ["To respond to outcomes, register your own ZoomVideoSDKDelegate via ZMUIToolKitManager.videoSDKDelegate.add(_:) and observe onError(_:detail:) and relevant status callbacks (e.g. onUserHostChanged)."]
+  },
+  "rules": {
+    "required": [
+      "Initialize the toolkit (ZMUIToolKitManager.initialize) before constructing the button for a correct badge count and functional panel/actions.",
+      "Construct and use the button on the main thread."
+    ],
+    "forbidden": [
+      "Instantiating via init?(coder:) / Interface Builder (traps with fatalError).",
+      "Assigning the button (or anything) directly to ZoomVideoSDK.delegate; use ZMUIToolKitManager.videoSDKDelegate.add(_:).",
+      "Manually setting badgeText/showBadge to represent the count; they are driven by refreshParticipantBadge() and overwritten on the next roster/lifecycle callback."
+    ],
+    "notes": [
+      "Visual-only badge properties (badgeTextColor, badgeBackgroundColor, showBadgeBackground, badgeWidth) are safe to customize.",
+      "Host/manager actions are determined from the local user's role when the panel is opened. To reflect a role change, re-open the panel to recompute available actions."
+    ]
+  },
+  "examples": [
+    {
+      "title": "Add the button to a toolbar (happy path)",
+      "scenario": "happy-path",
+      "code": "let participantsButton = ZMUIToolkitParticipantsBtn()\nparticipantsButton.setSize(size: CGSize(width: 44, height: 44))\ntoolbarStackView.addArrangedSubview(participantsButton)\n// Self-registers for roster updates, keeps the count badge in sync, and toggles the participants panel on tap."
+    },
+    {
+      "title": "Customize the badge appearance (visual only)",
+      "scenario": "customization",
+      "code": "let participantsButton = ZMUIToolkitParticipantsBtn()\nparticipantsButton.showBadgeBackground = true\nparticipantsButton.badgeBackgroundColor = .systemRed\nparticipantsButton.badgeTextColor = .white\n// Do NOT set badgeText/showBadge manually — they reflect the live participant count."
+    },
+    {
+      "title": "Observe moderation/SDK results yourself",
+      "scenario": "error-handling",
+      "code": "final class ParticipantsObserver: NSObject, ZoomVideoSDKDelegate {\n    func onError(_ errorType: ZoomVideoSDKError, detail details: Int) {\n        // Show retry UI, logging, etc.\n    }\n    func onUserHostChanged(_ helper: ZoomVideoSDKUserHelper?, users user: ZoomVideoSDKUser?) {\n        // React to make-host / make-co-host results.\n    }\n}\nlet observer = ParticipantsObserver()\nZMUIToolKitManager.videoSDKDelegate.add(observer) // held weakly — retain observer yourself"
+    },
+    {
+      "title": "Lifecycle / teardown",
+      "scenario": "teardown",
+      "code": "participantsButton.removeFromSuperview()\n// participantsButton = nil  // deinit -> ZMUIToolKitManager.videoSDKDelegate.remove(self)"
+    }
+  ],
+  "codeSnippets": [
+    {
+      "name": "computeParticipantCount",
+      "description": "Compute the participant count from the SDK (mirrors refreshParticipantBadge).",
+      "code": "let session = ZMUIToolKitManager.videoSDK?.getSession()\nlet remoteCount = session?.getRemoteUsers()?.count ?? 0\nlet selfCount = session?.getMySelf() == nil ? 0 : 1\nlet participantCount = remoteCount + selfCount\n// participantCount > 0 -> show badge with String(participantCount); else hide."
+    },
+    {
+      "name": "resolveUserByID",
+      "description": "Resolve a session user by participant id (mirrors findUser(for:)).",
+      "code": "func findUser(byID id: Int32) -> ZoomVideoSDKUser? {\n    guard let session = ZMUIToolKitManager.videoSDK?.getSession() else { return nil }\n    if let me = session.getMySelf(), me.getID() == id { return me }\n    return session.getRemoteUsers()?.first(where: { $0.getID() == id })\n}"
+    }
+  ],
+  "metadata": {
+    "documentVersion": "1.0.0",
+    "schemaVersion": "2.4.0",
+    "lastUpdated": "2026-06-18",
+    "status": "Published",
+    "platform": "iOS",
+    "generatedBy": "api-doc-generator",
+    "verification": "Behaviors verified directly against implementation source (ZMUIToolkitParticipantsBtn.swift, ZMUIToolkitIconBtn.swift, ZMUIToolkitDescriptor.swift, ZMUIToolKitManager.swift, CompositeZoomVideoSDKDelegate.swift, ZMUIToolkitParticipantsPanel.swift, ZMUIToolkitParticipantsPanelConfiguration.swift, ZMUIToolkitPanelButton.swift, ZMUIToolkitParticipantsList.swift, BottomPanelPresenter.swift); not assumed.",
+    "completeness": "JSON mirrors all content in ZMUIToolkitParticipantsBtn-API.md."
+  }
+}

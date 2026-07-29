@@ -5,16 +5,36 @@
 
 import Foundation
 import ZMUIToolkit
+import ZoomVideoSDK
 
-class EventListener: ObservableObject, ZMUIToolkitEventHandler {
+final class EventListener: NSObject, ObservableObject, ZoomVideoSDKDelegate {
 
     @Published var isJoined: Bool = false
 
-    func onSessionJoin() {
-        isJoined = true
+    override init() {
+        super.init()
+        ZMUIToolKitManager.videoSDKDelegate.add(self)
     }
 
-    func onSessionLeave(_ reason: ZMUIToolkitLeaveSessionReason) {
+    deinit {
+        ZMUIToolKitManager.videoSDKDelegate.remove(self)
+    }
+
+    private func updateJoinedState(_ joined: Bool) {
+        DispatchQueue.main.async {
+            self.isJoined = joined
+        }
+    }
+
+    func onSessionJoin() {
+        updateJoinedState(true)
+    }
+
+    func onError(_ ErrorType: ZoomVideoSDKError, detail details: Int) {
+        print("[EventListener] SDK error: \(ErrorType) detail: \(details)")
+    }
+
+    func onSessionLeave(_ reason: ZoomVideoSDKSessionLeaveReason) {
         let reasonString: String
 
         switch reason {
@@ -26,6 +46,10 @@ class EventListener: ObservableObject, ZMUIToolkitEventHandler {
             reasonString = "Session ended by host"
         case .networkError:
             reasonString = "Network error"
+        case .joinSubsession:
+            reasonString = "Joining subsession"
+        case .returnToMainSession:
+            reasonString = "Returning to main session"
         case .unknown:
             reasonString = "Unknown reason"
         @unknown default:
@@ -33,42 +57,6 @@ class EventListener: ObservableObject, ZMUIToolkitEventHandler {
         }
 
         print("[EventListener] Session left - Reason: \(reasonString)")
-        isJoined = false
-    }
-
-    func onUserJoin(_ users: [ZMUIToolkitUser]?) {
-        print("[EventListener] Users joined: \(users?.map { $0.userName ?? "unknown" } ?? [])")
-    }
-
-    func onUserLeave(_ users: [ZMUIToolkitUser]?) {
-        print("[EventListener] Users left: \(users?.map { $0.userName ?? "unknown" } ?? [])")
-    }
-
-    func onUserVideoStatusChanged(_ users: [ZMUIToolkitUser]?) {
-        print("[EventListener] Video status changed: \(users?.map { $0.userName ?? "unknown" } ?? [])")
-    }
-
-    func onUserAudioStatusChanged(_ users: [ZMUIToolkitUser]?) {
-        print("[EventListener] Audio status changed: \(users?.map { $0.userName ?? "unknown" } ?? [])")
-    }
-
-    func onUserShareStatusChanged(_ user: ZMUIToolkitUser?, shareStatus: ZMUIToolkitShareStatus) {
-        print("[EventListener] Share status changed for \(user?.userName ?? "unknown"): \(shareStatus)")
-    }
-
-    func onUserNameChanged(_ user: ZMUIToolkitUser?) {
-        print("[EventListener] User renamed: \(user?.userName ?? "unknown")")
-    }
-
-    func onUserHostChanged(_ user: ZMUIToolkitUser?) {
-        print("[EventListener] Host changed to: \(user?.userName ?? "unknown")")
-    }
-
-    func onUserManagerChanged(_ user: ZMUIToolkitUser?) {
-        print("[EventListener] Manager changed: \(user?.userName ?? "unknown")")
-    }
-
-    func onUserActiveAudioChanged(_ users: [ZMUIToolkitUser]?) {
-        print("[EventListener] Active audio changed: \(users?.map { $0.userName ?? "unknown" } ?? [])")
+        updateJoinedState(false)
     }
 }

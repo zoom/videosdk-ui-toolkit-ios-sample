@@ -31,6 +31,9 @@
 @class ZoomVideoSDKProxySettingHandler;
 @class ZoomVideoSDKSSLCertificateInfo;
 @class ZoomVideoSDKSubSessionUserHelpRequestHandler;
+@class ZoomVideoSDKQOSStatistics;
+@class ZoomVideoSDKQOSSendStatistics;
+@class ZoomVideoSDKQOSRecvStatistics;
 
 /**
  * @protocol ZoomVideoSDKDelegate
@@ -63,6 +66,15 @@
 - (void)onError:(ZoomVideoSDKError)ErrorType detail:(NSInteger)details;
 
 /**
+ * @brief Callback event when an audio error occurs (iOS only).
+ * @param helper The audio helper that reports the error.
+ * @param errorType The audio error type. See ZoomVideoSDKAudioErrorType.
+ * @param detail Optional detail such as AVAudioSessionErrorCode. Pass 0 if unavailable.
+ * @note After encountering this error, try using the following API calls in order to resume the audio: (1) setSDKAudioSessionEnvironment, (2) stopAudio, (3) startAudio (call startAudio no earlier than ~0.5s after stopAudio).
+ */
+- (void)onAudioError:(ZoomVideoSDKAudioHelper * _Nullable)helper errorType:(ZoomVideoSDKAudioErrorType)errorType detail:(NSInteger)detail;
+
+/**
  * @brief Callback event when a user joins the session.
  * @param helper The user helper utility.
  * @param userArray The list of users who have just joined the session.
@@ -72,7 +84,7 @@
 /**
  * @brief Callback event when a user leaves the session.
  * @param helper The user helper utility.
- * @param userArray The list of users who have just left the session.
+ * @param userArray The list of users who have just left the session. Delete users after callback execution is completed
  */
 - (void)onUserLeave:(ZoomVideoSDKUserHelper * _Nullable)helper users:(NSArray <ZoomVideoSDKUser *>* _Nullable)userArray;
 
@@ -95,6 +107,9 @@
  * @param helper The share helper object.
  * @param user The user object.
  * @param shareAction The ZoomVideoSDKShareAction object.
+ * @note When sharing starts (for example, when status is @c ZoomVideoSDKShareStatus_Start),
+ *       @c shareAction.shareType can be @c ZoomVideoSDKShareType_None temporarily.
+ *       Use @c -onShareContentChanged:user:shareAction: to get the finalized content type.
  */
 - (void)onUserShareStatusChanged:(ZoomVideoSDKShareHelper * _Nullable)helper user:(ZoomVideoSDKUser * _Nullable)user shareAction:(ZoomVideoSDKShareAction*_Nullable)shareAction;
 
@@ -158,6 +173,13 @@
  * @param user The user who changed their name.
  */
 - (void)onUserNameChanged:(ZoomVideoSDKUser * _Nullable)user;
+
+/**
+ * @brief Callback event when a user's failover status changes.
+ * @param user The user whose failover status changed.
+ * @param inFailover YES if the user is in failover. Otherwise, NO.
+ */
+- (void)onUserFailoverStatusChanged:(ZoomVideoSDKUser * _Nullable)user inFailover:(BOOL)inFailover;
 
 /**
  * @brief Callback event when the active audio changes.
@@ -296,6 +318,7 @@
 /**
  * @brief Callback event when live transcription status changes.
  * @param status The live transcription status.
+ * @note This callback is triggered when the live transcription status changes. It can be triggered by calling startLiveTranscription or by calling setTranslationLanguage: for the first time before calling startLiveTranscription.
  */
 - (void)onLiveTranscriptionStatus:(ZoomVideoSDKLiveTranscriptionStatus)status;
 
@@ -323,6 +346,11 @@
  * @param spokenLanguage The spoken message language.
  */
 - (void)onSpokenLanguageChanged:(ZoomVideoSDKLiveTranscriptionLanguage* _Nullable)spokenLanguage;
+
+/**
+ * @brief Callback event when voice interpretation is ready.
+ */
+- (void)onVoiceInterpretationReady;
 
 /**
  * @brief Callback event when the proxy requests to input the username and password. Use the handler to configure the related information.
@@ -408,6 +436,7 @@
  * @param shareHelper The share helper utility.
  * @param user The current start or stop share user.
  * @param shareAction The share object.
+ * @note This callback provides the finalized share content type after sharing starts.
  */
 - (void)onShareContentChanged:(ZoomVideoSDKShareHelper *_Nullable)shareHelper user:(ZoomVideoSDKUser *_Nullable)user shareAction:(ZoomVideoSDKShareAction *_Nullable)shareAction;
 
@@ -620,6 +649,13 @@
 - (void)onStreamingJoinStatusChanged:(ZoomVideoSDKStreamingJoinStatus)status ;
 
 /**
+ * @brief Callback event when an emoji reaction is received from a user in the session.
+ * @param user The user who sent the emoji reaction.
+ * @param type The emoji reaction type.
+ */
+- (void)onEmojiReactionReceived:(ZoomVideoSDKUser * _Nullable)user type:(ZoomVideoSDKEmojiReactionType)type;
+
+/**
  * @brief Callback event when a whiteboard file export completes.
  * @param format The export format.
  * @param data The export whiteboard data as NSData.
@@ -636,7 +672,8 @@
 /**
  * @brief Callback invoked when a canvas snapshot is successfully taken.
  * @param user The user who took the snapshot.
- * @param isShare YES if the snapshot is of shared content; NO if it is of video content.
+ * @param isShare YES if the snapshot is of shared content, NO if it is of video content.
+ * @note This callback is only triggered when a user takes a snapshot of another user's video or share. It is not triggered when any user takes a snapshot of their own video or share.
  */
 -(void)onCanvasSnapshotTaken:(ZoomVideoSDKUser *_Nonnull)user isShare:(BOOL)isShare;
 
@@ -657,6 +694,19 @@
  * @param failReason The real-time media stream failure reason.
  */
 - (void)onRealTimeMediaStreamsFail:(ZoomVideoSDKRealTimeMediaStreamsFailReason)failReason;
+
+/**
+ * @brief Callback when QOS statistics are available (send or receive).
+ * @param statistics The QOS statistics object. Use statistics.direction to distinguish:
+ *       - ZoomVideoSDKStatisticsDirection_Send: statistics is actually ZoomVideoSDKQOSSendStatistics;
+ *         cast to ZoomVideoSDKQOSSendStatistics to access Send-specific fields (width/height/fps for sent frame, framesEncoded, etc.).
+ *       - ZoomVideoSDKStatisticsDirection_Receive: statistics is actually ZoomVideoSDKQOSRecvStatistics;
+ *         cast to ZoomVideoSDKQOSRecvStatistics to access Receive-specific fields (width/height/fps for received frame, framesDecoded, etc.).
+ * @param user The user associated with these statistics (nil for local user).
+ * @note Provides real-time metrics: codec, frame rate/resolution, bitrate/packets, RTT/jitter/packet loss, encode/decode metrics.
+ *       statisticsType indicates Audio, Video, or Share. codecName is valid only during the callback execution.
+ */
+- (void)onQOSStatisticsReceived:(ZoomVideoSDKQOSStatistics * _Nonnull)statistics user:(ZoomVideoSDKUser * _Nullable)user;
 
 @end
 

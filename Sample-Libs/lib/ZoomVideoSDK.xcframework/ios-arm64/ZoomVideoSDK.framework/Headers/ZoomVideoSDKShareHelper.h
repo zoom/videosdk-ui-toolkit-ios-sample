@@ -148,7 +148,8 @@
 
 /**
  * @brief Stops view or screen share.
- * @return If the function succeeds, it returns Errors_Success. Otherwise, this function returns an error.
+ * @return If the function succeeds, it returns @c Errors_Success. Otherwise, this function returns an error.
+ * @note The stop operation completes asynchronously. Monitor the final state via the onUserShareStatusChanged:user:shareAction: callback.
  */
 - (ZoomVideoSDKError)stopShare;
 
@@ -168,7 +169,6 @@
  * @brief Locks sharing the view or screen. Only the host can call this method.
  * @param lock YES to lock sharing, NO to unlock.
  * @return If the function succeeds, it returns Errors_Success. Otherwise, this function returns an error.
- * @warning Only host or manager can call the function.
  */
 - (ZoomVideoSDKError)lockShare:(BOOL)lock;
 
@@ -234,6 +234,7 @@
  * @brief Creates annotation helper based on shared view.
  * @param view The shared view. Pass nil to return the helper for self sharing.
  * @return If the function succeeds, it returns a ZoomVideoSDKAnnotationHelper object. Otherwise, this function fails and returns nil.
+ * @note This method should be called after onUserShareStatusChanged:user:shareAction: reports ZoomVideoSDKShareStatus_Start.
  * @warning The view passed in this function should be subscribed share view. And if the share view aspect mode is full fill, the annotate is not supported. When the share owner does not support the feature of annotate, the others should not do annotate in that case.
  */
 - (ZoomVideoSDKAnnotationHelper * _Nullable)createAnnotationHelper:(UIView * _Nullable)view;
@@ -319,14 +320,20 @@
 #pragma mark - in-app screen share -
 
 /**
- * @brief Checks whether the system supports in-app screen share.
- * @return YES if the device supports in-app screen share. Otherwise, NO.
+ * @brief Determines whether the system supports in-app screen share.
+ * @return YES if the system supports in-app screen share. Otherwise, NO. For more information, see {@link RPScreenRecorder}.
  */
 - (BOOL)isSupportInAppScreenShare;
 
 /**
- * @brief Starts in-app screen share.
- * @return If the function succeeds, it returns Errors_Success. Otherwise, this function returns an error.
+ * @brief Determines whether the in-app screen share is in progress.
+ * @return YES if the in-app screen share is in progress. Otherwise, NO. For more information, see {@link RPScreenRecorder}.
+ */
+- (BOOL)isInAppScreenShareInProgress;
+
+/**
+ * @brief Start in-app screen share.
+ * @return If the function succeeds, the return value is @c Errors_Success. Otherwise failed. To get extended error information, see {@link ZoomVideoSDKError}.
  * @warning Can only be called once every 500ms.
  */
 - (ZoomVideoSDKError)startInAppScreenShare;

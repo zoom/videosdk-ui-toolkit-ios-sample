@@ -1,0 +1,251 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "module": "ZMUIToolkitShareBtn",
+  "language": "Swift",
+  "platform": "iOS",
+  "version": "1.0",
+  "framework": "ZMUIToolkit",
+  "superclass": "ZMUIToolkitIconBtn",
+  "conformsTo": ["ZoomVideoSDKDelegate"],
+  "concurrency": "@MainActor",
+  "objcExposed": true,
+  "objcName": "ZMUIToolkitShareBtn",
+  "overview": "A self-managing, icon-only screen-share control button for Zoom Video SDK sessions on iOS, built for in-app/ReplayKit broadcast screen sharing. On tap, when idle it presents Apple's RPSystemBroadcastPickerView to begin a broadcast; when already sharing it calls stopShare(). It registers as a delegate observer and automatically keeps its icon and enabled state synchronized with the authoritative SDK share status via onUserShareStatusChanged. It continuously gates whether sharing is allowed (host share lock, multi-share setting, another user sharing, in-app share support) and disables itself when not.",
+  "sourceFile": "ZMUIToolkit/ZMUIToolkit/Sources/Buttons/ZMUIToolkitShareBtn.swift",
+  "behavior": "The button reflects the authoritative share state reported by the SDK; its icon updates to the sharing state once a broadcast begins via onUserShareStatusChanged. The button does not override didMoveToWindow(); initial state is set at construction and thereafter updated by onUserShareStatusChanged.",
+  "typeDefinitions": [
+    {
+      "name": "ShareButtonType",
+      "kind": "enum",
+      "rawType": "Int",
+      "access": "internal",
+      "cases": [
+        { "name": "start", "rawValue": 1, "meaning": "Local user is NOT sharing out; tapping starts a share", "defaultIcon": "StartShare", "tapAction": "Present RPSystemBroadcastPickerView" },
+        { "name": "stop", "rawValue": 2, "meaning": "Local user IS sharing out; tapping stops the share", "defaultIcon": "StopShare", "tapAction": "shareHelper.stopShare()" }
+      ],
+      "note": "Case names describe the ACTION the tap performs, not the current activity. currentType defaults to .stop at the property level but is overwritten in init() before display."
+    },
+    { "name": "kBroadcastPickerTag", "kind": "fileLevelConstant", "rawType": "Int", "value": 10001, "notes": "Tag used to locate and dismiss the RPSystemBroadcastPickerView." },
+    { "name": "ZMUIToolkitIconBtn", "kind": "class", "access": "open", "role": "superclass", "notes": "UIButton subclass providing icon/badge/layout configuration and click callback dispatch." },
+    { "name": "ZMUIToolkitIconBtnDescriptor", "kind": "struct", "access": "internal", "role": "initializer configuration", "fields": ["frame", "backgroundColor", "accessibilityLabel", "iconname", "iconPadding", "iconColor", "callback"] },
+    { "name": "ZMUIToolKitManager", "kind": "class", "role": "holds ZoomVideoSDK instance, bundleId, and videoSDKDelegate fan-out" },
+    { "name": "CompositeZoomVideoSDKDelegate", "kind": "class", "role": "weak fan-out delegate; register via add(_:) / remove(_:)" },
+    { "name": "RPSystemBroadcastPickerView", "kind": "replayKitClass", "notes": "Apple's system broadcast picker; preferredExtension is set from ZMUIToolKitManager.bundleId (the Broadcast Upload Extension bundle id)." },
+    { "name": "ZoomVideoSDKShareHelper", "kind": "sdkClass", "methods": ["isScreenSharingOut()", "isSharingOut()", "stopShare()", "isSupportInAppScreenShare()", "isShareLocked()", "isMultiShareEnabled()", "isOtherSharing()"] },
+    { "name": "ZoomVideoSDKShareAction", "kind": "sdkClass", "notes": "getShareStatus() returns the share status enum for the change" },
+    { "name": "ZoomVideoSDKReceiveSharingStatus", "kind": "sdkEnum", "relevantValues": [".start", ".resume", ".stop", ".none"] },
+    { "name": "ZoomVideoSDKError", "kind": "sdkEnum", "relevantValue": ".Errors_Success indicates success (returned by stopShare())" },
+    { "name": "ZoomVideoSDKUser", "kind": "sdkClass", "notes": "Local user obtained via getSession()?.getMySelf()" }
+  ],
+  "lifecycle": {
+    "prerequisites": [
+      "Zoom Video SDK initialized and registered with the toolkit via ZMUIToolKitManager.initialize(videoSDK:bundleId:) BEFORE constructing the button.",
+      "bundleId passed to initialize should be the ReplayKit Broadcast Upload Extension bundle identifier; it is assigned to RPSystemBroadcastPickerView.preferredExtension so the picker pre-selects your extension. If empty, preferredExtension is left unset and the user must pick manually.",
+      "Host app must provide a configured ReplayKit Broadcast Upload Extension and entitlements; this button only presents the system picker, it does not implement the extension.",
+      "Construct and use on the main thread (@MainActor)."
+    ],
+    "ifNotInitialized": "If ZMUIToolKitManager.videoSDK is nil, the button constructs in the 'start' state, is DISABLED (canCurrentUserStartScreenShare() returns false when the share helper is nil), and tap actions take no effect (callback guards on the share helper being non-nil).",
+    "entryPoints": [
+      { "event": "init()", "actions": ["determine initial state from shareHelper.isScreenSharingOut()", "build descriptor (40x40, clear bg, secondaryLabel icon color, zero padding, iconname StartShare/StopShare)", "super.init(descriptor:)", "isEnabled = canCurrentUserStartScreenShare()", "ZMUIToolKitManager.videoSDKDelegate.add(self)"] }
+    ],
+    "exitPoints": [
+      { "event": "deinit", "actions": ["ZMUIToolKitManager.videoSDKDelegate.remove(self)"], "note": "Delegates are held weakly by CompositeZoomVideoSDKDelegate." }
+    ],
+    "didMoveToWindow": "This button does not override didMoveToWindow(). Initial state is set at construction and thereafter updated by onUserShareStatusChanged.",
+    "delegateModel": "The button does NOT assign itself to ZoomVideoSDK.delegate. It registers with the toolkit fan-out delegate ZMUIToolKitManager.videoSDKDelegate (CompositeZoomVideoSDKDelegate), enabling multiple observers. Child delegates are stored weakly (NSHashTable.weakObjects())."
+  },
+  "states": [
+    { "id": "start", "rawValue": 1, "description": "Local user is NOT sharing out", "icon": "StartShare", "tapAction": "Present RPSystemBroadcastPickerView (ReplayKit system broadcast picker)" },
+    { "id": "stop", "rawValue": 2, "description": "Local user IS sharing out", "icon": "StopShare", "tapAction": "shareHelper.stopShare()" }
+  ],
+  "stateTransitions": [
+    { "from": "start", "trigger": "tap", "action": "guard canCurrentUserStartScreenShare(); if !shareHelper.isSharingOut(), remove any existing picker by tag, add RPSystemBroadcastPickerView (tag 10001, showsMicrophoneButton=false, preferredExtension=bundleId if non-empty), then send .allTouchEvents to its internal UIButton to trigger it", "to": "unchanged (transition to .stop happens later via onUserShareStatusChanged(.start/.resume))", "condition": "no SDK return value to inspect because starting is driven by the system picker; icon updates to the sharing state once the broadcast begins" },
+    { "from": "stop", "trigger": "tap", "action": "shareHelper.stopShare()", "to": "start", "condition": "error == .Errors_Success (switchTo(.start))" },
+    { "from": "any", "trigger": "onUserShareStatusChanged(.start or .resume) for local user", "action": "switchTo(.stop) + dismissBroadcastPicker()", "to": "stop", "condition": "authoritative; only when changed user == getMySelf()" },
+    { "from": "any", "trigger": "onUserShareStatusChanged(.none or .stop) for local user", "action": "switchTo(.start) + dismissBroadcastPicker()", "to": "start", "condition": "authoritative; only when changed user == getMySelf()" }
+  ],
+  "postCallbackEffect": "After every onUserShareStatusChanged for the local user, isEnabled is recomputed via canCurrentUserStartScreenShare(), regardless of which status branch was taken (including the default/no-icon-change branch).",
+  "enablementRule": {
+    "function": "canCurrentUserStartScreenShare",
+    "appliedAt": ["construction (isEnabled)", "after each local-user onUserShareStatusChanged", "top of tap callback (short-circuits action if false)"],
+    "nilHelperDefaults": { "isSupportInAppScreenShare": false, "isShareLocked": true, "isMultiShareEnabled": false, "isOtherSharing": true },
+    "logic": [
+      "if !isSupportInAppScreenShare -> return false",
+      "if isShareLocked -> return false",
+      "if !isMultiShareEnabled && isOtherSharing -> return false",
+      "otherwise -> return true"
+    ]
+  },
+  "initialStateRule": {
+    "function": "init()",
+    "logic": [
+      "shareHelper.isScreenSharingOut() == true -> currentType = .stop, icon = StopShare",
+      "otherwise -> currentType = .start, icon = StartShare"
+    ]
+  },
+  "apis": [
+    {
+      "name": "init",
+      "signature": "@objc public init()",
+      "kind": "designated initializer",
+      "access": "public",
+      "description": "Reads shareHelper.isScreenSharingOut() to choose initial state/icon, constructs the button, sets isEnabled from canCurrentUserStartScreenShare(), and registers as a delegate observer.",
+      "preconditions": ["Toolkit initialized via ZMUIToolKitManager.initialize (recommended)", "Main thread (@MainActor)"],
+      "sideEffects": ["Sets isEnabled", "Adds self to ZMUIToolKitManager.videoSDKDelegate"],
+      "returns": "configured ZMUIToolkitShareBtn",
+      "errorCodes": []
+    },
+    {
+      "name": "init(coder:)",
+      "signature": "@MainActor required public init?(coder: NSCoder)",
+      "kind": "initializer",
+      "access": "public",
+      "description": "NOT SUPPORTED. Calls fatalError. Do not instantiate from Storyboard/XIB.",
+      "preconditions": [],
+      "sideEffects": ["Traps (fatalError)"],
+      "returns": "never",
+      "errorCodes": []
+    },
+    {
+      "name": "setStartShareIcon",
+      "signature": "public func setStartShareIcon(image: UIImage)",
+      "access": "public",
+      "description": "Overrides the icon used for the 'start' state. Applied immediately if currently in the start state.",
+      "parameters": [{ "name": "image", "type": "UIImage", "description": "Replacement start-state icon" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Updates startIcon; calls switchTo(.start) if currentType == .start"],
+      "errorCodes": []
+    },
+    {
+      "name": "setStopShareIcon",
+      "signature": "public func setStopShareIcon(image: UIImage)",
+      "access": "public",
+      "description": "Overrides the icon used for the 'stop' state. Applied immediately if currently in the stop state.",
+      "parameters": [{ "name": "image", "type": "UIImage", "description": "Replacement stop-state icon" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Updates stopIcon; calls switchTo(.stop) if currentType == .stop"],
+      "errorCodes": []
+    },
+    {
+      "name": "canCurrentUserStartScreenShare",
+      "signature": "func canCurrentUserStartScreenShare() -> Bool",
+      "access": "internal",
+      "description": "Returns whether the local user is currently permitted to start an in-app screen share, based on in-app-share support, host share lock, multi-share setting, and whether another user is sharing. Drives isEnabled and gates the tap action. Returns false defensively when the share helper is nil.",
+      "parameters": [],
+      "preconditions": ["Main thread"],
+      "returns": "Bool (true if sharing may be started)",
+      "sideEffects": [],
+      "errorCodes": []
+    },
+    {
+      "name": "switchTo",
+      "signature": "internal func switchTo(type: ShareButtonType)",
+      "access": "internal",
+      "description": "Sets currentType and updates the displayed image to match (startIcon for .start, stopIcon for .stop). Internal; documented for completeness.",
+      "parameters": [{ "name": "type", "type": "ShareButtonType", "description": "Target state" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Sets currentType and the normal-state image"],
+      "errorCodes": []
+    },
+    {
+      "name": "dismissBroadcastPicker",
+      "signature": "@objc internal func dismissBroadcastPicker()",
+      "access": "internal",
+      "description": "Removes the RPSystemBroadcastPickerView (located by tag kBroadcastPickerTag=10001) from the window if present. Called whenever the local user's share status changes (start, resume, none, stop) to clean up the transient picker view.",
+      "parameters": [],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Removes the broadcast picker view from the window"],
+      "errorCodes": []
+    }
+  ],
+  "inheritedConfiguration": {
+    "from": "ZMUIToolkitIconBtn",
+    "commonSetters": ["setBackgroundColor(color:)", "setRadius(radius:)", "setSize(size:)", "setPosition(x:y:)", "setIconColor(color:)", "setIcon(icon:)", "setIconSize(_:)", "setIconPadding(padding:)", "setAccessibility(label:hint:)"],
+    "warning": "Do not use setIcon/setImage to represent share state; it is transient and overwritten on the next state change. Use the per-state setStartShareIcon / setStopShareIcon methods."
+  },
+  "callbacks": [
+    {
+      "name": "onUserShareStatusChanged",
+      "signature": "public func onUserShareStatusChanged(_ helper: ZoomVideoSDKShareHelper?, user: ZoomVideoSDKUser?, shareAction: ZoomVideoSDKShareAction?)",
+      "source": "ZoomVideoSDKDelegate (via CompositeZoomVideoSDKDelegate)",
+      "threading": "main thread",
+      "description": "Fired when any user's share status changes. Filters to the local user (changed user must equal getSession()?.getMySelf()). Reads status via shareAction?.getShareStatus() (default .none). On .start/.resume -> switchTo(.stop) + dismissBroadcastPicker(); on .none/.stop -> switchTo(.start) + dismissBroadcastPicker(); other statuses -> no icon change. Afterwards isEnabled is recomputed from canCurrentUserStartScreenShare().",
+      "stateChange": "resyncs the icon to match SDK share status for local-user changes only; always re-evaluates isEnabled",
+      "statusHandling": {
+        ".start": "switchTo(.stop) + dismissBroadcastPicker()",
+        ".resume": "switchTo(.stop) + dismissBroadcastPicker()",
+        ".none": "switchTo(.start) + dismissBroadcastPicker()",
+        ".stop": "switchTo(.start) + dismissBroadcastPicker()",
+        "default": "no icon change (falls through); isEnabled still recomputed"
+      },
+      "noOpConditions": ["local user (getMySelf()) cannot be resolved", "changed user is nil or not equal to the local user"]
+    }
+  ],
+  "errorHandling": {
+    "strategy": "Share starting is delegated to the OS ReplayKit broadcast picker. stopShare() returns a ZoomVideoSDKError, and .Errors_Success triggers the icon update to .start. The button reflects the authoritative share state reported by the SDK; its icon updates to the sharing state once a broadcast begins via onUserShareStatusChanged.",
+    "perAction": [
+      { "action": "startShare", "calls": ["(none) presents RPSystemBroadcastPickerView and programmatically triggers its UIButton"], "onSuccess": "no immediate UI change; transition to .stop occurs on onUserShareStatusChanged(.start)", "onResult": "the icon updates to the sharing state once the broadcast begins via onUserShareStatusChanged. To respond to outcomes, observe SDK events via ZMUIToolKitManager.videoSDKDelegate.add(_:)." },
+      { "action": "stopShare", "calls": ["shareHelper.stopShare()"], "onSuccess": "switchTo(.start)", "onOtherResult": "icon unchanged; reconciled by onUserShareStatusChanged" }
+    ],
+    "retryStrategy": "To respond to outcomes, observe SDK events via ZMUIToolKitManager.videoSDKDelegate.add(_:) (e.g. implementing onFailed(toStartShare:user:) and on(inAppScreenShare:)).",
+    "recoveryActions": ["Authoritative state reconciled by onUserShareStatusChanged", "CompositeZoomVideoSDKDelegate forwards onFailed(toStartShare:user:) and on(inAppScreenShare:) to any observer that implements them"]
+  },
+  "rules": {
+    "required": [
+      "Initialize the toolkit (ZMUIToolKitManager.initialize(videoSDK:bundleId:)) before constructing the button.",
+      "Pass the ReplayKit Broadcast Upload Extension bundle id as bundleId so the picker pre-selects your extension.",
+      "Provide a configured ReplayKit Broadcast Upload Extension and entitlements in the host app; this button only presents the system picker.",
+      "Construct and use the button on the main thread."
+    ],
+    "forbidden": [
+      "Instantiating via init?(coder:) / Interface Builder (traps with fatalError).",
+      "Assigning the button (or anything) directly to ZoomVideoSDK.delegate; use ZMUIToolKitManager.videoSDKDelegate.add(_:).",
+      "Adding another view with tag 10001 (kBroadcastPickerTag) to the button's window; the button uses this tag to locate/dismiss the picker.",
+      "Using inherited setIcon/setImage to represent share state; it is overwritten on the next state change."
+    ]
+  },
+  "examples": [
+    {
+      "title": "Add the button to a toolbar (happy path)",
+      "scenario": "happy-path",
+      "code": "// Assumes ZMUIToolKitManager.initialize(videoSDK:bundleId: \"com.yourapp.BroadcastExtension\")\n// was already called with the Broadcast Upload Extension's bundle id.\nlet shareButton = ZMUIToolkitShareBtn()\nshareButton.setSize(size: CGSize(width: 44, height: 44))\ntoolbarStackView.addArrangedSubview(shareButton)\n// Self-registers for share status updates, presents the ReplayKit broadcast picker on tap when idle,\n// and stops sharing on tap when active."
+    },
+    {
+      "title": "Customize per-state icons",
+      "scenario": "customization",
+      "code": "let shareButton = ZMUIToolkitShareBtn()\nshareButton.setStartShareIcon(image: UIImage(named: \"custom_start_share\")!)\nshareButton.setStopShareIcon(image: UIImage(named: \"custom_stop_share\")!)\n// If the current state matches one of these, its icon updates immediately."
+    },
+    {
+      "title": "Observe share-start outcomes yourself",
+      "scenario": "outcome-handling",
+      "code": "final class ShareOutcomeObserver: NSObject, ZoomVideoSDKDelegate {\n    func onFailed(toStartShare helper: ZoomVideoSDKShareHelper, user: ZoomVideoSDKUser?) {\n        // Show retry UI / logging when a share fails to start.\n    }\n    func on(inAppScreenShare code: RPRecordingErrorCode) {\n        // Handle ReplayKit broadcast events.\n    }\n}\nlet observer = ShareOutcomeObserver()\nZMUIToolKitManager.videoSDKDelegate.add(observer) // held weakly — retain observer yourself"
+    },
+    {
+      "title": "Lifecycle / teardown",
+      "scenario": "teardown",
+      "code": "shareButton.removeFromSuperview()\n// shareButton = nil  // deinit -> ZMUIToolKitManager.videoSDKDelegate.remove(self)"
+    }
+  ],
+  "codeSnippets": [
+    {
+      "name": "determineCurrentShareState",
+      "description": "Compute current share state from the SDK (mirrors init()).",
+      "code": "let shareHelper = ZMUIToolKitManager.videoSDK?.getShareHelper()\nlet isSharingOut = shareHelper?.isScreenSharingOut() ?? false\nif isSharingOut {\n    // currently sharing -> 'stop' state (tap stops the share)\n} else {\n    // idle -> 'start' state (tap presents the broadcast picker)\n}"
+    },
+    {
+      "name": "startEligibilityGate",
+      "description": "Reproduce the start-eligibility gate (mirrors canCurrentUserStartScreenShare).",
+      "code": "let helper = ZMUIToolKitManager.videoSDK?.getShareHelper()\nlet canStart =\n    (helper?.isSupportInAppScreenShare() ?? false) &&\n    !(helper?.isShareLocked() ?? true) &&\n    !((helper?.isMultiShareEnabled() ?? false) == false && (helper?.isOtherSharing() ?? true))\n// canStart drives the button's isEnabled"
+    }
+  ],
+  "metadata": {
+    "documentVersion": "1.0.0",
+    "schemaVersion": "2.4.0",
+    "lastUpdated": "2026-06-18",
+    "status": "Published",
+    "platform": "iOS",
+    "generatedBy": "api-doc-generator",
+    "verification": "Behaviors verified directly against implementation source (ZMUIToolkitShareBtn.swift, ZMUIToolkitIconBtn.swift, ZMUIToolkitDescriptor.swift, ZMUIToolKitManager.swift, CompositeZoomVideoSDKDelegate.swift); not assumed.",
+    "completeness": "JSON mirrors all content in ZMUIToolkitShareBtn-API.md."
+  }
+}

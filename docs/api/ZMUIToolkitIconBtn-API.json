@@ -1,0 +1,469 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "module": "ZMUIToolkitIconBtn",
+  "language": "Swift",
+  "platform": "iOS",
+  "version": "1.0",
+  "framework": "ZMUIToolkit",
+  "superclass": "UIButton",
+  "conformsTo": [],
+  "concurrency": "@MainActor",
+  "objcExposed": true,
+  "objcName": "ZMUIToolkitIconBtn",
+  "classKind": "open class (subclassable from other modules)",
+  "overview": "Base class for all ZMUIToolkit buttons. A UIButton subclass that renders its background through a dedicated CALayer (backLayer) with automatic corner rounding and state-driven coloring (normal/selected/pressed/disabled), lays out an icon or an icon-above-single-line-title, exposes a rich set of @objc configuration setters (size, position, corner radius, background color, icon image/color/size, icon padding, text, text color, font size, font weight, accessibility, badge), and dispatches taps via onButtonClicked() -> buttonClickAction closure. It is a pure UIKit configuration component with no SDK lifecycle, no delegate registration, and no error codes; the only state machine is a VISUAL one over UIControl state and touch phase.",
+  "sourceFile": "ZMUIToolkit/ZMUIToolkit/Sources/Buttons/ZMUIToolkitIconBtn.swift",
+  "relatedFiles": [
+    "ZMUIToolkit/ZMUIToolkit/Sources/Internal/ZMUIToolkitDescriptor.swift",
+    "ZMUIToolkit/ZMUIToolkit/Sources/Internal/Buttons/ZMBadge.swift"
+  ],
+  "typeDefinitions": [
+    {
+      "name": "ZMUIToolkitIconBtn",
+      "kind": "class",
+      "access": "open",
+      "rawSuperclass": "UIButton",
+      "notes": "This class. @MainActor, @objc(ZMUIToolkitIconBtn). Base class for all toolkit buttons."
+    },
+    {
+      "name": "Layout",
+      "kind": "enum",
+      "access": "private",
+      "role": "namespace of layout constants",
+      "constants": {
+        "mediumSizeThreshold": 32.0,
+        "circularCornerRadiusDivisor": 2.0,
+        "roundedCornerRadiusDivisor": 4.0,
+        "defaultButtonSize": "40x40",
+        "proportionalOffsetNumerator": 3.0,
+        "proportionalOffsetDenominator": 12.0,
+        "defaultBadgeOffset": 3.0,
+        "defaultBadgeTextInset": "2x0",
+        "highlightRestoreDelay": "0.1s"
+      }
+    },
+    {
+      "name": "IconLayoutMode",
+      "kind": "enum",
+      "access": "private",
+      "cases": [
+        { "name": "iconOnly", "meaning": "Normal-state title is empty/nil; icon centered." },
+        { "name": "iconWithText", "meaning": "Normal-state title non-empty; icon stacked above a single-line, center-aligned, tail-truncated title." }
+      ]
+    },
+    {
+      "name": "ZMUIToolKitIconDescriptor",
+      "kind": "protocol",
+      "access": "internal",
+      "role": "initializer configuration",
+      "fields": ["frame", "backgroundColor", "accessibilityLabel", "iconname", "iconPadding (Int)", "iconColor", "callback ((ZMUIToolkitIconBtn) -> Void)"]
+    },
+    {
+      "name": "ZMUIToolkitIconBtnDescriptor",
+      "kind": "struct",
+      "access": "internal",
+      "role": "concrete ZMUIToolKitIconDescriptor used by the library"
+    },
+    {
+      "name": "Badge",
+      "kind": "class",
+      "access": "internal",
+      "rawSuperclass": "UILabel",
+      "notes": "Top-right badge view. Default fill #DA1639 (red), white text, fully rounded unless cornerRadius >= 0. Dot sizes: small 8x8, medium 12x12, large 16x16; otherwise a text-sized pill. Setting empty/nil text hides it."
+    },
+    { "name": "customIconSize", "kind": "property", "type": "CGSize?", "access": "internal", "notes": "Custom icon size; nil uses intrinsic image size. Set via setIconSize." },
+    { "name": "customCornerRadius", "kind": "property", "type": "CGFloat", "access": "internal", "notes": "-1 = automatic. Set via setRadius. didSet triggers layout when changed." },
+    { "name": "buttonSize", "kind": "computed property", "type": "CGSize", "access": "internal", "notes": "Backing _buttonSize; sanitized on set (non-finite -> 40, min 1). Returned by intrinsicContentSize." },
+    { "name": "buttonClickAction", "kind": "property", "type": "(ZMUIToolkitIconBtn) -> Void", "access": "internal", "notes": "Click closure, default { _ in } (does nothing)." },
+    { "name": "textSpacing", "kind": "property", "type": "CGFloat", "access": "internal", "default": 4.0, "notes": "Spacing between icon and title. Sanitized (non-finite -> 0, negative -> 0). didSet updates title configuration and triggers layout." }
+  ],
+  "lifecycle": {
+    "prerequisites": [
+      "Construct and use on the main thread (@MainActor).",
+      "Designated initializer takes a ZMUIToolKitIconDescriptor, which is an INTERNAL protocol; external callers generally construct a subclass that builds the descriptor internally rather than instantiating ZMUIToolkitIconBtn directly."
+    ],
+    "entryPoints": [
+      {
+        "event": "init(descriptor:)",
+        "actions": [
+          "load image named descriptor.iconname from the ZMUIToolkit bundle",
+          "compute size = descriptor.frame.size, or 40x40 if .zero",
+          "finishInit: set _buttonSize, set normal image, center content, wire touchUpInside -> handleTouchUpInside -> onButtonClicked, add hidden badge subview, updateBadgeAppearance, register trait-change handler (iOS 17+), titleStateDidChange",
+          "apply descriptor backgroundColor, accessibilityLabel, iconPadding, iconColor, buttonClickAction"
+        ]
+      },
+      {
+        "event": "layoutSubviews()",
+        "actions": [
+          "if bounds degenerate (0 width/height), reset bounds/frame to buttonSize (min 1)",
+          "on first run insert backLayer at index 0",
+          "set backLayer.frame = bounds",
+          "compute corner radius (custom >= 0, else circular if max side <= 32, else rounded)",
+          "layer.cornerRadius = backLayer.cornerRadius; clipsToBounds = true",
+          "layout title (re-apply storedFontSize), layout image and title",
+          "updateBadgeAppearance, layoutBadge"
+        ]
+      }
+    ],
+    "exitPoints": [
+      { "event": "deinit", "actions": [], "note": "No custom deinit; no SDK/delegate cleanup needed." }
+    ],
+    "notSupportedInit": {
+      "init?(coder:)": "Calls fatalError('init(coder:) has not been implemented'). Do not instantiate from Storyboard/XIB."
+    },
+    "intrinsicContentSize": "Returns buttonSize, so the button reports its configured size to Auto Layout / stack views.",
+    "delegateModel": "None. This class defines no protocol/delegate callbacks; the only event hook is the click pipeline."
+  },
+  "stateMachineNote": "This is a VISUAL state machine over UIControl state + touch phase. It is NOT an SDK/feature state machine. There are no async transitions, no feature callbacks, and no error codes.",
+  "states": [
+    { "id": "Normal", "description": "Enabled, untouched (or restored after touch)", "backLayerColor": "_customBackgroundColor if set, else UIColor.systemGray6" },
+    { "id": "Selected", "description": "Enabled with isSelected == true", "backLayerColor": "slightly emphasized normal color; if the normal color is fully transparent, falls back to UIColor.systemGray5" },
+    { "id": "Pressed", "description": "Enabled, finger down (touchesBegan)", "backLayerColor": "UIColor.systemGray5" },
+    { "id": "Disabled", "description": "isEnabled == false", "backLayerColor": "UIColor.systemGray4" }
+  ],
+  "stateTransitions": [
+    { "from": "Normal", "trigger": "touchesBegan (enabled only)", "to": "Pressed", "notes": "Guarded by isEnabled; color change is non-animated via CATransaction setDisableActions(true)." },
+    { "from": "Pressed", "trigger": "touchesEnded / touchesCancelled (enabled only)", "to": "Normal", "notes": "Restoration scheduled 0.1s later via DispatchQueue.main.asyncAfter calling updateBackgroundColor()." },
+    { "from": "any", "trigger": "isSelected set (didSet)", "to": "Normal or Selected", "notes": "Calls updateBackgroundColor()." },
+    { "from": "any", "trigger": "isEnabled set (didSet)", "to": "Normal or Disabled", "notes": "Calls updateBackgroundColor()." },
+    { "from": "any", "trigger": "trait change (light/dark, userInterfaceStyle)", "to": "recolored", "notes": "iOS 17+ via registerForTraitChanges; below 17 via traitCollectionDidChange. Both call updateBackgroundColor()." }
+  ],
+  "iconLayoutModes": {
+    "iconOnly": "Icon centered in content rect (after content insets). Active when normal-state title is empty/nil.",
+    "iconWithText": "Icon stacked above a single-line, center-aligned, tail-truncated title separated by textSpacing; group vertically centered. Active when normal-state title is non-empty.",
+    "recomputedWhen": "Title changes via setTitle/setAttributedTitle (.normal) or setButtonText."
+  },
+  "cornerRadiusRule": {
+    "function": "layoutSubviews",
+    "logic": [
+      "customCornerRadius >= 0 -> backLayer.cornerRadius = customCornerRadius",
+      "else if max(width,height) <= 32 -> cornerRadius = backLayer.height / 2 (fully circular)",
+      "else -> cornerRadius = backLayer.height / 4 (rounded)"
+    ],
+    "after": "layer.cornerRadius set to match backLayer.cornerRadius; clipsToBounds = true"
+  },
+  "apis": [
+    {
+      "name": "init(descriptor:)",
+      "signature": "init(descriptor: ZMUIToolKitIconDescriptor)",
+      "kind": "designated initializer",
+      "access": "internal (parameter type ZMUIToolKitIconDescriptor is an internal protocol)",
+      "description": "Loads the icon asset named descriptor.iconname from the ZMUIToolkit bundle, sizes the button (descriptor frame size, or 40x40 if .zero), then applies background color, accessibility label, icon padding, icon color, and click callback from the descriptor.",
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Adds a hidden badge subview", "Registers a trait-change handler (iOS 17+)", "Wires touchUpInside action"],
+      "returns": "configured ZMUIToolkitIconBtn",
+      "errorCodes": []
+    },
+    {
+      "name": "init(coder:)",
+      "signature": "@MainActor required public init?(coder: NSCoder)",
+      "kind": "initializer",
+      "access": "public",
+      "description": "NOT SUPPORTED. Calls fatalError('init(coder:) has not been implemented'). Do not instantiate from Storyboard/XIB.",
+      "preconditions": [],
+      "sideEffects": ["Traps (fatalError)"],
+      "returns": "never",
+      "errorCodes": []
+    },
+    {
+      "name": "onButtonClicked",
+      "signature": "@objc public func onButtonClicked()",
+      "access": "public",
+      "description": "Invoked on touchUpInside (via handleTouchUpInside). Base implementation calls buttonClickAction(self). Override in subclasses for button-specific behavior; call super to still fire the closure.",
+      "parameters": [],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Invokes buttonClickAction(self)"],
+      "errorCodes": []
+    },
+    {
+      "name": "setBackgroundColor",
+      "signature": "@objc public func setBackgroundColor(color: UIColor)",
+      "access": "public",
+      "description": "Sets the normal-state background color, stored in _customBackgroundColor and rendered through backLayer. The UIView.backgroundColor setter forces the real view background to nil.",
+      "parameters": [{ "name": "color", "type": "UIColor", "description": "Normal-state background color" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Stores _customBackgroundColor; sets backLayer.backgroundColor"],
+      "notes": ["Disabled state shows systemGray4; pressed shows systemGray5; if never set, normal falls back to systemGray6."],
+      "errorCodes": []
+    },
+    {
+      "name": "setRadius",
+      "signature": "@objc public func setRadius(radius: CGFloat)",
+      "access": "public",
+      "description": "Sets an explicit corner radius (customCornerRadius). Value >= 0 overrides automatic circular/rounded behavior; -1 restores automatic rounding.",
+      "parameters": [{ "name": "radius", "type": "CGFloat", "description": "Corner radius in points, or -1 for automatic" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["setNeedsLayout()"],
+      "errorCodes": []
+    },
+    {
+      "name": "setSize",
+      "signature": "@objc public func setSize(size: CGSize)",
+      "access": "public",
+      "description": "Sets button width/height (buttonSize). Non-finite -> 40; each dimension clamped to >= 1. Updates intrinsicContentSize and triggers layout.",
+      "parameters": [{ "name": "size", "type": "CGSize", "description": "Desired button size" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["invalidateIntrinsicContentSize()", "setNeedsLayout()"],
+      "errorCodes": []
+    },
+    {
+      "name": "setPosition",
+      "signature": "@objc public func setPosition(x: CGFloat, y: CGFloat)",
+      "access": "public",
+      "description": "Sets frame.origin to (x, y). Meaningful only with manual (non-Auto-Layout) placement.",
+      "parameters": [
+        { "name": "x", "type": "CGFloat", "description": "Top-left x in superview coordinates" },
+        { "name": "y", "type": "CGFloat", "description": "Top-left y in superview coordinates" }
+      ],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Sets frame.origin"],
+      "errorCodes": []
+    },
+    {
+      "name": "setIconColor",
+      "signature": "@objc public func setIconColor(color: UIColor)",
+      "access": "public",
+      "description": "Sets icon tint by assigning tintColor and imageView.tintColor. Only affects template (tintable) images.",
+      "parameters": [{ "name": "color", "type": "UIColor", "description": "Icon tint color" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Sets tintColor and imageView.tintColor"],
+      "errorCodes": []
+    },
+    {
+      "name": "setIcon",
+      "signature": "@objc public func setIcon(icon: UIImage)",
+      "access": "public",
+      "description": "Sets the normal-state image. Re-applies current tintColor to the image view, then setImage(_:for: .normal) (triggers layout).",
+      "parameters": [{ "name": "icon", "type": "UIImage", "description": "Image to display" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Sets imageView.tintColor; setImage(.normal); setNeedsLayout()"],
+      "errorCodes": []
+    },
+    {
+      "name": "setIconSize",
+      "signature": "@objc public func setIconSize(_ size: CGSize)",
+      "access": "public",
+      "description": "Sets a custom icon size used during layout. Non-finite -> 0; clamped >= 0. If both width and height > 0 the custom size is applied (constrained to the content rect); otherwise the custom size is cleared and the icon uses its intrinsic image size.",
+      "parameters": [{ "name": "size", "type": "CGSize", "description": "Desired icon size, or .zero to use intrinsic size" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Sets/clears customIconSize; setNeedsLayout()"],
+      "errorCodes": []
+    },
+    {
+      "name": "setIconPadding",
+      "signature": "@objc public func setIconPadding(padding: CGFloat)",
+      "access": "public",
+      "description": "Sets uniform content insets (top/leading/bottom/trailing) around the icon/title content. Negative values clamped to 0.",
+      "parameters": [{ "name": "padding", "type": "CGFloat", "description": "Uniform inset in points (>= 0)" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Applies NSDirectionalEdgeInsets via setIconContentInsets; setNeedsLayout()"],
+      "errorCodes": []
+    },
+    {
+      "name": "setAccessibility",
+      "signature": "@objc public func setAccessibility(label: String?, hint: String?)",
+      "access": "public",
+      "description": "Sets accessibilityLabel and accessibilityHint.",
+      "parameters": [
+        { "name": "label", "type": "String?", "description": "VoiceOver label" },
+        { "name": "hint", "type": "String?", "description": "VoiceOver hint" }
+      ],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Sets accessibilityLabel and accessibilityHint"],
+      "errorCodes": []
+    },
+    {
+      "name": "setButtonText",
+      "signature": "@objc public func setButtonText(_ title: String?)",
+      "access": "public",
+      "description": "Sets the normal-state title. Non-empty title switches to iconWithText layout; empty/nil switches back to iconOnly.",
+      "parameters": [{ "name": "title", "type": "String?", "description": "Text below the icon, or nil/empty to remove text" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["setTitle(.normal) -> titleStateDidChange() -> recomputes layout mode; setNeedsLayout()"],
+      "errorCodes": []
+    },
+    {
+      "name": "setTextColor",
+      "signature": "@objc public func setTextColor(_ color: UIColor)",
+      "access": "public",
+      "description": "Sets the title color for ALL control states (.normal, .highlighted, .selected, .disabled).",
+      "parameters": [{ "name": "color", "type": "UIColor", "description": "Title text color" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["setTitleColor for all four states"],
+      "errorCodes": []
+    },
+    {
+      "name": "setTextFontSize",
+      "signature": "@objc public func setTextFontSize(_ fontSize: CGFloat)",
+      "access": "public",
+      "description": "Sets the title font size. Stores the value (re-applied each layout via layoutTitleIfNeeded) and immediately sets titleLabel.font to systemFont(ofSize:).",
+      "parameters": [{ "name": "fontSize", "type": "CGFloat", "description": "Point size for the title" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Sets storedFontSize and titleLabel.font; setNeedsLayout()"],
+      "errorCodes": []
+    },
+    {
+      "name": "setTextSpacing",
+      "signature": "@objc public func setTextSpacing(_ spacing: CGFloat)",
+      "access": "public",
+      "description": "Sets vertical spacing between icon and title (assigns textSpacing). Non-finite -> 0; negative clamped to 0.",
+      "parameters": [{ "name": "spacing", "type": "CGFloat", "description": "Gap in points between icon and title" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["textSpacing didSet updates title configuration; setNeedsLayout()"],
+      "errorCodes": []
+    },
+    {
+      "name": "setFontSize",
+      "signature": "@objc public func setFontSize(_ fontSize: CGFloat)",
+      "access": "public",
+      "description": "Alias for setTextFontSize(_:). Behavior is identical.",
+      "parameters": [{ "name": "fontSize", "type": "CGFloat", "description": "Point size for the title" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Delegates to setTextFontSize"],
+      "errorCodes": []
+    },
+    {
+      "name": "setFontWeight",
+      "signature": "public func setFontWeight(_ weight: UIFont.Weight)",
+      "access": "public (Swift only, not @objc)",
+      "description": "Sets the title font weight, preserving the current point size (defaults to 17.0 if no font set). Swift-only because UIFont.Weight is not Objective-C representable.",
+      "parameters": [{ "name": "weight", "type": "UIFont.Weight", "description": "Target font weight" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Sets titleLabel.font; setNeedsLayout()"],
+      "errorCodes": []
+    },
+    {
+      "name": "setFontWeightRawValue",
+      "signature": "@objc public func setFontWeightRawValue(_ weightValue: CGFloat)",
+      "access": "public",
+      "description": "Objective-C-friendly font-weight setter. Maps specific raw CGFloat values to UIFont.Weight and delegates to setFontWeight. Accepts these exact values: 0.0 ultraLight, 0.2 thin, 0.3 light, 0.4 regular, 0.5 medium, 0.6 semibold, 0.7 bold, 0.8 heavy, 1.0 black; other values use regular.",
+      "parameters": [{ "name": "weightValue", "type": "CGFloat", "description": "One of 0.0 ultraLight, 0.2 thin, 0.3 light, 0.4 regular, 0.5 medium, 0.6 semibold, 0.7 bold, 0.8 heavy, 1.0 black; other values use regular" }],
+      "weightMap": {
+        "0.0": "ultraLight",
+        "0.2": "thin",
+        "0.3": "light",
+        "0.4": "regular",
+        "0.5": "medium",
+        "0.6": "semibold",
+        "0.7": "bold",
+        "0.8": "heavy",
+        "1.0": "black",
+        "default": "regular"
+      },
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Delegates to setFontWeight"],
+      "notes": ["Accepts the exact discrete values listed; other values use regular. Use the typed setFontWeight(_:) from Swift for arbitrary weights."],
+      "errorCodes": []
+    }
+  ],
+  "badgeProperties": [
+    { "name": "showBadge", "type": "Bool", "access": "@objc public", "default": false, "effect": "Shows/hides the badge (badge.isHidden = !showBadge)." },
+    { "name": "badgeText", "type": "String?", "access": "@objc public", "default": null, "effect": "Badge text. Empty/nil hides the badge (per Badge.text behavior). Triggers layout." },
+    { "name": "showBadgeBackground", "type": "Bool", "access": "@objc public", "default": true, "effect": "true: rounded colored pill with default text inset (2,0) and an offset; false: transparent, zero corner radius/insets, flush at top-right." },
+    { "name": "badgeBackgroundColor", "type": "UIColor?", "access": "@objc public", "default": null, "effect": "Overrides badge fill color (applied only while showBadgeBackground is true)." },
+    { "name": "badgeTextColor", "type": "UIColor?", "access": "@objc public", "default": null, "effect": "Overrides badge text color." },
+    { "name": "badgeWidth", "type": "CGFloat", "access": "@objc public", "default": 0, "effect": "Non-zero forces explicit badge width and scales the corner offset proportionally (3 * badgeWidth / 12). 0 uses intrinsic width and default 3.0 offset." }
+  ],
+  "badgeLayout": "Laid out at x = bounds.width - width + offset, y = -offset (when showBadgeBackground) so it overhangs the top-right corner. Default badge fill #DA1639 (red), white text.",
+  "overriddenUIKitMembers": [
+    { "member": "var backgroundColor: UIColor?", "behavior": "Getter returns _customBackgroundColor; setter forces real background to nil and stores/renders through backLayer." },
+    { "member": "var isEnabled", "behavior": "didSet calls updateBackgroundColor()." },
+    { "member": "var isHighlighted", "behavior": "didSet forces imageView.alpha = 1.0 (prevents default highlight dimming of the icon)." },
+    { "member": "setImage(_:for:)", "behavior": "super then setNeedsLayout()." },
+    { "member": "setTitle(_:for:)", "behavior": "super; for .normal also titleStateDidChange() to recompute icon/text layout mode." },
+    { "member": "setAttributedTitle(_:for:)", "behavior": "super; for .normal also titleStateDidChange()." },
+    { "member": "intrinsicContentSize", "behavior": "Returns buttonSize." },
+    { "member": "layoutSubviews()", "behavior": "Central layout pass; inserts backLayer, sizes it, computes corner radius, lays out icon/title and badge." },
+    { "member": "traitCollectionDidChange(_:)", "behavior": "Pre-iOS-17 dark/light recolor path (deprecated on iOS 17+)." }
+  ],
+  "callbacks": [
+    {
+      "name": "clickPipeline",
+      "signature": "touchUpInside -> @objc handleTouchUpInside() -> onButtonClicked() -> buttonClickAction(self)",
+      "source": "UIControl touch events",
+      "threading": "main thread",
+      "description": "The only event hook. buttonClickAction is a stored closure (ZMUIToolkitIconBtn) -> Void, default { _ in } (does nothing). Set from the descriptor at init or assignable directly (internal). Subclasses typically override onButtonClicked() rather than replacing the closure.",
+      "stateChange": null
+    }
+  ],
+  "noProtocolCallbacks": "ZMUIToolkitIconBtn defines no protocol/delegate callbacks. It is not SDK/session-aware.",
+  "inputValues": {
+    "summary": "This class performs no SDK calls and returns no error codes. The setters clamp and normalize their inputs to well-defined ranges.",
+    "perAction": [
+      { "setter": "setSize / buttonSize", "valueHandling": "Non-finite values use 40; each dimension clamped to a minimum of 1." },
+      { "setter": "setIconSize", "valueHandling": "Non-finite values use 0; clamped to a minimum of 0; falls back to intrinsic size unless both dimensions > 0." },
+      { "setter": "setIconPadding", "valueHandling": "Negative values use 0." },
+      { "setter": "setTextSpacing / textSpacing", "valueHandling": "Non-finite values use 0; negative values use 0." },
+      { "setter": "setFontWeightRawValue", "valueHandling": "Values other than the listed ones use regular." },
+      { "setter": "layoutSubviews", "valueHandling": "A bounds with 0 width or height is reset to buttonSize (minimum 1)." }
+    ]
+  },
+  "rules": {
+    "required": [
+      "Construct and use on the main thread (@MainActor).",
+      "Subclasses overriding onButtonClicked() should call super.onButtonClicked() to still fire the buttonClickAction closure."
+    ],
+    "forbidden": [
+      "Instantiating via init?(coder:) / Interface Builder (traps with fatalError).",
+      "Setting UIView.backgroundColor expecting a real view background; it is intercepted and rendered through backLayer (real layer background forced to nil)."
+    ],
+    "recommended": [
+      "Prefer the set* configuration methods over directly mutating UIKit properties so layout invalidation and the backLayer rendering path stay consistent.",
+      "Use the typed setFontWeight(_:) from Swift for arbitrary weights; setFontWeightRawValue only recognizes the exact discrete values."
+    ]
+  },
+  "examples": [
+    {
+      "title": "Subclass and override the click behavior",
+      "scenario": "subclassing",
+      "code": "final class MyToolbarButton: ZMUIToolkitIconBtn {\n    override func onButtonClicked() {\n        super.onButtonClicked()      // still fires buttonClickAction if set\n        // custom behavior here\n        print(\"tapped\")\n    }\n}"
+    },
+    {
+      "title": "Configure size, icon, color, and corner radius",
+      "scenario": "configuration",
+      "code": "button.setSize(size: CGSize(width: 44, height: 44))\nbutton.setIcon(icon: UIImage(named: \"Mic\")!)\nbutton.setIconColor(color: .label)\nbutton.setBackgroundColor(color: .systemGray6)\nbutton.setRadius(radius: 8)        // explicit; pass -1 to restore automatic rounding\nbutton.setIconPadding(padding: 8)"
+    },
+    {
+      "title": "Icon-with-text button",
+      "scenario": "icon-with-text",
+      "code": "button.setIcon(icon: UIImage(named: \"Participants\")!)\nbutton.setButtonText(\"Participants\")   // switches to iconWithText layout\nbutton.setTextFontSize(12)\nbutton.setTextColor(.label)\nbutton.setTextSpacing(4)\nbutton.setFontWeightRawValue(0.6)      // semibold"
+    },
+    {
+      "title": "Show a count badge",
+      "scenario": "badge",
+      "code": "button.badgeBackgroundColor = .systemRed\nbutton.badgeTextColor = .white\nbutton.badgeText = \"12\"\nbutton.showBadge = true                 // badge becomes visible\n// To hide:\nbutton.showBadge = false"
+    },
+    {
+      "title": "Programmatic placement and accessibility",
+      "scenario": "placement-accessibility",
+      "code": "button.setPosition(x: 20, y: 100)       // only meaningful without Auto Layout\nbutton.setAccessibility(label: \"Mute\", hint: \"Mutes your microphone\")"
+    }
+  ],
+  "codeSnippets": [
+    {
+      "name": "nonAnimatedLayerColorChange",
+      "description": "Mutate CALayer properties without implicit animation (mirrors layerChangeWithoutAnimation).",
+      "code": "CATransaction.begin()\nCATransaction.setDisableActions(true)\n// mutate CALayer properties here so they apply without implicit animation\nCATransaction.commit()"
+    },
+    {
+      "name": "automaticCornerRadiusRule",
+      "description": "Reproduce the automatic corner-radius rule.",
+      "code": "let maxSide = max(button.bounds.width, button.bounds.height)\nlet radius = maxSide <= 32\n    ? button.bounds.height / 2     // circular for small buttons\n    : button.bounds.height / 4     // rounded for larger buttons"
+    },
+    {
+      "name": "objcRawFontWeight",
+      "description": "Map an Objective-C raw weight to UIFont.Weight (mirrors setFontWeightRawValue).",
+      "code": "// Only these exact values map to a non-regular weight:\n// 0.0 ultraLight, 0.2 thin, 0.3 light, 0.4 regular, 0.5 medium,\n// 0.6 semibold, 0.7 bold, 0.8 heavy, 1.0 black; else regular.\n[button setFontWeightRawValue:0.6]; // semibold"
+    }
+  ],
+  "metadata": {
+    "documentVersion": "1.0.0",
+    "schemaVersion": "2.4.0",
+    "lastUpdated": "2026-06-18",
+    "status": "Published",
+    "platform": "iOS",
+    "generatedBy": "api-doc-generator",
+    "verification": "Behaviors verified directly against implementation source (ZMUIToolkitIconBtn.swift, ZMUIToolkitDescriptor.swift, ZMBadge.swift); not assumed.",
+    "completeness": "JSON mirrors all content in ZMUIToolkitIconBtn-API.md."
+  }
+}

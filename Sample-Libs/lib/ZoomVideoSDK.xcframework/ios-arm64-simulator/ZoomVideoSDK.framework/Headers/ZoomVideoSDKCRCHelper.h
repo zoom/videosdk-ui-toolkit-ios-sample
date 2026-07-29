@@ -14,7 +14,7 @@
 /**
  * @brief Determines whether the CRC feature is enabled.
  * @return YES if the CRC is enabled. Otherwise, NO.
- * @warning Only available after joining the session. Only available for the host or manager.
+ * @warning Only available after joining the session.
  */
 - (BOOL)isCRCEnabled;
 
@@ -29,14 +29,14 @@
  * @param ipAddr The CRC device's IP address.
  * @param protocol The protocol of the CRC device.
  * @return If the function succeeds, it returns Errors_Success. Otherwise, this function returns an error.
- * @warning Only available for the host or co-host.
+ * @warning Only available for the host or manager.
  */
 - (ZoomVideoSDKError)callCRCDevice:(NSString * _Nullable)ipAddr protocol:(ZoomVideoSDKCRCProtocol)protocol;
 
 /**
  * @brief Cancels the call to the CRC device.
  * @return If the function succeeds, it returns Errors_Success. Otherwise, this function returns an error.
- * @warning Only available for the host or co-host.
+ * @warning Only available for the host or manager.
  */
 - (ZoomVideoSDKError)cancelCallCRCDevice;
 

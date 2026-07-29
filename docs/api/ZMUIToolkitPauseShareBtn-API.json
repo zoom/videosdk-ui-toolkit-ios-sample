@@ -1,0 +1,257 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "module": "ZMUIToolkitPauseShareBtn",
+  "language": "Swift",
+  "platform": "iOS",
+  "version": "1.0",
+  "framework": "ZMUIToolkit",
+  "superclass": "ZMUIToolkitIconBtn",
+  "conformsTo": ["ZoomVideoSDKDelegate"],
+  "concurrency": "@MainActor",
+  "objcExposed": true,
+  "objcName": "ZMUIToolkitPauseShareBtn",
+  "overview": "A self-managing, icon-only button that pauses and resumes the LOCAL user's active screen share in Zoom Video SDK sessions. On tap it calls pauseShare() when the share is live or resumeShare() when paused, via the ZMShareManager singleton. It enables/disables itself based on whether a share is active (greyed out unless sharing), registers as a delegate observer, and automatically keeps its icon and enabled state synchronized with the authoritative SDK share status.",
+  "sourceFile": "ZMUIToolkit/ZMUIToolkit/Sources/Buttons/ZMUIToolkitPauseShareBtn.swift",
+  "typeDefinitions": [
+    {
+      "name": "PauseShareButtonType",
+      "kind": "enum",
+      "rawType": "Int",
+      "access": "internal",
+      "cases": [
+        { "name": "playing", "rawValue": 1, "meaning": "Share is active and live (not paused). A tap pauses the share.", "defaultIcon": "PauseShare" },
+        { "name": "paused", "rawValue": 2, "meaning": "Share is active but paused. A tap resumes the share.", "defaultIcon": "ResumeShare" }
+      ],
+      "note": "Case names describe the CURRENT state, not the tap action. In .playing (live) a tap pauses; in .paused a tap resumes."
+    },
+    { "name": "ZMUIToolkitIconBtn", "kind": "class", "access": "open", "role": "superclass", "notes": "UIButton subclass providing icon/badge/layout configuration, click callback dispatch, and disabled-state rendering (systemGray4 background when !isEnabled)." },
+    { "name": "ZMUIToolkitIconBtnDescriptor", "kind": "struct", "access": "internal", "role": "initializer configuration", "fields": ["frame", "backgroundColor", "accessibilityLabel", "iconname", "iconPadding", "iconColor", "callback"] },
+    { "name": "ZMUIToolKitManager", "kind": "class", "role": "holds ZoomVideoSDK instance and videoSDKDelegate fan-out" },
+    { "name": "CompositeZoomVideoSDKDelegate", "kind": "class", "role": "weak fan-out delegate; register via add(_:) / remove(_:)" },
+    { "name": "ZMShareManager", "kind": "class", "access": "internal", "concurrency": "@MainActor", "role": "Singleton (ZMShareManager.shared); single source of truth for share state and control", "members": ["isSharing: Bool (shareHelper.isScreenSharingOut())", "isPaused: Bool (true when sharing AND local user's share-action list contains an action with getShareStatus() == .pause)", "pauseShare() -> ZoomVideoSDKError", "resumeShare() -> ZoomVideoSDKError"], "notes": "pauseShare()/resumeShare() return .Errors_Wrong_Usage if the share helper is nil; otherwise return the SDK error directly." },
+    { "name": "ZoomVideoSDKShareHelper", "kind": "sdkClass", "methods": ["pauseShare() -> ZoomVideoSDKError", "resumeShare() -> ZoomVideoSDKError", "isScreenSharingOut() -> Bool"] },
+    { "name": "ZoomVideoSDKShareAction", "kind": "sdkClass", "methods": ["getShareStatus() -> ZoomVideoSDKReceiveSharingStatus"], "notes": "Obtained from the local user's getShareActionList()." },
+    {
+      "name": "ZoomVideoSDKReceiveSharingStatus",
+      "kind": "sdkEnum",
+      "rawType": "NSUInteger",
+      "values": [
+        { "name": "ZoomVideoSDKReceiveSharingStatus_None", "value": 0, "description": "No view or screen share available" },
+        { "name": "ZoomVideoSDKReceiveSharingStatus_Start", "value": 1, "description": "User started sharing" },
+        { "name": "ZoomVideoSDKReceiveSharingStatus_Pause", "value": 2, "description": "User paused sharing (Swift: .pause); used by isPaused" },
+        { "name": "ZoomVideoSDKReceiveSharingStatus_Resume", "value": 3, "description": "User resumed sharing" },
+        { "name": "ZoomVideoSDKReceiveSharingStatus_Stop", "value": 4, "description": "User stopped sharing" }
+      ]
+    },
+    { "name": "ZoomVideoSDKError", "kind": "sdkEnum", "relevantValues": [".Errors_Success indicates success", ".Errors_Wrong_Usage returned by ZMShareManager when share helper is nil"] },
+    { "name": "ZoomVideoSDKUser", "kind": "sdkClass", "notes": "Local user obtained via getSession()?.getMySelf()" }
+  ],
+  "lifecycle": {
+    "prerequisites": [
+      "Zoom Video SDK initialized and registered with the toolkit via ZMUIToolKitManager.initialize(videoSDK:bundleId:) BEFORE constructing the button.",
+      "A share must be actively sent out (shareHelper.isScreenSharingOut() == true) for the button to be enabled and taps to be meaningful.",
+      "Construct and use on the main thread (@MainActor)."
+    ],
+    "ifNotInitialized": "If ZMUIToolKitManager.videoSDK is nil, ZMShareManager.shared.isSharing is false, so the button constructs in the 'playing' state and is DISABLED. pauseShare()/resumeShare() return .Errors_Wrong_Usage when the share helper is nil.",
+    "entryPoints": [
+      { "event": "init()", "actions": ["read ZMShareManager.shared.isPaused to choose initial state/icon", "build descriptor (40x40, clear bg, secondaryLabel icon color, zero padding, iconname ResumeShare if paused else PauseShare)", "super.init(descriptor:)", "isEnabled = ZMShareManager.shared.isSharing", "ZMUIToolKitManager.videoSDKDelegate.add(self)"], "note": "The initial icon and enabled state are set inline at construction." },
+      { "event": "didMoveToWindow()", "actions": ["super.didMoveToWindow()", "syncCurrentState() (refreshes isEnabled and icon)"] }
+    ],
+    "exitPoints": [
+      { "event": "deinit", "actions": ["ZMUIToolKitManager.videoSDKDelegate.remove(self)"], "note": "Delegates are held weakly." }
+    ],
+    "delegateModel": "The button does NOT assign itself to ZoomVideoSDK.delegate. It registers with the toolkit fan-out delegate ZMUIToolKitManager.videoSDKDelegate (CompositeZoomVideoSDKDelegate), enabling multiple observers. Child delegates are stored weakly.",
+    "implicitSideEffects": {
+      "onUserShareStatusChanged": {
+        "description": "When the local user's share status changes (start, pause, resume, stop)",
+        "buttonBehavior": "Re-derives both enabled state (from isSharing) and icon state (from isPaused) via syncCurrentState()",
+        "stateTransition": "any -> matches SDK share status; isEnabled tracks isSharing",
+        "callback": "onUserShareStatusChanged is fired (filtered to local user only)",
+        "notes": [
+          "Resync occurs only when the changed user equals the local user.",
+          "If the share stops, isSharing becomes false and the button becomes disabled.",
+          "If the share is paused/resumed externally, the icon updates to match."
+        ]
+      }
+    }
+  },
+  "states": [
+    { "id": "playing", "description": "Share active and live (not paused)", "icon": "PauseShare", "tapAction": "ZMShareManager.shared.pauseShare()", "enabledWhen": "isSharing == true" },
+    { "id": "paused", "description": "Share active but paused", "icon": "ResumeShare", "tapAction": "ZMShareManager.shared.resumeShare()", "enabledWhen": "isSharing == true" },
+    { "id": "disabled", "description": "Cross-cutting flag, not a PauseShareButtonType case: button is greyed out (systemGray4) and taps are not delivered whenever isSharing == false", "icon": "matches playing or paused (last set)", "tapAction": "none (disabled)", "enabledWhen": "isSharing == false" }
+  ],
+  "stateTransitions": [
+    { "from": "playing", "trigger": "tap", "action": "ZMShareManager.shared.pauseShare()", "to": "paused", "condition": "ZMShareManager.shared.isSharing == true AND result == .Errors_Success (optimistic)" },
+    { "from": "paused", "trigger": "tap", "action": "ZMShareManager.shared.resumeShare()", "to": "playing", "condition": "ZMShareManager.shared.isSharing == true AND result == .Errors_Success (optimistic)" },
+    { "from": "any", "trigger": "onUserShareStatusChanged (local user only)", "action": "syncCurrentState()", "to": "matches SDK status; isEnabled refreshed from isSharing", "condition": "authoritative; only when changed user == local user" },
+    { "from": "any", "trigger": "didMoveToWindow", "action": "syncCurrentState()", "to": "matches SDK status; isEnabled refreshed from isSharing", "condition": "authoritative" }
+  ],
+  "tapHandlerNote": "The tap callback branches on ZMShareManager.shared.isPaused (re-queried at tap time). It first guards on ZMShareManager.shared.isSharing and takes no action when no share is active; the button is disabled in that case. On a non-success error from pauseShare()/resumeShare(), no optimistic icon change is made.",
+  "resyncRule": {
+    "function": "syncCurrentState",
+    "logic": [
+      "isEnabled = ZMShareManager.shared.isSharing",
+      "ZMShareManager.shared.isPaused == true -> switchTo(.paused)",
+      "otherwise -> switchTo(.playing)"
+    ],
+    "isPausedDefinition": "ZMShareManager.shared.isPaused is true only when isSharing AND the local user's getShareActionList() contains an action whose getShareStatus() == .pause (ZoomVideoSDKReceiveSharingStatus_Pause)."
+  },
+  "apis": [
+    {
+      "name": "init",
+      "signature": "@objc public init()",
+      "kind": "designated initializer",
+      "access": "public",
+      "description": "Reads ZMShareManager.shared.isPaused to choose initial state/icon, constructs the button, sets isEnabled from ZMShareManager.shared.isSharing, and registers as a delegate observer. The initial icon and enabled state are set inline.",
+      "preconditions": ["Toolkit initialized via ZMUIToolKitManager.initialize (recommended)", "Main thread (@MainActor)"],
+      "sideEffects": ["Sets isEnabled = ZMShareManager.shared.isSharing", "Adds self to ZMUIToolKitManager.videoSDKDelegate"],
+      "returns": "configured ZMUIToolkitPauseShareBtn",
+      "errorCodes": []
+    },
+    {
+      "name": "init(coder:)",
+      "signature": "@MainActor required public init?(coder: NSCoder)",
+      "kind": "initializer",
+      "access": "public",
+      "description": "NOT SUPPORTED. Calls fatalError. Do not instantiate from Storyboard/XIB.",
+      "preconditions": [],
+      "sideEffects": ["Traps (fatalError)"],
+      "returns": "never",
+      "errorCodes": []
+    },
+    {
+      "name": "setPauseShareIcon",
+      "signature": "public func setPauseShareIcon(image: UIImage)",
+      "access": "public",
+      "description": "Overrides the icon used for the 'playing' state (the live/pause-affordance icon). Applied immediately if currently in the playing state.",
+      "parameters": [{ "name": "image", "type": "UIImage", "description": "Replacement live-state (pause-affordance) icon" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Updates pauseIcon; calls switchTo(.playing) if currentType == .playing"],
+      "errorCodes": []
+    },
+    {
+      "name": "setResumeShareIcon",
+      "signature": "public func setResumeShareIcon(image: UIImage)",
+      "access": "public",
+      "description": "Overrides the icon used for the 'paused' state (the paused/resume-affordance icon). Applied immediately if currently in the paused state.",
+      "parameters": [{ "name": "image", "type": "UIImage", "description": "Replacement paused-state (resume-affordance) icon" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Updates playIcon; calls switchTo(.paused) if currentType == .paused"],
+      "errorCodes": []
+    },
+    {
+      "name": "switchTo",
+      "signature": "internal func switchTo(type: PauseShareButtonType)",
+      "access": "internal",
+      "description": "Sets currentType and updates the displayed image (pauseIcon for .playing, playIcon for .paused). Internal; documented for completeness.",
+      "parameters": [{ "name": "type", "type": "PauseShareButtonType", "description": "Target state" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Sets currentType and the normal-state image"],
+      "errorCodes": []
+    },
+    {
+      "name": "syncCurrentState",
+      "signature": "private func syncCurrentState()",
+      "access": "private",
+      "description": "Refreshes isEnabled from ZMShareManager.shared.isSharing and recomputes the icon state from ZMShareManager.shared.isPaused, then calls switchTo(type:). Called from didMoveToWindow and onUserShareStatusChanged.",
+      "parameters": [],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Sets isEnabled; calls switchTo(...)"],
+      "errorCodes": []
+    },
+    {
+      "name": "didMoveToWindow",
+      "signature": "public override func didMoveToWindow()",
+      "access": "public",
+      "description": "UIView override. Refreshes the icon and enabled state to the current SDK share state when the button is attached to the view hierarchy.",
+      "parameters": [],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["super.didMoveToWindow(); syncCurrentState()"],
+      "errorCodes": []
+    }
+  ],
+  "inheritedConfiguration": {
+    "from": "ZMUIToolkitIconBtn",
+    "commonSetters": ["setBackgroundColor(color:)", "setRadius(radius:)", "setSize(size:)", "setPosition(x:y:)", "setIconColor(color:)", "setIcon(icon:)", "setIconSize(_:)", "setIconPadding(padding:)", "setAccessibility(label:hint:)"],
+    "note": "Use the per-state setPauseShareIcon / setResumeShareIcon methods to represent pause/resume state; setIcon/setImage set the raw image directly and are replaced on the next resync."
+  },
+  "callbacks": [
+    {
+      "name": "onUserShareStatusChanged",
+      "signature": "public func onUserShareStatusChanged(_ helper: ZoomVideoSDKShareHelper?, user: ZoomVideoSDKUser?, shareAction: ZoomVideoSDKShareAction?)",
+      "source": "ZoomVideoSDKDelegate (via CompositeZoomVideoSDKDelegate)",
+      "threading": "main thread",
+      "description": "Fired when any user's share status changes (start, pause, resume, stop). Filters to the local user (changed user == getSession()?.getMySelf()) and calls syncCurrentState(), refreshing both the enabled flag (from isSharing) and the icon (from isPaused). Primary mechanism for authoritative state.",
+      "stateChange": "resyncs icon to match isPaused and isEnabled to match isSharing, for local-user changes only",
+      "inactiveConditions": ["local user cannot be resolved", "user is nil", "user is not the local user"],
+      "parameterUsage": "The button re-queries ZMShareManager.shared to derive state."
+    }
+  ],
+  "errorHandling": {
+    "strategy": "The tap callback inspects the ZoomVideoSDKError returned by ZMShareManager.shared.pauseShare()/resumeShare(). The icon is updated optimistically ONLY on .Errors_Success; otherwise no UI change is made and the authoritative onUserShareStatusChanged callback reconciles state. The tap handler branches on isPaused (re-queried), guards on isSharing, and takes no action when no share is active.",
+    "perAction": [
+      { "action": "resume (when isPaused)", "calls": ["ZMShareManager.shared.resumeShare()"], "onSuccess": "switchTo(.playing)", "onFailure": "no UI change; rely on delegate resync" },
+      { "action": "pause (when live)", "calls": ["ZMShareManager.shared.pauseShare()"], "onSuccess": "switchTo(.paused)", "onFailure": "no UI change; rely on delegate resync" }
+    ],
+    "shareManagerFailureModes": {
+      "Errors_Wrong_Usage": "Returned immediately by ZMShareManager.pauseShare()/resumeShare() when the share helper is nil (SDK not available / not registered).",
+      "otherSdkError": "Otherwise the ZoomVideoSDKError from shareHelper.pauseShare()/resumeShare() is returned directly."
+    },
+    "retryStrategy": "None built in. The button does not surface errors. Integrators should observe SDK errors via their own ZoomVideoSDKDelegate registered with ZMUIToolKitManager.videoSDKDelegate.add(_:).",
+    "recoveryActions": ["Authoritative state reconciled by onUserShareStatusChanged for the local user"]
+  },
+  "rules": {
+    "required": [
+      "Initialize the toolkit (ZMUIToolKitManager.initialize) before constructing the button.",
+      "Construct and use the button on the main thread."
+    ],
+    "forbidden": [
+      "Instantiating via init?(coder:) / Interface Builder (traps with fatalError).",
+      "Assigning the button (or anything) directly to ZoomVideoSDK.delegate; use ZMUIToolKitManager.videoSDKDelegate.add(_:).",
+      "Using inherited setIcon/setImage to represent pause/resume state; it is replaced on the next resync."
+    ],
+    "notes": [
+      "Pause/resume only applies to the local user's own share; the button does not control or reflect remote participants' shares.",
+      "The button is disabled (greyed out) whenever no share is active."
+    ]
+  },
+  "examples": [
+    {
+      "title": "Add the button to a share toolbar (happy path)",
+      "scenario": "happy-path",
+      "code": "let pauseShareButton = ZMUIToolkitPauseShareBtn()\npauseShareButton.setSize(size: CGSize(width: 44, height: 44))\ntoolbarStackView.addArrangedSubview(pauseShareButton)\n// Self-registers for share-status updates, auto-enables only while a share is active,\n// and toggles pause/resume on tap."
+    },
+    {
+      "title": "Customize per-state icons",
+      "scenario": "customization",
+      "code": "let pauseShareButton = ZMUIToolkitPauseShareBtn()\npauseShareButton.setPauseShareIcon(image: UIImage(named: \"custom_pause\")!)   // shown while live\npauseShareButton.setResumeShareIcon(image: UIImage(named: \"custom_resume\")!) // shown while paused"
+    },
+    {
+      "title": "Observe errors yourself",
+      "scenario": "error-handling",
+      "code": "final class ShareErrorObserver: NSObject, ZoomVideoSDKDelegate {\n    func onError(_ errorType: ZoomVideoSDKError, detail details: Int) {\n        // Show retry UI, logging, etc.\n    }\n}\nlet observer = ShareErrorObserver()\nZMUIToolKitManager.videoSDKDelegate.add(observer) // held weakly — retain observer yourself"
+    },
+    {
+      "title": "Lifecycle / teardown",
+      "scenario": "teardown",
+      "code": "pauseShareButton.removeFromSuperview()\n// pauseShareButton = nil  // deinit -> ZMUIToolKitManager.videoSDKDelegate.remove(self)"
+    }
+  ],
+  "codeSnippets": [
+    {
+      "name": "determineCurrentShareState",
+      "description": "Compute the current share/pause state from the toolkit (mirrors syncCurrentState).",
+      "code": "let isSharing = ZMShareManager.shared.isSharing\nlet isPaused  = ZMShareManager.shared.isPaused\nif !isSharing {\n    // No active share -> button should be disabled\n} else if isPaused {\n    // Share paused -> 'paused' state (show resume icon)\n} else {\n    // Share live -> 'playing' state (show pause icon)\n}"
+    },
+    {
+      "name": "pauseOrResumeShare",
+      "description": "Pause or resume the local share directly (what the button does on tap).",
+      "code": "if ZMShareManager.shared.isPaused {\n    let err = ZMShareManager.shared.resumeShare()\n    // err == .Errors_Success means the request was accepted\n} else {\n    let err = ZMShareManager.shared.pauseShare()\n}"
+    }
+  ],
+  "metadata": {
+    "generatedBy": "api-doc-generator",
+    "verification": "Behaviors verified directly against implementation source (ZMUIToolkitPauseShareBtn.swift, ZMUIToolkitIconBtn.swift, ZMUIToolkitDescriptor.swift, ZMUIToolKitManager.swift, CompositeZoomVideoSDKDelegate.swift, ZMShareManager.swift) and Zoom Video SDK headers (ZoomVideoSDKShareHelper.h, ZoomVideoSDKConstants.h); not assumed.",
+    "completeness": "JSON mirrors all content in ZMUIToolkitPauseShareBtn-API.md."
+  }
+}

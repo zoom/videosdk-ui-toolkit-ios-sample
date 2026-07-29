@@ -4,13 +4,9 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>ios-arm64-simulator/zoomcml.framework/Headers/zoomcml_interface.h</key>
-		<data>
-		jpSqq9xf3Al6OY+/SgbRaHa24ng=
-		</data>
 		<key>ios-arm64-simulator/zoomcml.framework/Info.plist</key>
 		<data>
-		t5hHDoUeG7FlfkkJEkd2ScLo5r0=
+		jqWB1xJJ2YJN9rsybJmX5JYnkbg=
 		</data>
 		<key>ios-arm64-simulator/zoomcml.framework/PrivacyInfo.xcprivacy</key>
 		<data>
@@ -18,7 +14,7 @@
 		</data>
 		<key>ios-arm64-simulator/zoomcml.framework/_CodeSignature/CodeResources</key>
 		<data>
-		UN+DhhnYmG1cWGkX+1gvqiFOg+I=
+		UfRCTz0rBKI3JTBl19y9cyJuRQc=
 		</data>
 		<key>ios-arm64-simulator/zoomcml.framework/afn_iOS_hori/afn_iOS_hori.mlmodelc/analytics/coremldata.bin</key>
 		<data>
@@ -134,15 +130,11 @@
 		</data>
 		<key>ios-arm64-simulator/zoomcml.framework/zoomcml</key>
 		<data>
-		Uqk9esgPFs42ywZVFjdEZN7YEQA=
-		</data>
-		<key>ios-arm64/zoomcml.framework/Headers/zoomcml_interface.h</key>
-		<data>
-		jpSqq9xf3Al6OY+/SgbRaHa24ng=
+		9m1zQAwXq0RXPvdWQIiDZCswVeU=
 		</data>
 		<key>ios-arm64/zoomcml.framework/Info.plist</key>
 		<data>
-		aj08gTPTCYxRx+lq0xd4ZX7p5+c=
+		CIhnE5MEjGrmNWkhWhWLEw/81lw=
 		</data>
 		<key>ios-arm64/zoomcml.framework/PrivacyInfo.xcprivacy</key>
 		<data>
@@ -262,15 +254,11 @@
 		</data>
 		<key>ios-arm64/zoomcml.framework/zoomcml</key>
 		<data>
-		CUS4tzBl/t8dt5/4OWR0ttpYE4M=
-		</data>
-		<key>xros-arm64-simulator/zoomcml.framework/Headers/zoomcml_interface.h</key>
-		<data>
-		jpSqq9xf3Al6OY+/SgbRaHa24ng=
+		/fbj5HH0FLTIlCxZzLII2HxmeCo=
 		</data>
 		<key>xros-arm64-simulator/zoomcml.framework/Info.plist</key>
 		<data>
-		zqQja95EhHd+5tX36DNOrN00RLg=
+		3gc4hJEVxUmLcHDkQuaJChCwq0s=
 		</data>
 		<key>xros-arm64-simulator/zoomcml.framework/PrivacyInfo.xcprivacy</key>
 		<data>
@@ -278,7 +266,7 @@
 		</data>
 		<key>xros-arm64-simulator/zoomcml.framework/_CodeSignature/CodeResources</key>
 		<data>
-		PiudEDCtIqfYaB2WW51SWNRE5Lc=
+		vY35sYgdKPw1hgYnQrEdhEfc6CE=
 		</data>
 		<key>xros-arm64-simulator/zoomcml.framework/afn_iOS_hori/afn_iOS_hori.mlmodelc/analytics/coremldata.bin</key>
 		<data>
@@ -394,15 +382,11 @@
 		</data>
 		<key>xros-arm64-simulator/zoomcml.framework/zoomcml</key>
 		<data>
-		i3WWsFDhH2GS7E+8UnDm7fFb3X0=
-		</data>
-		<key>xros-arm64/zoomcml.framework/Headers/zoomcml_interface.h</key>
-		<data>
-		jpSqq9xf3Al6OY+/SgbRaHa24ng=
+		KxYSzsxyczzzMFoLA1tm8Da5HyE=
 		</data>
 		<key>xros-arm64/zoomcml.framework/Info.plist</key>
 		<data>
-		w1KvQ6brvptqvWwQcfDcs0fihEk=
+		ah0PBBj83eZgHwl4acFQ5tulZkY=
 		</data>
 		<key>xros-arm64/zoomcml.framework/PrivacyInfo.xcprivacy</key>
 		<data>
@@ -410,7 +394,7 @@
 		</data>
 		<key>xros-arm64/zoomcml.framework/_CodeSignature/CodeResources</key>
 		<data>
-		UN+DhhnYmG1cWGkX+1gvqiFOg+I=
+		UfRCTz0rBKI3JTBl19y9cyJuRQc=
 		</data>
 		<key>xros-arm64/zoomcml.framework/afn_iOS_hori/afn_iOS_hori.mlmodelc/analytics/coremldata.bin</key>
 		<data>
@@ -526,31 +510,20 @@
 		</data>
 		<key>xros-arm64/zoomcml.framework/zoomcml</key>
 		<data>
-		6USDWamevd7XAaxeerQTxrBFFjg=
+		XJEkNHPQJa5RiY+3Q8FT0KmFmZ0=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>ios-arm64-simulator/zoomcml.framework/Headers/zoomcml_interface.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			jpSqq9xf3Al6OY+/SgbRaHa24ng=
-			</data>
-			<key>hash2</key>
-			<data>
-			IlNXV1dSIep/BlEKnKkhM1ene5J89UerxRsrfzZ7JNU=
-			</data>
-		</dict>
 		<key>ios-arm64-simulator/zoomcml.framework/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			t5hHDoUeG7FlfkkJEkd2ScLo5r0=
+			jqWB1xJJ2YJN9rsybJmX5JYnkbg=
 			</data>
 			<key>hash2</key>
 			<data>
-			6JUw3nK6mljSC6Nn+/QYd1v/Z+yenYr/CM5WmlhCANo=
+			7Brte+N3VuKyB6E/GrNYuJuDXSrP8aF10wUC5Xco0yE=
 			</data>
 		</dict>
 		<key>ios-arm64-simulator/zoomcml.framework/PrivacyInfo.xcprivacy</key>
@@ -568,11 +541,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			UN+DhhnYmG1cWGkX+1gvqiFOg+I=
+			UfRCTz0rBKI3JTBl19y9cyJuRQc=
 			</data>
 			<key>hash2</key>
 			<data>
-			kWteHHE2fBY4d3NSjvSkfrCjDqJGE7n2A3NldB8JXJE=
+			f4njLrm2vXWuMPqL+EWePHsSVU6d1GZylQK6c8VhOoU=
 			</data>
 		</dict>
 		<key>ios-arm64-simulator/zoomcml.framework/afn_iOS_hori/afn_iOS_hori.mlmodelc/analytics/coremldata.bin</key>
@@ -887,33 +860,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Uqk9esgPFs42ywZVFjdEZN7YEQA=
+			9m1zQAwXq0RXPvdWQIiDZCswVeU=
 			</data>
 			<key>hash2</key>
 			<data>
-			Ozq80nQwFRP6Nm3PZOxneJKnmsMpBcqUq2lCGEq8TMo=
-			</data>
-		</dict>
-		<key>ios-arm64/zoomcml.framework/Headers/zoomcml_interface.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			jpSqq9xf3Al6OY+/SgbRaHa24ng=
-			</data>
-			<key>hash2</key>
-			<data>
-			IlNXV1dSIep/BlEKnKkhM1ene5J89UerxRsrfzZ7JNU=
+			0h75eRXJzLDRBaZ9UQ9AwtaVyONUQKLh6LZgI5lOKS0=
 			</data>
 		</dict>
 		<key>ios-arm64/zoomcml.framework/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			aj08gTPTCYxRx+lq0xd4ZX7p5+c=
+			CIhnE5MEjGrmNWkhWhWLEw/81lw=
 			</data>
 			<key>hash2</key>
 			<data>
-			yXO9xoNYRKVnc5quhE0ngbkniClUTarmOVwYvM0CLJc=
+			f7wrMzR1rFoUiogzLYabx0xMe376146/Fey9c0fFXzw=
 			</data>
 		</dict>
 		<key>ios-arm64/zoomcml.framework/PrivacyInfo.xcprivacy</key>
@@ -1239,33 +1201,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			CUS4tzBl/t8dt5/4OWR0ttpYE4M=
+			/fbj5HH0FLTIlCxZzLII2HxmeCo=
 			</data>
 			<key>hash2</key>
 			<data>
-			ooiXZzM6BPyrSVsmDhZQ6CLPEQO/Slgo7KWAhV5/G9o=
-			</data>
-		</dict>
-		<key>xros-arm64-simulator/zoomcml.framework/Headers/zoomcml_interface.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			jpSqq9xf3Al6OY+/SgbRaHa24ng=
-			</data>
-			<key>hash2</key>
-			<data>
-			IlNXV1dSIep/BlEKnKkhM1ene5J89UerxRsrfzZ7JNU=
+			Ku5gi9C9G6tJhjL7hKsEQYHqE6kM/br+haLlVsA3AG0=
 			</data>
 		</dict>
 		<key>xros-arm64-simulator/zoomcml.framework/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			zqQja95EhHd+5tX36DNOrN00RLg=
+			3gc4hJEVxUmLcHDkQuaJChCwq0s=
 			</data>
 			<key>hash2</key>
 			<data>
-			1l/BbSUJs38Id7reN+LlRWPfFchCXvidq6KLnPzRFqk=
+			Ptu0TSILVr/ZyaewKYcsaVAUkMme2sH8fWMevuJNeLg=
 			</data>
 		</dict>
 		<key>xros-arm64-simulator/zoomcml.framework/PrivacyInfo.xcprivacy</key>
@@ -1283,11 +1234,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			PiudEDCtIqfYaB2WW51SWNRE5Lc=
+			vY35sYgdKPw1hgYnQrEdhEfc6CE=
 			</data>
 			<key>hash2</key>
 			<data>
-			DkQk+iYy2hYXSxdoVKtR66132xLc04iCFf+sVwxg7eQ=
+			ZkSQ9dvQfBkL/P+YtPRpGLV8M/LXRA8WDP1AIwP9WSI=
 			</data>
 		</dict>
 		<key>xros-arm64-simulator/zoomcml.framework/afn_iOS_hori/afn_iOS_hori.mlmodelc/analytics/coremldata.bin</key>
@@ -1602,33 +1553,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			i3WWsFDhH2GS7E+8UnDm7fFb3X0=
+			KxYSzsxyczzzMFoLA1tm8Da5HyE=
 			</data>
 			<key>hash2</key>
 			<data>
-			RIBydYdviNtNMR+GqAmvCt5nXUnWvO5k3pwYJqtamfk=
-			</data>
-		</dict>
-		<key>xros-arm64/zoomcml.framework/Headers/zoomcml_interface.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			jpSqq9xf3Al6OY+/SgbRaHa24ng=
-			</data>
-			<key>hash2</key>
-			<data>
-			IlNXV1dSIep/BlEKnKkhM1ene5J89UerxRsrfzZ7JNU=
+			BISLP2rsTI7VzGKOhyIRSGnodPUs1qaVULKQ35uEWmc=
 			</data>
 		</dict>
 		<key>xros-arm64/zoomcml.framework/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			w1KvQ6brvptqvWwQcfDcs0fihEk=
+			ah0PBBj83eZgHwl4acFQ5tulZkY=
 			</data>
 			<key>hash2</key>
 			<data>
-			wOzEbNWqT+4Nj76/MFrG1DnC4FGA7ibTm/4y01OhiG8=
+			2tD93BrFwxvaSsemzG26odGg5qgOY9ACKXXLsJAHPDE=
 			</data>
 		</dict>
 		<key>xros-arm64/zoomcml.framework/PrivacyInfo.xcprivacy</key>
@@ -1646,11 +1586,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			UN+DhhnYmG1cWGkX+1gvqiFOg+I=
+			UfRCTz0rBKI3JTBl19y9cyJuRQc=
 			</data>
 			<key>hash2</key>
 			<data>
-			kWteHHE2fBY4d3NSjvSkfrCjDqJGE7n2A3NldB8JXJE=
+			f4njLrm2vXWuMPqL+EWePHsSVU6d1GZylQK6c8VhOoU=
 			</data>
 		</dict>
 		<key>xros-arm64/zoomcml.framework/afn_iOS_hori/afn_iOS_hori.mlmodelc/analytics/coremldata.bin</key>
@@ -1965,11 +1905,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			6USDWamevd7XAaxeerQTxrBFFjg=
+			XJEkNHPQJa5RiY+3Q8FT0KmFmZ0=
 			</data>
 			<key>hash2</key>
 			<data>
-			GYrkQZcxLHRvwnX5SqgG+3fHWezKR42yNvDpOeX3lkQ=
+			65VTXlp6FwWSF9lWzjJjTGj5p9m/AQ04ipVk4RJ3gyE=
 			</data>
 		</dict>
 	</dict>

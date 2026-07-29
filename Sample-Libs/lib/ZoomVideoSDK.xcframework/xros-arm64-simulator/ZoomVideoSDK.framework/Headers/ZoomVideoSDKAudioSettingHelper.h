@@ -22,7 +22,7 @@
  * @brief Determines whether the original input of the microphone is enabled.
  * @return YES if the original input of the microphone is enabled. Otherwise, NO.
  */
-- (BOOL)isMicOriginalInputEnable;
+- (BOOL)isMicOriginalInputEnabled;
 
 /**
  * @brief Enables or disables the auto adjust input of microphone.

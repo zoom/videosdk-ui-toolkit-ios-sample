@@ -60,6 +60,37 @@ NS_ASSUME_NONNULL_BEGIN
  * @brief Gets the channel ID.
  */
 @property (nonatomic,copy) NSString * channelID;
+/**
+ * @brief Gets the viewer's display name for use when sending chat messages.
+ */
+@property (nonatomic,copy) NSString * _Nullable userName;
+@end
+
+/**
+ * @protocol ZoomVideoSDKBroadcastStreamingViewerDelegate
+ * @brief Delegate protocol for receiving broadcast streaming viewer interactive callbacks.
+ */
+@protocol ZoomVideoSDKBroadcastStreamingViewerDelegate <NSObject>
+@optional
+/**
+ * @brief Callback event when a chat message is received from the broadcast stream.
+ * @param senderName The name of the message sender.
+ * @param content The chat message content.
+ * @param isSelfSend YES if the message was sent by the current viewer, NO otherwise.
+ */
+- (void)onStreamingChatMessageReceived:(NSString * _Nonnull)senderName content:(NSString * _Nonnull)content isSelfSend:(BOOL)isSelfSend;
+
+/**
+ * @brief Callback event when an emoji reaction is received from the broadcast stream.
+ * @param type The emoji reaction type.
+ */
+- (void)onStreamingEmojiReactionReceived:(ZoomVideoSDKEmojiReactionType)type;
+
+/**
+ * @brief Callback event when a live transcription message is received from the broadcast stream.
+ * @param content The live transcription content.
+ */
+- (void)onStreamingLiveTranscriptionMsgReceived:(NSString * _Nonnull)content;
 @end
 
 
@@ -115,6 +146,44 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (ZoomVideoSDKError)unSubscribeAudio;
 
+/**
+ * @brief Subscribes broadcast streaming viewer interactive callbacks.
+ * @param delegate The viewer delegate callback object.If delegate is nill, Not accepting callback from Viewer Delegate
+ */
+- (void)subscribeViewerWithDelegate:(id<ZoomVideoSDKBroadcastStreamingViewerDelegate> _Nullable)delegate;
+
+/**
+ * @brief Sends a chat message to all participants in the broadcast stream.
+ * @param content The chat message content to send.
+ * @return If the function succeeds, it returns Errors_Success. Otherwise, this function returns an error.
+ */
+- (ZoomVideoSDKError)sendChatToAll:(NSString * _Nonnull)content;
+
+/**
+ * @brief Sends an emoji reaction to all participants in the broadcast stream.
+ * @param type The emoji reaction type to send.
+ * @return If the function succeeds, it returns Errors_Success. Otherwise, this function returns an error.
+ */
+- (ZoomVideoSDKError)sendEmojiReaction:(ZoomVideoSDKEmojiReactionType)type;
+
+/**
+ * @brief Determines whether the viewer can subscribe to a translation language for live transcription.
+ * @return YES if the viewer can subscribe to a translation language. Otherwise, NO.
+ */
+- (BOOL)canSubscribeTranslationLanguage;
+
+/**
+ * @brief Subscribes to a translation language for live transcription.
+ * @param language The translation language to subscribe to.
+ * @return If the function succeeds, it returns Errors_Success. Otherwise, this function returns an error.
+ */
+- (ZoomVideoSDKError)subscribeTranslationLanguage:(ZoomVideoSDKBroadcastStreamingTranslationLanguage)language;
+
+/**
+ * @brief Unsubscribes from the currently subscribed translation language for live transcription.
+ * @return If the function succeeds, it returns Errors_Success. Otherwise, this function returns an error.
+ */
+- (ZoomVideoSDKError)unsubscribeTranslationLanguage;
 
 @end
 

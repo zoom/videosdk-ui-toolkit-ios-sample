@@ -1,0 +1,222 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "module": "ZMUIToolkitVideoBtn",
+  "language": "Swift",
+  "platform": "iOS",
+  "version": "1.0",
+  "framework": "ZMUIToolkit",
+  "superclass": "ZMUIToolkitIconBtn",
+  "conformsTo": ["ZoomVideoSDKDelegate"],
+  "concurrency": "@MainActor",
+  "objcExposed": true,
+  "objcName": "ZMUIToolkitVideoBtn",
+  "overview": "A self-managing, icon-only camera/video control button for Zoom Video SDK sessions. On tap it starts or stops the local participant's video based on current state. It registers as a delegate observer and automatically keeps its icon synchronized with the authoritative SDK video status. Unlike ZMUIToolkitAudioBtn, there is no separate 'join' state; video is simply on (unmute) or off (mute).",
+  "sourceFile": "ZMUIToolkit/ZMUIToolkit/Sources/Buttons/ZMUIToolkitVideoBtn.swift",
+  "typeDefinitions": [
+    {
+      "name": "VideoButtonType",
+      "kind": "enum",
+      "rawType": "Int",
+      "access": "internal",
+      "cases": [
+        { "name": "mute", "rawValue": 1, "meaning": "Local video is off (videoStatus().on == false)", "defaultIcon": "VideoMuted" },
+        { "name": "unmute", "rawValue": 2, "meaning": "Local video is on (live camera)", "defaultIcon": "Video" }
+      ],
+      "note": "Case names describe the CURRENT state, not the tap action. In .unmute (video on) a tap stops video; in .mute (video off) a tap starts video."
+    },
+    { "name": "ZMUIToolkitIconBtn", "kind": "class", "access": "open", "role": "superclass", "notes": "UIButton subclass providing icon/badge/layout configuration and click callback dispatch." },
+    { "name": "ZMUIToolkitIconBtnDescriptor", "kind": "struct", "access": "internal", "role": "initializer configuration", "fields": ["frame", "backgroundColor", "accessibilityLabel", "iconname", "iconPadding", "iconColor", "callback"] },
+    { "name": "ZMUIToolKitManager", "kind": "class", "role": "holds ZoomVideoSDK instance and videoSDKDelegate fan-out" },
+    { "name": "CompositeZoomVideoSDKDelegate", "kind": "class", "role": "weak fan-out delegate; register via add(_:) / remove(_:)" },
+    { "name": "ZoomVideoSDKError", "kind": "sdkEnum", "relevantValue": ".Errors_Success indicates success" },
+    { "name": "ZoomVideoSDKVideoHelper", "kind": "sdkClass", "methods": ["startVideo()", "stopVideo()"] },
+    { "name": "ZoomVideoSDKVideoStatus", "kind": "sdkClass", "notes": "Returned by videoStatus(); the 'on' boolean indicates whether video is live." },
+    { "name": "ZoomVideoSDKUser", "kind": "sdkClass", "notes": "Local user obtained via getSession()?.getMySelf()" }
+  ],
+  "lifecycle": {
+    "prerequisites": [
+      "Zoom Video SDK initialized and registered with the toolkit via ZMUIToolKitManager.initialize(videoSDK:bundleId:) BEFORE constructing the button.",
+      "Construct and use on the main thread (@MainActor)."
+    ],
+    "ifNotInitialized": "If ZMUIToolKitManager.videoSDK is nil, videoStatus()?.on resolves to false so the button constructs in the 'mute' state, and tap actions take no effect (the callback proceeds only when the video helper, video status, and self are non-nil).",
+    "entryPoints": [
+      { "event": "init()", "actions": ["determine initial state from getMySelf()?.getVideoCanvas()?.videoStatus()?.on", "build descriptor (40x40, clear bg, secondaryLabel icon color, zero padding)", "super.init", "ZMUIToolKitManager.videoSDKDelegate.add(self)", "syncCurrentState()"] },
+      { "event": "didMoveToWindow()", "actions": ["super.didMoveToWindow()", "syncCurrentState()"] }
+    ],
+    "exitPoints": [
+      { "event": "deinit", "actions": ["ZMUIToolKitManager.videoSDKDelegate.remove(self)"], "note": "Delegates are held weakly; removal is defensive." }
+    ],
+    "delegateModel": "The button does NOT assign itself to ZoomVideoSDK.delegate. It registers with the toolkit fan-out delegate ZMUIToolKitManager.videoSDKDelegate (CompositeZoomVideoSDKDelegate), enabling multiple observers. Child delegates are stored weakly."
+  },
+  "states": [
+    { "id": "mute", "description": "Video off (videoStatus().on == false)", "icon": "VideoMuted", "tapAction": "startVideo" },
+    { "id": "unmute", "description": "Video on / live camera", "icon": "Video", "tapAction": "stopVideo" }
+  ],
+  "stateTransitions": [
+    { "from": "unmute", "trigger": "tap", "action": "videoHelper.stopVideo() (updates immediately)", "to": "mute", "condition": "error == .Errors_Success" },
+    { "from": "mute", "trigger": "tap", "action": "videoHelper.startVideo()", "to": "unmute", "condition": "error == .Errors_Success" },
+    { "from": "any", "trigger": "onSessionJoin callback", "action": "syncCurrentState()", "to": "matches SDK status", "condition": "authoritative" },
+    { "from": "any", "trigger": "onUserVideoStatusChanged (local user only)", "action": "syncCurrentState()", "to": "matches SDK status", "condition": "authoritative; only when local user is in changed list" },
+    { "from": "any", "trigger": "didMoveToWindow", "action": "syncCurrentState()", "to": "matches SDK status", "condition": "authoritative" }
+  ],
+  "threadingNotes": "The current state is decided in the tap callback by reading videoStatus()?.on. Both stopVideo() and startVideo() are invoked directly from the button's @MainActor tap path, and the optimistic switchTo(...) updates run on the main thread. The displayed state is reconciled by onUserVideoStatusChanged.",
+  "resyncRule": {
+    "function": "syncCurrentState",
+    "logic": [
+      "videoStatus().on == true -> switchTo(.unmute)",
+      "otherwise (false or nil) -> switchTo(.mute)"
+    ]
+  },
+  "apis": [
+    {
+      "name": "init",
+      "signature": "@objc public init()",
+      "kind": "designated initializer",
+      "access": "public",
+      "description": "Reads local video status (getMySelf()?.getVideoCanvas()?.videoStatus()?.on) to choose initial state/icon, constructs the button, registers as a delegate observer, and syncs state.",
+      "preconditions": ["Toolkit initialized via ZMUIToolKitManager.initialize (recommended)", "Main thread (@MainActor)"],
+      "sideEffects": ["Adds self to ZMUIToolKitManager.videoSDKDelegate"],
+      "returns": "configured ZMUIToolkitVideoBtn",
+      "errorCodes": []
+    },
+    {
+      "name": "init(coder:)",
+      "signature": "@MainActor required public init?(coder: NSCoder)",
+      "kind": "initializer",
+      "access": "public",
+      "description": "NOT SUPPORTED. Calls fatalError. Do not instantiate from Storyboard/XIB.",
+      "preconditions": [],
+      "sideEffects": ["Traps (fatalError)"],
+      "returns": "never",
+      "errorCodes": []
+    },
+    {
+      "name": "setMuteVideoIcon",
+      "signature": "public func setMuteVideoIcon(image: UIImage)",
+      "access": "public",
+      "description": "Overrides the icon used for the 'mute' (video off) state. Applied immediately if currently in the mute state.",
+      "parameters": [{ "name": "image", "type": "UIImage", "description": "Replacement video-off-state icon" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Updates muteIcon; calls switchTo(.mute) if currentType == .mute"],
+      "errorCodes": []
+    },
+    {
+      "name": "setUnmuteVideoIcon",
+      "signature": "public func setUnmuteVideoIcon(image: UIImage)",
+      "access": "public",
+      "description": "Overrides the icon used for the 'unmute' (video on / live camera) state. Applied immediately if currently in the unmute state.",
+      "parameters": [{ "name": "image", "type": "UIImage", "description": "Replacement video-on-state icon" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Updates unmuteIcon; calls switchTo(.unmute) if currentType == .unmute"],
+      "errorCodes": []
+    },
+    {
+      "name": "switchTo",
+      "signature": "internal func switchTo(type: VideoButtonType)",
+      "access": "internal",
+      "description": "Sets currentType and updates the displayed image to match. Internal; documented for completeness.",
+      "parameters": [{ "name": "type", "type": "VideoButtonType", "description": "Target state" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Sets currentType and the normal-state image"],
+      "errorCodes": []
+    },
+    {
+      "name": "syncCurrentState",
+      "signature": "private func syncCurrentState()",
+      "access": "private",
+      "description": "Recomputes state from the SDK's current video status and calls switchTo(type:). Called from init, didMoveToWindow, onSessionJoin, onUserVideoStatusChanged.",
+      "parameters": [],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Calls switchTo(...)"],
+      "errorCodes": []
+    },
+    {
+      "name": "didMoveToWindow",
+      "signature": "public override func didMoveToWindow()",
+      "access": "public",
+      "description": "UIView override. Refreshes the icon to the current SDK video state when the button is attached to the view hierarchy.",
+      "parameters": [],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["super.didMoveToWindow(); syncCurrentState()"],
+      "errorCodes": []
+    }
+  ],
+  "inheritedConfiguration": {
+    "from": "ZMUIToolkitIconBtn",
+    "commonSetters": ["setBackgroundColor(color:)", "setRadius(radius:)", "setSize(size:)", "setPosition(x:y:)", "setIconColor(color:)", "setIcon(icon:)", "setIconSize(_:)", "setIconPadding(padding:)", "setAccessibility(label:hint:)"],
+    "warning": "Do not use setIcon/setImage to represent video state; it is transient and overwritten on the next resync. Use the per-state set*VideoIcon methods."
+  },
+  "callbacks": [
+    {
+      "name": "onSessionJoin",
+      "signature": "public func onSessionJoin()",
+      "source": "ZoomVideoSDKDelegate (via CompositeZoomVideoSDKDelegate)",
+      "threading": "main thread",
+      "description": "Fired when the local user joins the session. Resyncs the icon to the SDK video status.",
+      "stateChange": "resyncs to match SDK video status"
+    },
+    {
+      "name": "onUserVideoStatusChanged",
+      "signature": "public func onUserVideoStatusChanged(_ helper: ZoomVideoSDKVideoHelper?, user users: [ZoomVideoSDKUser]?)",
+      "source": "ZoomVideoSDKDelegate (via CompositeZoomVideoSDKDelegate)",
+      "threading": "main thread",
+      "description": "Fired when any user's video status changes. Filters to the local user by ID and resyncs only when the local user is in the changed list. Primary mechanism for authoritative icon state (e.g. video started/stopped externally, by the host, or by the system).",
+      "stateChange": "resyncs to match SDK video status for local-user changes only",
+      "inactiveConditions": ["users is nil", "local user ID cannot be resolved", "local user not in changed list"]
+    }
+  ],
+  "outcomeHandling": {
+    "strategy": "The tap callback inspects the ZoomVideoSDKError returned by each video-helper call. The icon updates ONLY on .Errors_Success; otherwise the icon is unchanged and the onUserVideoStatusChanged callback reconciles state.",
+    "perAction": [
+      { "action": "stopVideo (from unmute)", "calls": ["stopVideo()"], "execution": "updates immediately", "onSuccess": "switchTo(.mute)", "onOther": "icon unchanged; reconciled by delegate resync" },
+      { "action": "startVideo (from mute)", "calls": ["startVideo()"], "execution": "direct call on the main actor", "onSuccess": "switchTo(.unmute)", "onOther": "icon unchanged; reconciled by delegate resync" }
+    ],
+    "reconciliation": "The displayed state is reconciled by onUserVideoStatusChanged. To respond to outcomes, observe SDK events via your own ZoomVideoSDKDelegate registered with ZMUIToolKitManager.videoSDKDelegate.add(_:).",
+    "recoveryActions": ["State reconciled by onUserVideoStatusChanged"]
+  },
+  "rules": {
+    "required": [
+      "Initialize the toolkit (ZMUIToolKitManager.initialize) before constructing the button.",
+      "Construct and use the button on the main thread."
+    ],
+    "forbidden": [
+      "Instantiating via init?(coder:) / Interface Builder (traps with fatalError).",
+      "Assigning the button (or anything) directly to ZoomVideoSDK.delegate; use ZMUIToolKitManager.videoSDKDelegate.add(_:).",
+      "Using inherited setIcon/setImage to represent video state; it is overwritten on next resync."
+    ]
+  },
+  "examples": [
+    {
+      "title": "Add the button to a toolbar (happy path)",
+      "scenario": "happy-path",
+      "code": "let videoButton = ZMUIToolkitVideoBtn()\nvideoButton.setSize(size: CGSize(width: 44, height: 44))\ntoolbarStackView.addArrangedSubview(videoButton)\n// Self-registers for video status updates and toggles start/stop video on tap."
+    },
+    {
+      "title": "Customize per-state icons",
+      "scenario": "customization",
+      "code": "let videoButton = ZMUIToolkitVideoBtn()\nvideoButton.setMuteVideoIcon(image: UIImage(named: \"custom_video_off\")!)\nvideoButton.setUnmuteVideoIcon(image: UIImage(named: \"custom_video_on\")!)"
+    },
+    {
+      "title": "Observe SDK outcomes yourself",
+      "scenario": "outcome-handling",
+      "code": "final class VideoErrorObserver: NSObject, ZoomVideoSDKDelegate {\n    func onError(_ errorType: ZoomVideoSDKError, detail details: Int) {\n        // Show retry UI, logging, etc.\n    }\n}\nlet observer = VideoErrorObserver()\nZMUIToolKitManager.videoSDKDelegate.add(observer) // held weakly — retain observer yourself"
+    },
+    {
+      "title": "Lifecycle / teardown",
+      "scenario": "teardown",
+      "code": "videoButton.removeFromSuperview()\n// videoButton = nil  // deinit -> ZMUIToolKitManager.videoSDKDelegate.remove(self)"
+    }
+  ],
+  "codeSnippets": [
+    {
+      "name": "determineCurrentVideoState",
+      "description": "Compute current video state from the SDK (mirrors syncCurrentState).",
+      "code": "let isVideoOn = ZMUIToolKitManager.videoSDK?\n    .getSession()?\n    .getMySelf()?\n    .getVideoCanvas()?\n    .videoStatus()?\n    .on ?? false\nif isVideoOn {\n    // live camera -> 'unmute'\n} else {\n    // video off -> 'mute'\n}"
+    }
+  ],
+  "metadata": {
+    "generatedBy": "api-doc-generator",
+    "verification": "Behaviors verified directly against implementation source (ZMUIToolkitVideoBtn.swift, ZMUIToolkitIconBtn.swift, ZMUIToolkitDescriptor.swift, ZMUIToolKitManager.swift, CompositeZoomVideoSDKDelegate.swift); not assumed.",
+    "completeness": "JSON mirrors all content in ZMUIToolkitVideoBtn-API.md."
+  }
+}

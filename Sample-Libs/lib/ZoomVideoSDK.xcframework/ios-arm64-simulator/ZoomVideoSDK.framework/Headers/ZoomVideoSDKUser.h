@@ -9,58 +9,216 @@
 #import <ZoomVideoSDK/ZoomVideoSDKRemoteCameraControlHelper.h>
 #import <ZoomVideoSDK/ZoomVideoSDKShareHelper.h>
 
+
+/**
+ * @enum ZoomVideoSDKStatisticsDirection
+ * @brief Direction of media statistics
+ */
+typedef NS_ENUM(NSInteger, ZoomVideoSDKStatisticsDirection) {
+    /** Sending media statistics */
+    ZoomVideoSDKStatisticsDirection_Send = 0,
+    /** Receiving media statistics */
+    ZoomVideoSDKStatisticsDirection_Receive = 1,
+};
+
+/**
+ * @class ZoomVideoSDKQOSStatistics
+ * @brief Base QOS statistics for media streams (Audio, Video, Share).
+ * @note Common fields only; Send/Receive-specific fields are in ZoomVideoSDKQOSSendStatistics and ZoomVideoSDKQOSRecvStatistics.
+ */
+@interface ZoomVideoSDKQOSStatistics : NSObject
+
+/** @brief Gets the direction of statistics (send or receive). */
+@property (nonatomic, assign, readonly) ZoomVideoSDKStatisticsDirection direction;
+
+/** @brief Gets the timestamp of the statistics. */
+@property (nonatomic, assign, readonly) NSInteger timestamp;
+
+/** @brief Gets the name of the codec. For video/share: "h264", "av1". For audio: "silk", "opus", "pcm", "G722", "G729". */
+@property (nonatomic, copy, readonly) NSString * _Nullable codecName;
+
+/** @brief Gets the round-trip time in milliseconds. */
+@property (nonatomic, assign, readonly) NSInteger rtt;
+
+/** @brief Gets the jitter in milliseconds. */
+@property (nonatomic, assign, readonly) double jitter;
+
+/** @brief Frame width (sent or received per direction). */
+@property (nonatomic, assign, readonly) NSInteger width;
+
+/** @brief Frame height (sent or received per direction). */
+@property (nonatomic, assign, readonly) NSInteger height;
+
+/** @brief Frame rate in FPS (sent or received per direction). */
+@property (nonatomic, assign, readonly) NSInteger fps;
+
+/** @brief Gets the bits per second. */
+@property (nonatomic, assign, readonly) NSInteger bps;
+
+/** @brief Gets the total bytes transferred (sent or received per direction). */
+@property (nonatomic, assign, readonly) NSInteger bytesTransferred;
+
+/** @brief Gets the number of packets lost during transmission. */
+@property (nonatomic, assign, readonly) NSInteger packetsLost;
+
+/** @brief Gets the total number of packets transferred (sent or received per direction). */
+@property (nonatomic, assign, readonly) NSInteger packetsTransferred;
+
+/** @brief Gets the network quality level. */
+@property (nonatomic, assign, readonly) ZoomVideoSDKNetworkStatus networkLevel;
+
+/** @brief Gets the statistics type (Audio, Video, or Share). */
+@property (nonatomic, assign, readonly) ZoomVideoSDKDataType statisticsType;
+
+/** @brief Gets the average packet loss ratio in per thousand (e.g. 100 means 10%). */
+@property (nonatomic, assign, readonly) NSInteger avg_loss;
+
+/** @brief Gets the maximum packet loss ratio in per thousand (e.g. 100 means 10%). */
+@property (nonatomic, assign, readonly) NSInteger max_loss;
+
+/** @brief Gets the estimated bandwidth in bps. */
+@property (nonatomic, assign, readonly) NSInteger bandwidth;
+
+@end
+
+/**
+ * @class ZoomVideoSDKQOSSendStatistics
+ * @brief QOS statistics for outbound media stream (sending).
+ * @note Inherits common fields from ZoomVideoSDKQOSStatistics; adds send-specific properties.
+ */
+@interface ZoomVideoSDKQOSSendStatistics : ZoomVideoSDKQOSStatistics
+
+/** @brief Gets the width of the input frame (send only). */
+@property (nonatomic, assign, readonly) NSInteger frameWidthInput;
+
+/** @brief Gets the height of the input frame (send only). */
+@property (nonatomic, assign, readonly) NSInteger frameHeightInput;
+
+/** @brief Gets the frame rate of input (send only). */
+@property (nonatomic, assign, readonly) NSInteger frameRateInput;
+
+/** @brief Gets the total bytes sent. */
+@property (nonatomic, assign, readonly) NSInteger bytesSent;
+
+/** @brief Gets the total number of packets sent. */
+@property (nonatomic, assign, readonly) NSInteger packetsSent;
+
+/** @brief Gets the total packet send delay in milliseconds (send only). */
+@property (nonatomic, assign, readonly) NSInteger totalPacketSendDelay;
+
+/** @brief Gets the total time spent encoding in milliseconds (send only). */
+@property (nonatomic, assign, readonly) NSInteger totalEncodeTime;
+
+/** @brief Gets the total number of frames encoded (send only). */
+@property (nonatomic, assign, readonly) NSInteger framesEncoded;
+
+/** @brief Gets the total bytes of RTP headers (and padding) sent (send only). */
+@property (nonatomic, assign, readonly) NSUInteger headerBytesSent;
+
+@end
+
+/**
+ * @class ZoomVideoSDKQOSRecvStatistics
+ * @brief QOS statistics for inbound media stream (receiving).
+ * @note Inherits common fields from ZoomVideoSDKQOSStatistics; adds receive-specific properties.
+ */
+@interface ZoomVideoSDKQOSRecvStatistics : ZoomVideoSDKQOSStatistics
+
+/** @brief Gets the total bytes received (receive only). */
+@property (nonatomic, assign, readonly) unsigned long long bytesReceived;
+
+/** @brief Gets the total number of packets received (receive only). */
+@property (nonatomic, assign, readonly) NSInteger packetsReceived;
+
+/** @brief Gets the estimated playout timestamp (receive only). */
+@property (nonatomic, assign, readonly) NSInteger estimatedPlayoutTimestamp;
+
+/** @brief Gets the total time spent decoding in milliseconds (receive only). */
+@property (nonatomic, assign, readonly) NSInteger totalDecodeTime;
+
+/** @brief Gets the total number of frames decoded (receive only). */
+@property (nonatomic, assign, readonly) NSInteger framesDecoded;
+
+/** @brief Gets the accumulated playout delay introduced by the jitter buffer, in seconds (receive only). */
+@property (nonatomic, assign, readonly) double jitterBufferDelay;
+
+/** @brief Gets the total audio samples decoded from RTP packets (receive only). */
+@property (nonatomic, assign, readonly) unsigned long long jitterBufferEmittedCount;
+
+/** @brief Gets the total bytes of RTP headers (and padding) received (receive only). */
+@property (nonatomic, assign, readonly) unsigned long long headerBytesReceived;
+
+/** @brief Gets the non-FEC packets discarded by NetEQ (receive only, audio only). */
+@property (nonatomic, assign, readonly) NSUInteger packetsDiscarded;
+
+/** @brief Gets the total number of FEC packets received (receive only, audio only). */
+@property (nonatomic, assign, readonly) NSUInteger fecPacketsReceived;
+
+/** @brief Gets the FEC packets discarded by NetEQ (receive only, audio only). */
+@property (nonatomic, assign, readonly) NSUInteger fecPacketsDiscarded;
+
+/** @brief Gets the accumulated current target delay of the jitter buffer, in seconds (receive only, audio only). */
+@property (nonatomic, assign, readonly) double jitterBufferTargetDelay;
+
+/** @brief Gets the accumulated minimum achievable jitter buffer delay, in seconds (receive only, audio only). */
+@property (nonatomic, assign, readonly) double jitterBufferMinimumDelay;
+
+/** @brief Gets the total audio samples generated by NetEQ (receive only, audio only). */
+@property (nonatomic, assign, readonly) unsigned long long totalSamplesReceived;
+
+/** @brief Gets the samples produced by concealment instead of real decode (receive only, audio only). */
+@property (nonatomic, assign, readonly) unsigned long long concealedSamples;
+
+/** @brief Gets the subset of concealedSamples that are silent (receive only, audio only). */
+@property (nonatomic, assign, readonly) unsigned long long silentConcealedSamples;
+
+/** @brief Gets the number of concealment events (receive only, audio only). */
+@property (nonatomic, assign, readonly) unsigned long long concealmentEvents;
+
+/** @brief Gets the samples inserted to slow down playout, i.e. deceleration (receive only, audio only). */
+@property (nonatomic, assign, readonly) unsigned long long insertedSamplesForDeceleration;
+
+/** @brief Gets the samples removed to speed up playout, i.e. acceleration (receive only, audio only). */
+@property (nonatomic, assign, readonly) unsigned long long removedSamplesForAcceleration;
+
+/** @brief Gets the total duration of all audio samples received, in seconds (receive only, audio only). */
+@property (nonatomic, assign, readonly) double totalSamplesDuration;
+
+/** @brief Gets the most recent audio level of the received stream, range [0.0, 1.0] (receive only, audio only). */
+@property (nonatomic, assign, readonly) double audioLevel;
+
+/** @brief Gets the accumulated audio energy of the received stream (receive only, audio only). */
+@property (nonatomic, assign, readonly) double totalAudioEnergy;
+
+@end
+
+
 /**
  * @class ZoomVideoSDKVideoStatisticInfo
- * @brief Video statistic information.
+ * @brief Video statistic information. Inherits common QOS fields from ZoomVideoSDKQOSStatistics (width, height, fps, bps, networkLevel).
  */
-@interface ZoomVideoSDKVideoStatisticInfo : NSObject
+@interface ZoomVideoSDKVideoStatisticInfo : ZoomVideoSDKQOSStatistics
+
 /**
- * @brief Gets the frame width.
+ * @brief Gets the video network status. Same as \link ZoomVideoSDKQOSStatistics.networkLevel \endlink.
+ * @deprecated Use \link ZoomVideoSDKQOSStatistics.networkLevel \endlink instead.
  */
-@property (nonatomic, assign) NSInteger     width;
-/**
- * @brief Gets the frame height.
- */
-@property (nonatomic, assign) NSInteger     height;
-/**
- * @brief Gets the frame per second.
- */
-@property (nonatomic, assign) NSInteger     fps;
-/**
- * @brief Gets the bits per second.
- */
-@property (nonatomic, assign) NSInteger     bps;
-/**
- * @brief Gets the video network status.
- */
-@property (nonatomic, assign) ZoomVideoSDKNetworkStatus videoNetworkStatus;
+@property (nonatomic, assign) ZoomVideoSDKNetworkStatus videoNetworkStatus DEPRECATED_MSG_ATTRIBUTE("Use networkLevel instead");
+
 @end
 
 /**
  * @class ZoomVideoSDKShareStatisticInfo
- * @brief Share statistic information.
+ * @brief Share statistic information. Inherits from ZoomVideoSDKQOSStatistics (width, height, fps, bps, networkLevel).
  */
-@interface ZoomVideoSDKShareStatisticInfo : NSObject
+@interface ZoomVideoSDKShareStatisticInfo : ZoomVideoSDKQOSStatistics
+
 /**
- * @brief Gets the frame width.
+ * @brief Gets the share network status. Same as \link ZoomVideoSDKQOSStatistics.networkLevel \endlink.
+ * @deprecated Use \link ZoomVideoSDKQOSStatistics.networkLevel \endlink instead.
  */
-@property (nonatomic, assign) NSInteger     width;
-/**
- * @brief Gets the frame height.
- */
-@property (nonatomic, assign) NSInteger     height;
-/**
- * @brief Gets the frame per second.
- */
-@property (nonatomic, assign) NSInteger     fps;
-/**
- * @brief Gets the bits per second.
- */
-@property (nonatomic, assign) NSInteger     bps;
-/**
- * @brief Gets the share network status.
- */
-@property (nonatomic, assign) ZoomVideoSDKNetworkStatus shareNetworkStatus;
+@property (nonatomic, assign) ZoomVideoSDKNetworkStatus shareNetworkStatus DEPRECATED_MSG_ATTRIBUTE("Use networkLevel instead");
+
 @end
 
 /**
@@ -263,6 +421,12 @@
  * @return YES if the user is in SubSession. Otherwise, NO.
  */
 - (BOOL)isInSubSession;
+
+/**
+ * @brief Determines whether the user is in failover.
+ * @return YES if the user is in failover. Otherwise, NO.
+ */
+- (BOOL)isInFailover;
 
 /**
  * @brief Gets the network quality level of the specified data type for the user.

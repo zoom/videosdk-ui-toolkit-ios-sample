@@ -5,6 +5,7 @@
 
 import SwiftUI
 import ZMUIToolkit
+import ZoomVideoSDK
 
 struct StartingPageView: View {
     private let slides: [String] = (1...6).map { "intro_image\($0)" }
@@ -85,42 +86,72 @@ struct StartingPageView: View {
 
     private func initializeToolkitIfNeeded() {
         if ZMUIToolkitSampleConfig.isSDKInitialized {
+            guard let sdk = ZoomVideoSDK.sharedInstance() else {
+                print("[SDKInit] ERROR: SDK singleton unavailable")
+                sdkInitialized = false
+                return
+            }
+            guard initializeToolkitManager(with: sdk) else {
+                sdkInitialized = false
+                return
+            }
             sdkInitialized = true
             return
         }
 
-        let sdkinit = ZMUIToolkitVideoSDKInitializer()
-        sdkinit.domain = ZMUIToolkitSampleConfig.sdkDomain
-        sdkinit.enableLog = true
-        sdkinit.logFilePrefix = ZMUIToolkitSampleConfig.logFilePrefix
-        sdkinit.appGroupId = ZMUIToolkitSampleConfig.screenShareAppGroupId
-        sdkinit.bundleId = ZMUIToolkitSampleConfig.screenShareExtensionBundleId
+        let sdkInitParams = ZoomVideoSDKInitParams()
+        sdkInitParams.domain = ZMUIToolkitSampleConfig.sdkDomain
+        sdkInitParams.enableLog = true
+        sdkInitParams.logFilePrefix = ZMUIToolkitSampleConfig.logFilePrefix
+        sdkInitParams.appGroupId = ZMUIToolkitSampleConfig.screenShareAppGroupId
 
-        let error = ZMUIToolKitManager.initialize(initializer: sdkinit)
-        if error == .success {
+        let error = ZoomVideoSDK.sharedInstance()?.initialize(sdkInitParams) ?? .Errors_Internal_Error
+        if error == .Errors_Success {
+            guard let sdk = ZoomVideoSDK.sharedInstance() else {
+                print("[SDKInit] ERROR: SDK init succeeded but singleton unavailable")
+                sdkInitialized = false
+                return
+            }
+            guard initializeToolkitManager(with: sdk) else {
+                sdkInitialized = false
+                return
+            }
             ZMUIToolkitSampleConfig.isSDKInitialized = true
             sdkInitialized = true
         } else {
             print("[SDKInit] ERROR: SDK initialization failed with error: \(error)")
             print("[SDKInit] Error details:")
             switch error {
-            case .load_Module_Error:
+            case .Errors_Load_Module_Error:
                 print("[SDKInit]   - Could not load SDK module")
-            case .auth_Error, .auth_Empty_Key_or_Secret, .auth_Wrong_Key_or_Secret:
+            case .Errors_Auth_Error, .Errors_Auth_Empty_Key_or_Secret, .Errors_Auth_Wrong_Key_or_Secret:
                 print("[SDKInit]   - Authentication error - check SDK key/secret")
-            case .auth_DoesNot_Support_SDK, .auth_Disable_SDK:
+            case .Errors_Auth_DoesNot_Support_SDK, .Errors_Auth_Disable_SDK:
                 print("[SDKInit]   - SDK not supported or disabled for this account")
-            case .invalid_Parameter:
+            case .Errors_Invalid_Parameter:
                 print("[SDKInit]   - Invalid initialization parameters")
-            case .memory_Error:
+            case .Errors_Memory_Error:
                 print("[SDKInit]   - Memory allocation error")
-            case .internal_Error:
+            case .Errors_Internal_Error:
                 print("[SDKInit]   - Internal SDK error")
             default:
                 print("[SDKInit]   - Unhandled error type")
             }
             sdkInitialized = false
         }
+    }
+
+    private func initializeToolkitManager(with sdk: ZoomVideoSDK) -> Bool {
+        // NOTE: Integrators should pair this with `ZMUIToolKitManager.cleanup()`
+        // (followed by `ZoomVideoSDK.shareInstance()?.cleanup()`) on
+        // sign-out / SDK teardown. The sample keeps the toolkit alive for the
+        // process lifetime, so it isn't called here.
+        let initialized = ZMUIToolKitManager.initialize(videoSDK: sdk,
+                                                        bundleId: ZMUIToolkitSampleConfig.screenShareExtensionBundleId)
+        if initialized == false {
+            print("[SDKInit] ERROR: Toolkit manager failed to claim the SDK delegate slot")
+        }
+        return initialized
     }
 }
 

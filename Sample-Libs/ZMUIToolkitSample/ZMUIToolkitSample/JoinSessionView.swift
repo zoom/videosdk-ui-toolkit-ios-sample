@@ -5,6 +5,7 @@
 
 import SwiftUI
 import ZMUIToolkit
+import ZoomVideoSDK
 
 struct JoinSessionView: View {
     enum Mode {
@@ -47,92 +48,101 @@ struct JoinSessionView: View {
     @State private var sessionIdleTimeoutMins = ""
     @State private var roleType = ""
     @StateObject private var eventListener: EventListener = EventListener()
-    @State public var videoSession: ZMUIToolkitSession?
+    @State private var videoSession: ZoomVideoSDKSession?
 
     var body: some View {
-        if eventListener.isJoined == false {
-            GeometryReader { geometry in
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 0) {
-                        LabeledLineTextField(
-                            label: "Session Name",
-                            placeholder: "Enter session name.",
-                            text: $sessionName
-                        )
-                        .padding(.bottom, Layout.fieldBottomSpacing)
+        Group {
+            if eventListener.isJoined == false {
+                GeometryReader { geometry in
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 0) {
+                            LabeledLineTextField(
+                                label: "Session Name",
+                                placeholder: "Enter session name.",
+                                text: $sessionName
+                            )
+                            .padding(.bottom, Layout.fieldBottomSpacing)
 
-                        LabeledLineTextField(
-                            label: "Display name",
-                            placeholder: "Enter display name.",
-                            text: $displayName
-                        )
-                        .padding(.bottom, Layout.fieldBottomSpacing)
+                            LabeledLineTextField(
+                                label: "Display name",
+                                placeholder: "Enter display name.",
+                                text: $displayName
+                            )
+                            .padding(.bottom, Layout.fieldBottomSpacing)
 
-                        LabeledLineSecureField(
-                            label: "Session Password",
-                            placeholder: "Enter password.",
-                            text: $sessionPassword
-                        )
-                        .padding(.bottom, Layout.passwordBottomSpacing)
-                        
-                        LabeledLineTextField(
-                            label: "SessionIdleTimeoutMins",
-                            placeholder: "Enter session idle timeout in minutes.",
-                            text: $sessionIdleTimeoutMins
-                        )
-                        .padding(.bottom, Layout.fieldBottomSpacing)
-                        
-                        LabeledLineTextField(
-                            label: "Role Type",
-                            placeholder: "Enter 1 for host, 0 for attendee.",
-                            text: $roleType
-                        )
-                        .padding(.bottom, Layout.fieldBottomSpacing)
+                            LabeledLineSecureField(
+                                label: "Session Password",
+                                placeholder: "Enter password.",
+                                text: $sessionPassword
+                            )
+                            .padding(.bottom, Layout.passwordBottomSpacing)
+                            
+                            LabeledLineTextField(
+                                label: "SessionIdleTimeoutMins",
+                                placeholder: "Enter session idle timeout in minutes.",
+                                text: $sessionIdleTimeoutMins
+                            )
+                            .padding(.bottom, Layout.fieldBottomSpacing)
+                            
+                            LabeledLineTextField(
+                                label: "Role Type",
+                                placeholder: "Enter 1 for host, 0 for attendee.",
+                                text: $roleType
+                            )
+                            .padding(.bottom, Layout.fieldBottomSpacing)
 
-                        Button(action: {
-                            joinSession()
-                        }) {
-                            Text(mode.actionTitle)
-                                .font(.headline)
-                                .foregroundStyle(.white)
-                                .frame(maxWidth: .infinity)
-                                .frame(height: Layout.actionButtonHeight)
-                                .background(Color(uiColor: .systemBlue))
-                                .clipShape(RoundedRectangle(cornerRadius: Layout.actionButtonCornerRadius))
+                            Button(action: {
+                                joinSession()
+                            }) {
+                                Text(mode.actionTitle)
+                                    .font(.headline)
+                                    .foregroundStyle(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: Layout.actionButtonHeight)
+                                    .background(Color(uiColor: .systemBlue))
+                                    .clipShape(RoundedRectangle(cornerRadius: Layout.actionButtonCornerRadius))
+                            }
+                            .frame(width: geometry.size.width * Layout.actionButtonWidthPercent, alignment: .center)
+                            .frame(maxWidth: .infinity, alignment: .center)
+
+                            Spacer(minLength: 0)
                         }
-                        .frame(width: geometry.size.width * Layout.actionButtonWidthPercent, alignment: .center)
-                        .frame(maxWidth: .infinity, alignment: .center)
-
-                        Spacer(minLength: 0)
                     }
+                    .padding(.horizontal, Layout.horizontalPadding)
+                    .padding(.top, Layout.topPadding)
                 }
-                .padding(.horizontal, Layout.horizontalPadding)
-                .padding(.top, Layout.topPadding)
+                .navigationTitle(mode.title)
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar(.visible, for: .navigationBar)
+            } else {
+                InSessionView(sessionName: sessionName)
+                    .navigationBarBackButtonHidden(true)
+                    .toolbar(.hidden, for: .navigationBar)
             }
-            .navigationTitle(mode.title)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar(.visible, for: .navigationBar)
-        } else {
-            InSessionView(sessionName: sessionName)
-                .navigationBarBackButtonHidden(true)
-                .toolbar(.hidden, for: .navigationBar)
         }
     }
     
     func joinSession() {
+        guard sessionName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false else {
+            print("[JoinSession] ERROR: Session name is required")
+            return
+        }
+        guard displayName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false else {
+            print("[JoinSession] ERROR: Display name is required")
+            return
+        }
         if ZMUIToolkitSampleConfig.isSDKInitialized == false {
             print("[JoinSession] ERROR: SDK is not initialized")
             return
         }
-
-        ZMUIToolKitManager.setEventHandler(handler: eventListener)
 
         let type: Int
 
         if let intValue = Int(roleType), (intValue == 1 || intValue == 0) {
             type = intValue
         } else {
-            type = 1
+            // Safer default: create -> host, join -> attendee.
+            type = (mode == .create) ? 1 : 0
         }
 
         let token: String = JwtTokenHelper.generateZoomVideoSdkToken(
@@ -149,16 +159,30 @@ struct JoinSessionView: View {
             return
         }
 
-        let sessioncontext = ZMUIToolkitVideoSDKSessionContext()
-        sessioncontext.sessionName = sessionName
-        sessioncontext.sessionPassword = sessionPassword
-        sessioncontext.userName = displayName
-        sessioncontext.token = token
-        sessioncontext.localVideoOn = true
-        sessioncontext.connect = true
-        sessioncontext.mute = false
+        let sessionContext = ZoomVideoSDKSessionContext()
+        sessionContext.sessionName = sessionName
+        sessionContext.sessionPassword = sessionPassword
+        sessionContext.userName = displayName
+        sessionContext.token = token
+        sessionContext.sessionIdleTimeoutMins = Int(sessionIdleTimeoutMins) ?? 60
+        
+        let audioOption = ZoomVideoSDKAudioOptions()
+        audioOption.connect = true
+        audioOption.mute = false
+        sessionContext.audioOption = audioOption
+        
+        let videoOption = ZoomVideoSDKVideoOptions()
+        videoOption.localVideoOn = true
+        // Required for Picture-in-Picture: forwards to AVCaptureSession's isMultitaskingCameraAccessEnabled.
+        videoOption.multitaskingCameraAccessEnabled = true
+        sessionContext.videoOption = videoOption
 
-        videoSession = ZMUIToolKitManager.joinSession(context: sessioncontext)
+        guard let sdk = ZMUIToolKitManager.videoSDK else {
+            print("[JoinSession] ERROR: Toolkit manager has no SDK reference")
+            print("[JoinSession] Ensure ZMUIToolKitManager.initialize(videoSDK:bundleId:) succeeded")
+            return
+        }
+        videoSession = sdk.joinSession(sessionContext)
 
         if videoSession == nil {
             print("[JoinSession] ERROR: Failed to create session - joinSession returned nil")

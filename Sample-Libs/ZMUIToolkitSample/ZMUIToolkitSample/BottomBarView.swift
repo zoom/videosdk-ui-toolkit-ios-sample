@@ -16,6 +16,7 @@ struct BottomBarView: View {
     @State private var videoButtonProps = VideoButtonProperties()
     @State private var shareButtonProps = ShareButtonProperties()
     @State private var participantsButtonProps = ParticipantsButtonProperties()
+    @State private var moreButtonProps = MoreButtonProperties()
     
     var body: some View {
         HStack {
@@ -45,6 +46,13 @@ struct BottomBarView: View {
                 ParticipantsButtonView(props: $participantsButtonProps)
                     .fixedSize()
                 Text("Participants")
+                    .font(.caption)
+            }
+            Spacer()
+            VStack {
+                MoreButtonView(props: $moreButtonProps)
+                    .fixedSize()
+                Text("More")
                     .font(.caption)
             }
             Spacer()
@@ -182,14 +190,50 @@ struct ParticipantsButtonProperties {
 
 struct ParticipantsButtonView: UIViewRepresentable {
     @Binding var props: ParticipantsButtonProperties
-    
+
     func makeUIView(context: Context) -> ZMUIToolkitParticipantsBtn {
         let button = ZMUIToolkitParticipantsBtn()
         button.isUserInteractionEnabled = true
         return button
     }
-    
+
     func updateUIView(_ uiView: ZMUIToolkitParticipantsBtn, context: Context) {
+        uiView.setBackgroundColor(color: UIColor(props.backgroundColor))
+        uiView.setRadius(radius: props.radius)
+        uiView.setSize(size: props.size)
+        uiView.setIconColor(color: UIColor(props.iconColor))
+        uiView.setIconSize(props.iconSize)
+        uiView.setIconPadding(padding: props.iconPadding)
+        uiView.setTitle(props.title.isEmpty ? nil : props.title, for: .normal)
+        uiView.setTextSpacing(props.textSpacing)
+        uiView.setTextColor(UIColor(props.textColor))
+        uiView.setTextFontSize(props.fontSize)
+    }
+}
+
+struct MoreButtonProperties {
+    public var backgroundColor = Color.clear
+    public var radius: CGFloat = 8.0
+    public var size: CGSize = CGSize(width: 40, height: 40)
+    public var iconSize: CGSize = CGSize(width: 24, height: 24)
+    public var iconColor = Color.gray
+    public var iconPadding: CGFloat = 8.0
+    public var title: String = ""
+    public var textColor = Color.white
+    public var fontSize: CGFloat = 14.0
+    public var textSpacing: CGFloat = 4.0
+}
+
+struct MoreButtonView: UIViewRepresentable {
+    @Binding var props: MoreButtonProperties
+
+    func makeUIView(context: Context) -> ZMUIToolkitMoreBtn {
+        let button = ZMUIToolkitMoreBtn()
+        button.isUserInteractionEnabled = true
+        return button
+    }
+
+    func updateUIView(_ uiView: ZMUIToolkitMoreBtn, context: Context) {
         uiView.setBackgroundColor(color: UIColor(props.backgroundColor))
         uiView.setRadius(radius: props.radius)
         uiView.setSize(size: props.size)

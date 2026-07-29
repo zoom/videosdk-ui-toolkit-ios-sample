@@ -115,7 +115,7 @@
  * @brief Determines whether the view history translation message is available.
  * @return YES if the view history transcription message is available. Otherwise, NO.
  */
-- (BOOL)isAllowViewFullTranscriptEnable;
+- (BOOL)isAllowViewFullTranscriptEnabled;
 
 /**
  * @brief Gets the list of all history translation messages in a session.
@@ -139,6 +139,7 @@
  * @brief Sets the translation language of the current user.
  * @param languageID The translation language ID. If the language ID is set to -1, live translation will be disabled.
  * @return If the function succeeds, it returns Errors_Success. Otherwise, this function returns an error.
+ * @note If you call this method before calling startLiveTranscription, it will trigger the onLiveTranscriptionStatus: callback when the translation status changes. If translation is already enabled, calling this method again will not trigger the onLiveTranscriptionStatus: callback.
  */
 - (ZoomVideoSDKError)setTranslationLanguage:(NSInteger)languageID;
 

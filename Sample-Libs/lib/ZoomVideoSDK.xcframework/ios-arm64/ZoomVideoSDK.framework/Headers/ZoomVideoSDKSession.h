@@ -135,7 +135,6 @@
 /**
  * @brief Gets the session ID.
  * @return If the function succeeds, it returns the session ID. Otherwise, this function fails and returns nil.
- * @warning Only the host can get the session ID.
  */
 - (NSString * _Nullable)getSessionID;
 
@@ -205,7 +204,7 @@
  * @brief Determines whether file transfer is enabled.
  * @return YES if file transfer is enabled. Otherwise, NO.
  */
-- (BOOL)isFileTransferEnable;
+- (BOOL)isFileTransferEnabled;
 
 /**
  * @brief Sends file to all users in current session.

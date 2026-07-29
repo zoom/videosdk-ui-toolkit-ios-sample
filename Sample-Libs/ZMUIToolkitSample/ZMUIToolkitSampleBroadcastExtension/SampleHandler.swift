@@ -4,19 +4,18 @@
 //
 
 import ReplayKit
-import ZMUIToolkit
 
-class SampleHandler: RPBroadcastSampleHandler, ZMUIToolkitScreenShareServiceDelegate {
+class SampleHandler: RPBroadcastSampleHandler, ZoomVideoSDKScreenShareServiceDelegate {
     func zoomVideoSDKScreenShareServiceFinishBroadcastWithError(_ error: (any Error)?) {
         guard let error = error else { return }
         self.finishBroadcastWithError(error)
     }
     
     
-    var screenShareService: ZMUIToolkitScreenShareService!
+    var screenShareService: ZoomVideoSDKScreenShareService!
     
     override init() {
-        let params = ZMUIToolkitScreenShareInitParams()
+        let params = ZoomVideoSDKScreenShareServiceInitParams()
         /**
         * if you need use screen share feature, Here are a few things to note:
         * <1> Create your own groupid on the Apple Developer Web site, and fill the group ID in ZMUIToolkitSampleConfig.swift
@@ -36,7 +35,7 @@ class SampleHandler: RPBroadcastSampleHandler, ZMUIToolkitScreenShareServiceDele
         params.isWithDeviceAudio = true;
             
         super.init()
-        let service = ZMUIToolkitScreenShareService(params: params)
+        let service = ZoomVideoSDKScreenShareService(params: params)
         self.screenShareService = service
         
         self.screenShareService.delegate = self

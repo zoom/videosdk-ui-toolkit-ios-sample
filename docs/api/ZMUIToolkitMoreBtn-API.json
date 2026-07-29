@@ -1,0 +1,267 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "module": "ZMUIToolkitMoreBtn",
+  "language": "Swift",
+  "platform": "iOS",
+  "version": "1.0",
+  "framework": "ZMUIToolkit",
+  "superclass": "ZMUIToolkitIconBtn",
+  "conformsTo": [],
+  "concurrency": "@MainActor",
+  "objcExposed": true,
+  "objcName": "ZMUIToolkitMoreBtn",
+  "overview": "A momentary 'More' (overflow / ellipsis) button that surfaces secondary in-session actions. On tap it builds and presents a context-sensitive bottom action sheet (CustomActionSheet) whose items depend on live SDK-derived state at tap time: always Settings, conditionally recording controls (when ZMRecordingManager.shared.canControlRecording), conditionally share pause/resume (when ZMShareManager.shared.isSharing), plus Cancel. Start and Stop recording route through confirmation alerts; pause/resume of recording and sharing execute immediately. Has no persistent visual state machine and does not observe SDK events.",
+  "sourceFile": "ZMUIToolkit/ZMUIToolkit/Sources/Buttons/ZMUIToolkitMoreBtn.swift",
+  "differenceFromAudioBtn": "Unlike ZMUIToolkitAudioBtn, this button is NOT a ZoomVideoSDKDelegate, does not register/remove itself from ZMUIToolKitManager.videoSDKDelegate, and reads SDK-derived state on demand (at tap time via ZMRecordingManager/ZMShareManager singletons) rather than continuously syncing. Note: ZMRecordingManager.shared is itself a ZoomVideoSDKDelegate that drives recording-consent dialogs and toasts; the button only invokes its control methods.",
+  "typeDefinitions": [
+    { "name": "ZMUIToolkitIconBtn", "kind": "class", "access": "open", "role": "superclass", "notes": "UIButton subclass providing icon/layout configuration and click callback dispatch." },
+    { "name": "ZMUIToolkitIconBtnDescriptor", "kind": "struct", "access": "internal", "role": "initializer configuration", "fields": ["frame", "backgroundColor", "accessibilityLabel", "iconname", "iconPadding", "iconColor", "callback"] },
+    { "name": "ZMUIToolKitManager", "kind": "class", "role": "holds ZoomVideoSDK instance, videoSDKDelegate fan-out, and cloudRecordingConsentDialogEnabled" },
+    { "name": "ZMUIToolkitStrings", "kind": "enum", "role": "localization helper; set stringsBundle to customize text", "tableName": "ZMUIToolkit" },
+    { "name": "ZMRecordingManager", "kind": "class", "access": "internal", "isSingleton": true, "conformsTo": ["ZoomVideoSDKDelegate"], "role": "owns cloud-recording control (start/stop/pause/resume), canControlRecording/isRecording/isPaused queries, and the consent dialog/toasts" },
+    { "name": "ZMShareManager", "kind": "class", "access": "internal", "isSingleton": true, "role": "owns local screen-share pause/resume control and isSharing/isPaused queries" },
+    { "name": "CustomActionSheet", "kind": "class", "access": "internal", "role": "custom bottom action sheet (UIViewController) presented over full screen" },
+    { "name": "CustomActionSheet.Action", "kind": "struct", "fields": ["title", "icon (optional)", "textColor", "handler"] },
+    { "name": "CustomUIAlertController", "kind": "class", "access": "internal", "role": "custom modal alert (UIViewController) used for Start/Stop recording confirmation" },
+    { "name": "CustomUIAlertController.Action", "kind": "struct", "fields": ["title", "style (.default/.confirm/.cancel)", "handler"] },
+    { "name": "BottomPanelPresenter", "kind": "class", "access": "internal", "role": "presents/dismisses a single bottom panel; weakly references the panel VC" },
+    { "name": "ZMUIToolkitSettingsPanel", "kind": "class", "access": "internal", "conformsTo": ["BottomPanelClosable"], "role": "settings bottom panel; exposes onStatisticsTapped" },
+    { "name": "ZMUIToolkitQoSPanel", "kind": "class", "access": "internal", "conformsTo": ["BottomPanelClosable"], "role": "statistics/QoS bottom panel presented from Settings" },
+    { "name": "ZoomVideoSDKRecordingHelper", "kind": "sdkClass", "methods": ["canStartRecording()", "getCloudRecordingStatus()", "startCloudRecording()", "stopCloudRecording()", "pauseCloudRecording()", "resumeCloudRecording()"] },
+    { "name": "ZoomVideoSDKShareHelper", "kind": "sdkClass", "methods": ["isScreenSharingOut()", "pauseShare()", "resumeShare()"] },
+    { "name": "ZoomVideoSDKError", "kind": "sdkEnum", "notes": "Return type of the control methods. .Errors_Success indicates success; .Errors_Wrong_Usage returned when the relevant SDK helper is nil. To respond to outcomes, observe SDK events via ZMUIToolKitManager.videoSDKDelegate.add(_:)." }
+  ],
+  "lifecycle": {
+    "prerequisites": [
+      "Zoom Video SDK initialized and registered with the toolkit via ZMUIToolKitManager.initialize(videoSDK:bundleId:) before the button is tapped.",
+      "(Optional) Set ZMUIToolkitStrings.stringsBundle to localize menu/dialog text.",
+      "Construct and use on the main thread (@MainActor)."
+    ],
+    "ifNotInitialized": "If ZMUIToolKitManager.videoSDK is nil, the manager helpers resolve to nil: canControlRecording is false and isSharing is false, so only Settings (and Cancel) appear; a control method called with a nil helper returns .Errors_Wrong_Usage.",
+    "entryPoints": [
+      { "event": "init()", "actions": ["build descriptor (40x40, clear bg, Ellipsis icon, secondaryLabel icon color, zero padding)", "install tap callback -> showMoreActionSheet()", "construct BottomPanelPresenter (presenter)", "super.init"], "note": "No SDK delegate registration." }
+    ],
+    "exitPoints": [
+      { "event": "deinit", "actions": [], "note": "No custom deinit. BottomPanelPresenter weakly references the presented panel VC." }
+    ],
+    "delegateModel": "None. The button does not observe SDK events; it reads SDK-derived state imperatively at tap time via ZMRecordingManager.shared and ZMShareManager.shared. ZMRecordingManager itself is a ZoomVideoSDKDelegate (for consent dialogs/toasts), but that is independent of this button."
+  },
+  "states": [
+    { "id": "idle", "description": "Single visual state. The button does not maintain a persistent state machine; the icon is fixed (Ellipsis, clear background). The action sheet contents are recomputed from live state on each tap." }
+  ],
+  "actionSheetDecisionTree": {
+    "description": "Decision tree evaluated fresh on each tap inside showMoreActionSheet(). Items appended in fixed order: Settings, recording control(s), share control. Cancel is rendered separately by CustomActionSheet.",
+    "tree": [
+      { "item": "Settings", "always": true, "result": "showSettingsPanel()", "icon": "Settings", "textColor": ".label" },
+      { "condition": "ZMRecordingManager.shared.canControlRecording == true", "branches": [
+        { "condition": "isRecording || isPaused", "items": [
+          { "item": "Stop recording", "icon": "Record", "textColor": ".systemRed", "result": "showStopRecordingAlert() -> confirm -> ZMRecordingManager.shared.stopRecording()" },
+          { "condition": "isPaused == true", "item": "Resume recording", "icon": "Record", "textColor": ".label", "result": "ZMRecordingManager.shared.resumeRecording()" },
+          { "condition": "isPaused == false", "item": "Pause recording", "icon": "Pause", "textColor": ".label", "result": "ZMRecordingManager.shared.pauseRecording()" }
+        ]},
+        { "condition": "not recording (else)", "items": [
+          { "item": "Record", "icon": "Record", "textColor": ".label", "result": "showStartRecordingAlert() -> confirm -> ZMRecordingManager.shared.startRecording()" }
+        ]}
+      ]},
+      { "condition": "ZMShareManager.shared.isSharing == true", "branches": [
+        { "condition": "isPaused == true", "item": "Resume sharing", "icon": "ResumeShare", "textColor": ".label", "result": "ZMShareManager.shared.resumeShare()" },
+        { "condition": "isPaused == false", "item": "Pause sharing", "icon": "PauseShare", "textColor": ".label", "result": "ZMShareManager.shared.pauseShare()" }
+      ]},
+      { "item": "Cancel", "always": true, "note": "Action sheet built-in cancel button (cancelText)." }
+    ],
+    "settingsPanelToggle": "showSettingsPanel(): if presenter.isPresented -> dismiss; else present ZMUIToolkitSettingsPanel. The panel's onStatisticsTapped dismisses settings and, after a 0.3s DispatchQueue.main.asyncAfter delay, presents ZMUIToolkitQoSPanel.",
+    "confirmations": "Start and Stop recording route through CustomUIAlertController confirmation alerts (inset button layout). Pause/resume of recording and sharing execute immediately with no confirmation."
+  },
+  "apis": [
+    {
+      "name": "init",
+      "signature": "@objc public init()",
+      "kind": "designated initializer",
+      "access": "public",
+      "description": "Builds the button (40x40, clear background, Ellipsis icon, secondaryLabel icon color, zero padding) and installs the tap callback that presents the More action sheet via showMoreActionSheet(). Constructs the BottomPanelPresenter.",
+      "preconditions": ["Toolkit initialized via ZMUIToolKitManager.initialize (for functional taps)", "Main thread (@MainActor)"],
+      "sideEffects": ["None beyond super.init; no delegate registration", "Constructs BottomPanelPresenter (presenter)"],
+      "returns": "configured ZMUIToolkitMoreBtn",
+      "errorCodes": []
+    },
+    {
+      "name": "init(coder:)",
+      "signature": "@MainActor required public init?(coder: NSCoder)",
+      "kind": "initializer",
+      "access": "public",
+      "description": "NOT SUPPORTED. Calls fatalError. Do not instantiate from Storyboard/XIB.",
+      "preconditions": [],
+      "sideEffects": ["Traps (fatalError)"],
+      "returns": "never",
+      "errorCodes": []
+    },
+    {
+      "name": "setMoreIcon",
+      "signature": "public func setMoreIcon(image: UIImage)",
+      "access": "public",
+      "description": "Replaces the button's icon immediately via setImage(image, for: .normal). Single visual state.",
+      "parameters": [{ "name": "image", "type": "UIImage", "description": "Replacement icon" }],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Sets normal-state image"],
+      "errorCodes": []
+    },
+    {
+      "name": "showMoreActionSheet",
+      "signature": "private func showMoreActionSheet()",
+      "access": "private",
+      "description": "Builds the [CustomActionSheet.Action] array from live state (always adds Settings; conditionally adds recording controls when ZMRecordingManager.shared.canControlRecording, and share controls when ZMShareManager.shared.isSharing) and presents a CustomActionSheet from UIApplication.topViewController() with cancel title cancelText.",
+      "parameters": [],
+      "preconditions": ["Main thread", "A presentable top view controller exists"],
+      "sideEffects": ["Presents a CustomActionSheet"],
+      "errorCodes": []
+    },
+    {
+      "name": "showStartRecordingAlert",
+      "signature": "private func showStartRecordingAlert()",
+      "access": "private",
+      "description": "Presents a CustomUIAlertController (inset layout) with start_recording_alert_title/start_recording_alert_message, a Cancel action (no handler) and a Start action (.default) that calls ZMRecordingManager.shared.startRecording().",
+      "parameters": [],
+      "preconditions": ["Main thread", "A presentable top view controller exists"],
+      "sideEffects": ["Presents a confirmation alert; on confirm calls ZMRecordingManager.shared.startRecording()"],
+      "errorCodes": []
+    },
+    {
+      "name": "showStopRecordingAlert",
+      "signature": "private func showStopRecordingAlert()",
+      "access": "private",
+      "description": "Presents a CustomUIAlertController (inset layout) with stop_recording_alert_title/stop_recording_alert_message, a Cancel action and a Stop action (.default) that calls ZMRecordingManager.shared.stopRecording().",
+      "parameters": [],
+      "preconditions": ["Main thread", "A presentable top view controller exists"],
+      "sideEffects": ["Presents a confirmation alert; on confirm calls ZMRecordingManager.shared.stopRecording()"],
+      "errorCodes": []
+    },
+    {
+      "name": "showSettingsPanel",
+      "signature": "private func showSettingsPanel()",
+      "access": "private",
+      "description": "Toggles the settings bottom panel via BottomPanelPresenter: dismisses if presenter.isPresented; otherwise presents a ZMUIToolkitSettingsPanel and wires its onStatisticsTapped to dismiss settings and (after a 0.3s delay) present a ZMUIToolkitQoSPanel.",
+      "parameters": [],
+      "preconditions": ["Main thread"],
+      "sideEffects": ["Presents or dismisses a bottom panel; may schedule a delayed QoS panel presentation"],
+      "errorCodes": []
+    }
+  ],
+  "managerMethodsInvoked": {
+    "description": "Not methods of ZMUIToolkitMoreBtn; these are the singleton entry points the action items call. These methods return ZoomVideoSDKError; to respond to outcomes, observe SDK events via ZMUIToolKitManager.videoSDKDelegate.add(_:).",
+    "methods": [
+      { "callerItem": "Record (after confirm)", "method": "ZMRecordingManager.shared.startRecording()", "underlyingSDK": "recordingHelper.canStartRecording() then startCloudRecording()", "notes": "Returns early if canStartRecording() != .Errors_Success. Sets internal didInitiateRecording flag on success so the initiator skips the consent dialog." },
+      { "callerItem": "Stop recording (after confirm)", "method": "ZMRecordingManager.shared.stopRecording()", "underlyingSDK": "recordingHelper.stopCloudRecording()", "notes": "" },
+      { "callerItem": "Pause recording", "method": "ZMRecordingManager.shared.pauseRecording()", "underlyingSDK": "recordingHelper.pauseCloudRecording()", "notes": "Immediate, no confirmation." },
+      { "callerItem": "Resume recording", "method": "ZMRecordingManager.shared.resumeRecording()", "underlyingSDK": "recordingHelper.resumeCloudRecording()", "notes": "Immediate, no confirmation." },
+      { "callerItem": "Pause sharing", "method": "ZMShareManager.shared.pauseShare()", "underlyingSDK": "shareHelper.pauseShare()", "notes": "Immediate, no confirmation." },
+      { "callerItem": "Resume sharing", "method": "ZMShareManager.shared.resumeShare()", "underlyingSDK": "shareHelper.resumeShare()", "notes": "Immediate, no confirmation." }
+    ],
+    "stateQueries": [
+      { "query": "ZMRecordingManager.shared.canControlRecording", "definition": "recordingHelper?.canStartRecording() == .Errors_Success", "gates": "Whether any recording item is shown" },
+      { "query": "ZMRecordingManager.shared.isRecording", "definition": "getCloudRecordingStatus() == .start", "gates": "Stop/Pause vs. Record" },
+      { "query": "ZMRecordingManager.shared.isPaused", "definition": "getCloudRecordingStatus() == .pause", "gates": "Resume vs. Pause recording" },
+      { "query": "ZMShareManager.shared.isSharing", "definition": "shareHelper?.isScreenSharingOut() ?? false", "gates": "Whether any share item is shown" },
+      { "query": "ZMShareManager.shared.isPaused", "definition": "local user's share action list contains a .pause status", "gates": "Resume vs. Pause sharing" }
+    ]
+  },
+  "inheritedConfiguration": {
+    "from": "ZMUIToolkitIconBtn",
+    "commonSetters": ["setBackgroundColor(color:)", "setRadius(radius:)", "setSize(size:)", "setPosition(x:y:)", "setIconColor(color:)", "setIcon(icon:)", "setIconSize(_:)", "setIconPadding(padding:)", "setAccessibility(label:hint:)", "setButtonText(_:)", "setTextColor(_:)", "setTextFontSize(_:)"]
+  },
+  "callbacks": {
+    "sdkDelegateCallbacks": [],
+    "note": "This button implements no SDK delegate callbacks. It interacts with the SDK indirectly (through ZMRecordingManager / ZMShareManager) at the moment of user interaction. Recording-consent prompts are owned by ZMRecordingManager's own ZoomVideoSDKDelegate implementation (onCloudRecordingStatus), not by this button.",
+    "internalUICallbacks": [
+      { "name": "tap callback", "source": "ZMUIToolkitIconBtn click action", "description": "Builds and presents the action sheet via showMoreActionSheet()." },
+      { "name": "CustomActionSheet.Action.handler", "description": "Runs after the sheet dismisses (recording/share control closures, or showStart/StopRecordingAlert() / showSettingsPanel())." },
+      { "name": "CustomUIAlertController.Action.handler", "description": "Start/Stop recording confirmation handlers." },
+      { "name": "ZMUIToolkitSettingsPanel.onStatisticsTapped", "description": "Dismisses settings, then presents the QoS panel after a 0.3s delay." }
+    ]
+  },
+  "localizedStrings": {
+    "resolver": "ZMUIToolkitStrings.string(for:default:)",
+    "customization": "Set ZMUIToolkitStrings.stringsBundle and provide a ZMUIToolkit.strings table.",
+    "keys": [
+      { "key": "settings", "default": "Settings", "usedFor": "Settings action sheet item" },
+      { "key": "cancel", "default": "Cancel", "usedFor": "Action sheet cancel + alert cancel buttons" },
+      { "key": "record", "default": "Record", "usedFor": "Start-recording action sheet item" },
+      { "key": "stop_recording", "default": "Stop recording", "usedFor": "Stop-recording action sheet item (red)" },
+      { "key": "pause_recording", "default": "Pause recording", "usedFor": "Pause-recording action sheet item" },
+      { "key": "resume_recording", "default": "Resume recording", "usedFor": "Resume-recording action sheet item" },
+      { "key": "start_recording_alert_title", "default": "Start recording", "usedFor": "Start confirmation dialog title" },
+      { "key": "start_recording_alert_message", "default": "After the recording starts, all participants will be informed and the meeting audio, video and shared screen view will be recorded to the cloud.", "usedFor": "Start confirmation dialog message" },
+      { "key": "start", "default": "Start", "usedFor": "Start confirmation dialog confirm button" },
+      { "key": "stop_recording_alert_title", "default": "Stop Recording", "usedFor": "Stop confirmation dialog title" },
+      { "key": "stop_recording_alert_message", "default": "You will receive an email notification when the cloud recording is ready.", "usedFor": "Stop confirmation dialog message" },
+      { "key": "stop", "default": "Stop", "usedFor": "Stop confirmation dialog confirm button" },
+      { "key": "pause_share", "default": "Pause sharing", "usedFor": "Pause-share action sheet item" },
+      { "key": "resume_share", "default": "Resume sharing", "usedFor": "Resume-share action sheet item" }
+    ]
+  },
+  "errorHandling": {
+    "strategy": "startRecording(), stopRecording(), pauseRecording(), resumeRecording(), pauseShare(), and resumeShare() return ZoomVideoSDKError. To respond to outcomes, observe SDK events via ZMUIToolKitManager.videoSDKDelegate.add(_:).",
+    "ifNotInitialized": "ZMUIToolKitManager.videoSDK is nil -> manager helpers resolve to nil -> canControlRecording false and isSharing false (only Settings + Cancel appear); a control method with a nil helper returns .Errors_Wrong_Usage.",
+    "ifNoTopViewController": "Action sheet and alerts present from UIApplication.topViewController(); presentation requires a presentable top view controller.",
+    "startRecordingGate": "ZMRecordingManager.startRecording() internally calls canStartRecording() and proceeds to startCloudRecording() only when it returns .Errors_Success.",
+    "recoveryActions": ["Integrators should observe the SDK directly (e.g. onCloudRecordingStatus, share status callbacks) via their own ZoomVideoSDKDelegate registered with ZMUIToolKitManager.videoSDKDelegate.add(_:)."]
+  },
+  "rules": {
+    "required": [
+      "Initialize the toolkit (ZMUIToolKitManager.initialize) before the button is tapped for functional recording/share behavior.",
+      "Construct and use the button on the main thread."
+    ],
+    "forbidden": [
+      "Instantiating via init?(coder:) / Interface Builder (traps with fatalError)."
+    ],
+    "notes": [
+      "The button reads SDK-derived state at tap time only (via ZMRecordingManager/ZMShareManager); it does not observe SDK events.",
+      "Recording controls only appear when canControlRecording is true; share controls only when isSharing is true.",
+      "Start and Stop recording are gated behind confirmation alerts; pause/resume of recording and sharing are immediate.",
+      "Presentation uses UIApplication.topViewController(); ensure a presentable top view controller exists when tapped."
+    ]
+  },
+  "examples": [
+    {
+      "title": "Add the button to a toolbar (happy path)",
+      "scenario": "happy-path",
+      "code": "// Assumes ZMUIToolKitManager.initialize(videoSDK:bundleId:) was already called.\nlet moreButton = ZMUIToolkitMoreBtn()\nmoreButton.setSize(size: CGSize(width: 44, height: 44))\ntoolbarStackView.addArrangedSubview(moreButton)\n// Tapping presents the context-sensitive More action sheet automatically."
+    },
+    {
+      "title": "Customize the icon and localize the strings",
+      "scenario": "customization",
+      "code": "let moreButton = ZMUIToolkitMoreBtn()\nmoreButton.setMoreIcon(image: UIImage(named: \"custom_ellipsis\")!)\nZMUIToolkitStrings.stringsBundle = Bundle.main"
+    },
+    {
+      "title": "Suppress the recording-consent dialog (toolkit-level toggle)",
+      "scenario": "configuration",
+      "code": "// The More button starts recording via ZMRecordingManager, which presents a\n// consent dialog to participants. Disable that dialog toolkit-wide if desired.\nZMUIToolKitManager.cloudRecordingConsentDialogEnabled = false"
+    },
+    {
+      "title": "React to the actual recording outcome",
+      "scenario": "error-handling",
+      "code": "final class RecordingObserver: NSObject, ZoomVideoSDKDelegate {\n    func onCloudRecordingStatus(_ status: ZoomVideoSDKRecordingStatus,\n                                recordAgreementHandler handler: ZoomVideoSDKRecordAgreementHandler?) {\n        // Update your own UI based on status (.start / .pause / .stop).\n        handler?.accept()\n    }\n}\nlet observer = RecordingObserver()\nZMUIToolKitManager.videoSDKDelegate.add(observer) // held weakly — retain observer yourself"
+    }
+  ],
+  "codeSnippets": [
+    {
+      "name": "chooseRecordingItem",
+      "description": "Decide which recording item to show the way the button does.",
+      "code": "let manager = ZMRecordingManager.shared\nif manager.canControlRecording {\n    if manager.isRecording || manager.isPaused {\n        // show Stop recording, plus Resume (if paused) or Pause (if active)\n    } else {\n        // show Record (start)\n    }\n}"
+    },
+    {
+      "name": "chooseShareItem",
+      "description": "Decide which share item to show.",
+      "code": "if ZMShareManager.shared.isSharing {\n    if ZMShareManager.shared.isPaused {\n        ZMShareManager.shared.resumeShare()\n    } else {\n        ZMShareManager.shared.pauseShare()\n    }\n}"
+    }
+  ],
+  "metadata": {
+    "generatedBy": "api-doc-generator",
+    "documentVersion": "1.0.0",
+    "schemaVersion": "2.4.0",
+    "lastUpdated": "2026-06-18",
+    "status": "Published",
+    "platform": "iOS",
+    "verification": "Behaviors verified directly against implementation source (ZMUIToolkitMoreBtn.swift, ZMUIToolkitIconBtn.swift, ZMUIToolkitDescriptor.swift, ZMRecordingManager.swift, ZMShareManager.swift, CustomActionSheet.swift, CustomUIAlertController.swift, BottomPanelPresenter.swift, ZMUIToolkitStrings.swift, ZMUIToolKitManager.swift); not assumed.",
+    "completeness": "JSON mirrors all content in ZMUIToolkitMoreBtn-API.md."
+  }
+}

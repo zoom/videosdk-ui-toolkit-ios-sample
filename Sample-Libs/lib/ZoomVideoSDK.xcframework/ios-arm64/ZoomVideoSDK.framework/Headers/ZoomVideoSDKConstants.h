@@ -88,14 +88,12 @@ typedef NS_ENUM(NSUInteger,ZoomVideoSDKError)
     Errors_Session_Already_In_Progress,
     /** Unsupported session type. */
     Errors_Session_Dont_Support_SessionType,
-    /** You have no share. */
-    Errors_Session_You_Have_No_Share,
     /** Session is reconnecting. */
     Errors_Session_Reconnecting,
     /** Session is disconnecting. */
     Errors_Session_Disconnecting,
     /** Session has not started. */
-    Errors_Session_Not_Started = 2010,
+    Errors_Session_Not_Started,
     /** Password is required to join. */
     Errors_Session_Need_Password,
     /** Incorrect session password. */
@@ -110,6 +108,12 @@ typedef NS_ENUM(NSUInteger,ZoomVideoSDKError)
     Errors_Session_Account_FreeMinutesExceeded,
     /** Join session failed because the account's free credit has been exceeded. */
     Errors_Session_Account_FreeCreditExceeded,
+    /** Pre-join flow: not in prepare join flow. */
+    Errors_Session_PreJoin_Not_In_Flow,
+    /** Pre-join flow: already committed (user has confirmed). */
+    Errors_Session_PreJoin_Already_Commit,
+    /** Pre-join flow: timeout. */
+    Errors_Session_PreJoin_Timeout,
 
     /** Audio errors. */
     /** General audio error. */
@@ -230,6 +234,20 @@ typedef NS_ENUM(NSUInteger,ZoomVideoSDKError)
     Errors_Spotlight_UserWithoutVideo,
     /** User is not spotlighted. */
     Errors_Spotlight_UserNotSpotlighted,
+    /** Cannot call cleanup while in session. Leave the session before calling -[ZoomVideoSDK cleanup]. */
+    Errors_Cannot_Call_Cleanup_In_Session = 7700,
+};
+
+/**
+ * @brief Enumeration of audio error types for iOS. Used by onAudioError callback.
+ */
+typedef NS_ENUM(NSUInteger, ZoomVideoSDKAudioErrorType) {
+    /** No error. */
+    ZoomVideoSDKAudioErrorType_None = 0,
+    /** AVAudioSession category is not compatible with PlayAndRecord. Triggered when category is neither PlayAndRecord nor MultiRoute at onSessionJoin. */
+    ZoomVideoSDKAudioErrorType_SessionCategoryIncompatible,
+    /** Audio device error. Triggered when kNoti_Audio_DeviceError notification is received. */
+    ZoomVideoSDKAudioErrorType_DeviceError,
 };
 
 /**
@@ -399,6 +417,8 @@ typedef NS_ENUM(NSUInteger, ZoomVideoSDKPhoneStatus) {
     ZoomVideoSDKPhoneStatus_Cancel_Failed,
     /** The call attempt has timed out. */
     ZoomVideoSDKPhoneStatus_Timeout,
+    /** The call was answered by machine. */
+    ZoomVideoSDKPhoneStatus_AnsweredByMachine,
 };
 
 
@@ -789,6 +809,10 @@ typedef NS_ENUM(NSInteger, ZoomVideoSDKSessionLeaveReason) {
     ZoomVideoSDKSessionLeaveReason_EndByHost,
     /** Network error. */
     ZoomVideoSDKSessionLeaveReason_NetworkError,
+    /** User leaves current session because joining a subsession. */
+    ZoomVideoSDKSessionLeaveReason_JoinSubsession,
+    /** User leaves current session because returning to the main session. */
+    ZoomVideoSDKSessionLeaveReason_ReturnToMainSession,
 };
 
 /**
@@ -1021,6 +1045,107 @@ typedef NS_ENUM(NSInteger, ZoomVideoSDKRealTimeMediaStreamsFailReason) {
     ZoomVideoSDKRealTimeMediaStreamsFailReason_NoSubscription,
     /** Failed to start the RTMS stream */
     ZoomVideoSDKRealTimeMediaStreamsFailReason_StartFail
+};
+
+
+/**
+ * @brief Enumeration of emoji reaction types.
+ */
+typedef NS_ENUM(NSUInteger, ZoomVideoSDKEmojiReactionType) {
+    /** For initialization. */
+    ZoomVideoSDKEmojiReactionType_None = 0,
+    /** Clap reaction. */
+    ZoomVideoSDKEmojiReactionType_Clap,
+    /** Thumbs up reaction. */
+    ZoomVideoSDKEmojiReactionType_Thumbsup,
+    /** Heart reaction. */
+    ZoomVideoSDKEmojiReactionType_Heart,
+    /** Tears of joy reaction. */
+    ZoomVideoSDKEmojiReactionType_Joy,
+    /** Open mouth reaction. */
+    ZoomVideoSDKEmojiReactionType_Openmouth,
+    /** Tada reaction. */
+    ZoomVideoSDKEmojiReactionType_Tada,
+};
+
+/**
+ * @brief Enumeration of supported translation languages for broadcast streaming live transcription.
+ */
+typedef NS_ENUM(NSUInteger, ZoomVideoSDKBroadcastStreamingTranslationLanguage) {
+    /** English. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_English,
+    /** Chinese (Simplified). */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Chinese,
+    /** Japanese. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Japanese,
+    /** German. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_German,
+    /** French. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_French,
+    /** Russian. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Russian,
+    /** Portuguese. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Portuguese,
+    /** Spanish. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Spanish,
+    /** Korean. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Korean,
+    /** Italian. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Italian,
+    /** Vietnamese. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Vietnamese,
+    /** Dutch. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Dutch,
+    /** Ukrainian. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Ukrainian,
+    /** Arabic. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Arabic,
+    /** Bengali. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Bengali,
+    /** Chinese (Traditional). */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_ChineseTraditional,
+    /** Czech. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Czech,
+    /** Estonian. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Estonian,
+    /** Finnish. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Finnish,
+    /** Greek. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Greek,
+    /** Hebrew. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Hebrew,
+    /** Hindi. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Hindi,
+    /** Hungarian. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Hungarian,
+    /** Indonesian. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Indonesian,
+    /** Malay. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Malay,
+    /** Persian. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Persian,
+    /** Polish. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Polish,
+    /** Romanian. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Romanian,
+    /** Swedish. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Swedish,
+    /** Tamil. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Tamil,
+    /** Telugu. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Telugu,
+    /** Tagalog. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Tagalog,
+    /** Turkish. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Turkish,
+    /** Danish. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Danish,
+    /** Norwegian. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Norwegian,
+    /** Thai. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Thai,
+    /** Welsh. */
+    ZoomVideoSDKBroadcastStreamingTranslationLanguage_Welsh,
 };
 
 

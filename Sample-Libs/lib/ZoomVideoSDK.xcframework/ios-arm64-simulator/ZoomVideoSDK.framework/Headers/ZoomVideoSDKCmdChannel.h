@@ -11,7 +11,7 @@
  */
 @interface ZoomVideoSDKCmdChannel : NSObject
 /**
- * @brief Sends custom commands or data to other users in the current session. Limit: up to 60 custom commands per second.
+ * @brief Sends custom commands or data to other users in the current session. This API is rate-limited; overly frequent calls return Errors_Call_Too_Frequently.
  * @param commandContent The custom commands or data, represented in string format.
  * @param user An instance of ZoomVideoSDKUser associated with the user who receives the command. If receiver is set to nil, the command is broadcast to all users.
  * @return If the function succeeds, it returns Errors_Success. Otherwise, this function returns an error.

@@ -1,0 +1,349 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "module": "ZMUIToolkitStrings",
+  "language": "Swift",
+  "platform": "iOS",
+  "version": "1.0",
+  "framework": "ZMUIToolkit",
+  "kind": "public enum (caseless namespace; never instantiated)",
+  "concurrency": "No @MainActor. Configure stringsBundle once during app startup on the main thread.",
+  "overview": "ZMUIToolkitStrings is the localization configuration point for the entire ZMUIToolkit framework. Every piece of user-facing text (button menus, action sheets, dialogs, toasts, settings screens, the share panel, and the QoS/statistics panel) is resolved through its internal string(for:default:) resolver. By default the toolkit ships hard-coded English fallback strings at each call site. To localize, set ZMUIToolkitStrings.stringsBundle to a bundle containing a ZMUIToolkit.strings table; the resolver looks each key up there, falling back to the built-in default when the bundle is unset or the key is missing.",
+  "sourceFile": "ZMUIToolkit/ZMUIToolkit/Sources/ZMUIToolkitStrings.swift",
+  "members": [
+    { "name": "stringsBundle", "kind": "static var", "type": "Bundle?", "access": "public", "purpose": "The bundle to load the ZMUIToolkit strings table from. nil by default." },
+    { "name": "stringsTable", "kind": "static var", "type": "String", "access": "internal", "value": "ZMUIToolkit", "purpose": "The .strings table name to look up. Hard-coded to \"ZMUIToolkit\". Not part of the public API." },
+    { "name": "string(for:default:)", "kind": "static func", "access": "internal", "purpose": "The resolver used by toolkit components. Not callable by integrators." }
+  ],
+  "typeDefinitions": [
+    { "name": "ZMUIToolkitStrings", "kind": "enum", "access": "public", "notes": "Caseless namespace; the framework's localization configuration point. Do not instantiate." },
+    { "name": "Bundle", "kind": "foundationClass", "notes": "Type of stringsBundle; source of the ZMUIToolkit strings table. nil means 'use built-in defaults'." },
+    { "name": "stringsTable", "kind": "internalStaticString", "value": "ZMUIToolkit", "notes": "Fixed table name; implies the localization file must be named ZMUIToolkit.strings." }
+  ],
+  "lifecycle": {
+    "description": "ZMUIToolkitStrings is pure configuration and has no SDK or session prerequisites. It is independent of ZMUIToolKitManager.initialize and can be configured before or after toolkit/SDK initialization.",
+    "prerequisites": [],
+    "setup": [
+      "Add a strings table named exactly ZMUIToolkit.strings to your app target (or any bundle you control).",
+      "Add entries only for the keys you want to override; missing keys fall back to the built-in English default.",
+      "Set ZMUIToolkitStrings.stringsBundle = Bundle.main once, early (e.g. application(_:didFinishLaunchingWithOptions:)), before any toolkit UI is shown."
+    ],
+    "defaultBehavior": "If stringsBundle is never set (remains nil), every lookup returns its built-in English default. The toolkit is fully functional and English-only in this state.",
+    "notes": [
+      "No entryCallback/exitCallback; this is a synchronous configuration namespace.",
+      "Set stringsBundle before presenting toolkit UI; already-rendered text is not retroactively re-localized."
+    ]
+  },
+  "resolverBehavior": {
+    "function": "string(for:default:)",
+    "implementation": "internal static func string(for key: String, default defaultValue: String) -> String {\n    guard let bundle = stringsBundle else {\n        return defaultValue\n    }\n    let value = bundle.localizedString(forKey: key, value: nil, table: stringsTable)\n    return value == key ? defaultValue : value\n}",
+    "fallbacks": [
+      { "name": "nilBundleFallback", "condition": "stringsBundle == nil", "result": "Returns defaultValue immediately and never touches a bundle. This is the out-of-the-box English behavior." },
+      { "name": "missingKeyFallback", "condition": "Bundle set but key not found in the ZMUIToolkit table", "result": "NSBundle returns the key itself when a key is not found; the resolver detects this with value == key and returns defaultValue instead. So a missing key in a configured bundle still falls back to the built-in English default." }
+    ],
+    "behaviorNotes": [
+      "Provide a localized value that differs from the key name. Because the resolver detects a missing entry by comparing value == key, if a key's localized value is identical to the key itself (e.g. \"cancel\" = \"cancel\";), the built-in default is used. Localize each value to a string that differs from its key.",
+      "The table name is fixed to \"ZMUIToolkit\" (internal stringsTable); the file in your bundle must be named ZMUIToolkit.strings. The table name is set internally and is not configurable through the public API.",
+      "value: nil is passed to localizedString(forKey:value:table:), so NSBundle returns the key when the key is not found, which is what the value == key check relies on."
+    ]
+  },
+  "apis": [
+    {
+      "name": "stringsBundle",
+      "signature": "public static var stringsBundle: Bundle?",
+      "kind": "static stored property",
+      "access": "public",
+      "description": "The bundle from which the toolkit loads the ZMUIToolkit strings table. nil by default. Set to Bundle.main (or any bundle containing a ZMUIToolkit.strings table) to localize/override toolkit text; leave nil to use built-in English defaults.",
+      "default": "nil",
+      "sideEffects": ["None on assignment. The new value takes effect on the NEXT string(for:default:) lookup. Text already rendered is not retroactively updated."],
+      "threading": "Configure during app startup on the main thread.",
+      "errorCodes": []
+    },
+    {
+      "name": "stringsTable",
+      "signature": "internal static var stringsTable: String = \"ZMUIToolkit\"",
+      "kind": "static stored property",
+      "access": "internal",
+      "description": "The .strings table name used for all lookups. Internal; documented for completeness. Determines that the localization file must be named ZMUIToolkit.strings.",
+      "default": "\"ZMUIToolkit\"",
+      "sideEffects": [],
+      "errorCodes": []
+    },
+    {
+      "name": "string(for:default:)",
+      "signature": "internal static func string(for key: String, default defaultValue: String) -> String",
+      "kind": "static func",
+      "access": "internal",
+      "description": "Resolver used by toolkit components to fetch a localized string. Returns the localized value from stringsBundle's ZMUIToolkit table, or defaultValue if the bundle is nil or the key is absent. Integrators do not call this directly; they influence it only by setting stringsBundle and supplying a strings table.",
+      "parameters": [
+        { "name": "key", "type": "String", "required": true, "description": "The lookup key in the ZMUIToolkit table." },
+        { "name": "default", "label": "defaultValue", "type": "String", "required": true, "description": "The built-in English fallback used when the bundle is nil or the key is missing." }
+      ],
+      "returns": "String (non-optional, never fails)",
+      "errorCodes": []
+    }
+  ],
+  "callbacks": {
+    "description": "ZMUIToolkitStrings defines and uses no callbacks or delegates. It is a synchronous configuration/resolver namespace."
+  },
+  "localizedStringsCatalog": {
+    "description": "All toolkit text is resolved through ZMUIToolkitStrings.string(for:default:). To override an entry, set ZMUIToolkitStrings.stringsBundle and add the key to your bundle's ZMUIToolkit.strings table. Keys not present use the built-in default shown here. Keys are grouped by the source file that uses them; some keys are shared across files.",
+    "groups": [
+      {
+        "sourceFile": "ZMUIToolkitLeaveSessionBtn.swift",
+        "label": "Leave-session button",
+        "keys": [
+          { "key": "leave_session", "default": "Leave session", "usedFor": "First action sheet item" },
+          { "key": "end_session_for_all", "default": "End session for all", "usedFor": "Host-only action sheet item" },
+          { "key": "cancel", "default": "Cancel", "usedFor": "Action sheet + confirm dialog cancel (shared)" },
+          { "key": "end_session_alert_title", "default": "End session for all", "usedFor": "Confirm dialog title" },
+          { "key": "end_session_alert_message", "default": "Are you sure you want to end the session for all participants?", "usedFor": "Confirm dialog message" },
+          { "key": "confirm", "default": "Confirm", "usedFor": "Confirm dialog confirm button (shared)" },
+          { "key": "assign_host", "default": "Assign a host", "usedFor": "Assign-host panel title" },
+          { "key": "assign_and_leave", "default": "Assign and Leave", "usedFor": "Assign-host panel primary button" }
+        ]
+      },
+      {
+        "sourceFile": "ZMUIToolkitParticipantsBtn.swift",
+        "label": "Participants button",
+        "keys": [
+          { "key": "participants", "default": "Participants", "usedFor": "Participants panel title" },
+          { "key": "mute_all", "default": "Mute all", "usedFor": "Host action" },
+          { "key": "ask_all_to_unmute", "default": "Ask all to unmute", "usedFor": "Host action" },
+          { "key": "ask_to_unmute_audio", "default": "Ask to unmute audio", "usedFor": "Per-participant action" },
+          { "key": "mute_audio", "default": "Mute audio", "usedFor": "Per-participant action" },
+          { "key": "make_host", "default": "Make host", "usedFor": "Per-participant action" },
+          { "key": "make_co_host", "default": "Make co-host", "usedFor": "Per-participant action" },
+          { "key": "rename", "default": "Rename", "usedFor": "Per-participant action" },
+          { "key": "remove_from_session", "default": "Remove from session", "usedFor": "Per-participant action" },
+          { "key": "cancel", "default": "Cancel", "usedFor": "Action sheet cancel (shared)" },
+          { "key": "change_name_in_session", "default": "Change name in session", "usedFor": "Rename dialog title" },
+          { "key": "enter_new_name", "default": "Enter new name", "usedFor": "Rename text field placeholder" },
+          { "key": "confirm", "default": "Confirm", "usedFor": "Rename dialog confirm (shared)" }
+        ]
+      },
+      {
+        "sourceFile": "ZMUIToolkitMoreBtn.swift",
+        "label": "More button",
+        "keys": [
+          { "key": "more", "default": "More", "usedFor": "Menu title" },
+          { "key": "settings", "default": "Settings", "usedFor": "Menu item (shared)" },
+          { "key": "cancel", "default": "Cancel", "usedFor": "Menu cancel (shared)" },
+          { "key": "record", "default": "Record", "usedFor": "Menu item" },
+          { "key": "stop_recording", "default": "Stop recording", "usedFor": "Menu item" },
+          { "key": "pause_recording", "default": "Pause recording", "usedFor": "Menu item" },
+          { "key": "resume_recording", "default": "Resume recording", "usedFor": "Menu item" },
+          { "key": "start_recording_alert_title", "default": "Start recording", "usedFor": "Start-recording confirm dialog title" },
+          { "key": "start_recording_alert_message", "default": "After the recording starts, all participants will be informed and the meeting audio, video and shared screen view will be recorded to the cloud.", "usedFor": "Start-recording confirm dialog message" },
+          { "key": "start", "default": "Start", "usedFor": "Start-recording confirm button" },
+          { "key": "stop_recording_alert_title", "default": "Stop Recording", "usedFor": "Stop-recording confirm dialog title" },
+          { "key": "stop_recording_alert_message", "default": "You will receive an email notification when the cloud recording is ready.", "usedFor": "Stop-recording confirm dialog message" },
+          { "key": "stop", "default": "Stop", "usedFor": "Stop-recording confirm button" },
+          { "key": "pause_share", "default": "Pause sharing", "usedFor": "Menu item" },
+          { "key": "resume_share", "default": "Resume sharing", "usedFor": "Menu item" }
+        ]
+      },
+      {
+        "sourceFile": "ZMToastManager.swift",
+        "label": "Toasts",
+        "keys": [
+          { "key": "became_host", "default": "You've become the host.", "usedFor": "Toast" },
+          { "key": "became_co_host", "default": "You've become the co-host.", "usedFor": "Toast" },
+          { "key": "all_muted", "default": "All current and new participants are muted.", "usedFor": "Toast" },
+          { "key": "request_sent", "default": "Your request has been sent.", "usedFor": "Toast" },
+          { "key": "name_changed", "default": "Your name has been changed.", "usedFor": "Toast" },
+          { "key": "ended_by_host", "default": "The session was ended by the host.", "usedFor": "Toast" },
+          { "key": "kicked_by_host", "default": "You were kicked from the session by the host.", "usedFor": "Toast" },
+          { "key": "network_error", "default": "A network error occurred, causing you to leave the session.", "usedFor": "Toast" },
+          { "key": "unknown_error", "default": "An unknown issue has occurred, causing you to leave the session.", "usedFor": "Toast" },
+          { "key": "recording_stopped", "default": "Recording stopped", "usedFor": "Toast" },
+          { "key": "recording_paused", "default": "Recording paused", "usedFor": "Toast" },
+          { "key": "recording_resumed", "default": "Recording resumed", "usedFor": "Toast" }
+        ]
+      },
+      {
+        "sourceFile": "ZMRecordingManager.swift",
+        "label": "Recording consent",
+        "keys": [
+          { "key": "recording_consent_title", "default": "This meeting is being recorded", "usedFor": "Consent dialog title" },
+          { "key": "recording_consent_message", "default": "By staying in this meeting, you consent to being recorded.", "usedFor": "Consent dialog message" },
+          { "key": "leave_meeting", "default": "Leave meeting", "usedFor": "Consent dialog action" },
+          { "key": "got_it", "default": "Got it", "usedFor": "Consent dialog action" },
+          { "key": "do_not_ask_again", "default": "Do not ask me again.", "usedFor": "Consent dialog checkbox" }
+        ]
+      },
+      {
+        "sourceFile": "ZMUIToolkitSharePanelView.swift",
+        "label": "Share panel",
+        "keys": [
+          { "key": "share_panel_message", "default": "You are sharing your screen.", "usedFor": "Share panel message label" },
+          { "key": "share_panel_device_audio", "default": "Share device audio", "usedFor": "Share device-audio toggle title" },
+          { "key": "share_panel_stop_button", "default": "Stop Sharing", "usedFor": "Stop-sharing button" }
+        ]
+      },
+      {
+        "sourceFile": "ZMUIToolkitSearchBar.swift",
+        "label": "Search bar",
+        "keys": [
+          { "key": "search_for_participants", "default": "Search for participants", "usedFor": "Search bar placeholder" }
+        ]
+      },
+      {
+        "sourceFile": "ZMUIToolkitParticipantsCell.swift",
+        "label": "Participants cell",
+        "keys": [
+          { "key": "host_label", "default": "Host", "usedFor": "Role badge" },
+          { "key": "co_host_label", "default": "Co-host", "usedFor": "Role badge" },
+          { "key": "me_label", "default": "me", "usedFor": "Self badge" }
+        ]
+      },
+      {
+        "sourceFile": "SettingsContentView.swift",
+        "label": "Settings",
+        "keys": [
+          { "key": "settings", "default": "Settings", "usedFor": "Settings screen title (shared)" },
+          { "key": "my_name", "default": "My Name", "usedFor": "Settings row" },
+          { "key": "general", "default": "General", "usedFor": "Settings section header" },
+          { "key": "statistics", "default": "Statistics", "usedFor": "Settings row / QoS panel title (shared)" }
+        ]
+      },
+      {
+        "sourceFile": "NameEditContentView.swift",
+        "label": "Name edit",
+        "keys": [
+          { "key": "edit_your_name", "default": "Edit Your Name", "usedFor": "Screen title" },
+          { "key": "save", "default": "Save", "usedFor": "Save button" },
+          { "key": "name_placeholder", "default": "Enter your name", "usedFor": "Text field placeholder" }
+        ]
+      },
+      {
+        "sourceFile": "VideoSettingsContentView.swift",
+        "label": "Video settings",
+        "keys": [
+          { "key": "video", "default": "Video", "usedFor": "Section title" },
+          { "key": "enable_pip_mode", "default": "Enable PiP Mode", "usedFor": "Settings toggle" }
+        ]
+      },
+      {
+        "sourceFile": "ZMUIToolkitQoSPanel.swift",
+        "label": "QoS / Statistics panel",
+        "note": "This view resolves all keys through a private wrapper L(key, fallback) that delegates to ZMUIToolkitStrings.string(for:default:). The qos_* keys are shared across the Audio, Video, and Screen-sharing tabs (qos_latency, qos_jitter, qos_packet_loss, qos_resolution, qos_fps reused per tab).",
+        "keys": [
+          { "key": "statistics", "default": "Statistics", "usedFor": "Panel title (shared with Settings)" },
+          { "key": "qos_tab_audio", "default": "Audio", "usedFor": "Tab label" },
+          { "key": "qos_tab_video", "default": "Video", "usedFor": "Tab label" },
+          { "key": "qos_tab_screen_sharing", "default": "Screen sharing", "usedFor": "Tab label" },
+          { "key": "qos_item_name", "default": "Item name", "usedFor": "Table column header" },
+          { "key": "qos_send", "default": "Send", "usedFor": "Table column header" },
+          { "key": "qos_receive", "default": "Receive", "usedFor": "Table column header" },
+          { "key": "qos_frequency", "default": "Frequency", "usedFor": "Audio metric row" },
+          { "key": "qos_latency", "default": "Latency", "usedFor": "Metric row (all tabs)" },
+          { "key": "qos_jitter", "default": "Jitter", "usedFor": "Metric row (all tabs)" },
+          { "key": "qos_packet_loss", "default": "Packet loss - avg(max)", "usedFor": "Metric row (all tabs)" },
+          { "key": "qos_resolution", "default": "Resolution", "usedFor": "Metric row (video, screen-sharing)" },
+          { "key": "qos_fps", "default": "Frames per second", "usedFor": "Metric row (video, screen-sharing)" }
+        ]
+      }
+    ],
+    "sharedKeys": [
+      { "key": "cancel", "files": ["ZMUIToolkitLeaveSessionBtn.swift", "ZMUIToolkitParticipantsBtn.swift", "ZMUIToolkitMoreBtn.swift"] },
+      { "key": "confirm", "files": ["ZMUIToolkitLeaveSessionBtn.swift", "ZMUIToolkitParticipantsBtn.swift"] },
+      { "key": "settings", "files": ["ZMUIToolkitMoreBtn.swift", "SettingsContentView.swift"] },
+      { "key": "statistics", "files": ["SettingsContentView.swift", "ZMUIToolkitQoSPanel.swift"] }
+    ],
+    "count": {
+      "uniqueKeys": 77,
+      "totalCallSites": 95,
+      "sourceFiles": 11,
+      "note": "77 unique localization keys across 11 source files (95 total call sites, including shared keys such as cancel/confirm/settings/statistics and the qos_* keys reused across QoS tabs)."
+    }
+  },
+  "errorHandling": {
+    "description": "ZMUIToolkitStrings performs no error handling, no throwing, and no return-value inspection. The resolver cannot fail: it always returns a non-optional String. 'Failure' modes degrade gracefully to the built-in English default.",
+    "cases": [
+      { "situation": "stringsBundle == nil", "result": "Returns the built-in default (English)." },
+      { "situation": "Bundle set, but no ZMUIToolkit.strings table", "result": "localizedString(forKey:value:table:) returns the key -> value == key -> returns the built-in default." },
+      { "situation": "Bundle + table set, key missing", "result": "Same as above -> returns the built-in default." },
+      { "situation": "Bundle + table set, key present", "result": "Returns the localized value." },
+      { "situation": "Localized value equals the key string", "result": "Treated as missing -> returns the built-in default." }
+    ],
+    "retryStrategy": "None. There is no retry or recovery to implement; correctness is entirely a matter of providing a correctly named ZMUIToolkit.strings table with the desired keys."
+  },
+  "rules": {
+    "required": [
+      "To localize: provide a strings table file named exactly ZMUIToolkit.strings in the bundle assigned to stringsBundle. The table name is fixed internally and cannot be changed via the public API."
+    ],
+    "recommended": [
+      "Set stringsBundle once, early during app startup (on the main thread), before any toolkit UI is presented. Values already rendered are not retroactively re-localized."
+    ],
+    "optional": [
+      "Override only the keys you want; omitted keys fall back to built-in English defaults."
+    ],
+    "avoid": [
+      "Localizing any key to a value byte-identical to its key name; the resolver treats value == key as 'not found' and returns the built-in default instead. Provide a value that differs from the key.",
+      "Instantiating ZMUIToolkitStrings; it is a caseless enum used as a namespace."
+    ],
+    "notes": [
+      "string(for:default:) and stringsTable are internal; integrators interact only via stringsBundle plus the .strings table contents."
+    ]
+  },
+  "examples": [
+    {
+      "title": "Use built-in English defaults (no setup)",
+      "intent": "Demonstrates that no configuration is required for English text.",
+      "scenario": "happy-path",
+      "code": "// Do nothing. stringsBundle stays nil; all toolkit text renders in built-in English.\nlet leaveButton = ZMUIToolkitLeaveSessionBtn() // menu reads \"Leave session\", \"Cancel\", etc."
+    },
+    {
+      "title": "Localize toolkit text from the app bundle",
+      "intent": "Demonstrates the standard localization setup.",
+      "scenario": "localization",
+      "code": "// In AppDelegate.application(_:didFinishLaunchingWithOptions:)\nZMUIToolkitStrings.stringsBundle = Bundle.main\n// Add a ZMUIToolkit.strings file to the app target with the keys you want to override:\n//   \"leave_session\" = \"Quitter la session\";\n//   \"cancel\"        = \"Annuler\";\n//   \"participants\"  = \"Participants\";\n// Any key not present here falls back to the built-in English default."
+    },
+    {
+      "title": "Override text from a custom (non-main) bundle",
+      "intent": "Demonstrates loading strings from a separate resource bundle.",
+      "scenario": "custom-bundle",
+      "code": "if let url = Bundle.main.url(forResource: \"ToolkitLocalization\", withExtension: \"bundle\"),\n   let customBundle = Bundle(url: url) {\n    ZMUIToolkitStrings.stringsBundle = customBundle\n}"
+    },
+    {
+      "title": "Partial override (only the keys you care about)",
+      "intent": "Demonstrates that only overridden keys change; the rest stay English.",
+      "scenario": "partial-override",
+      "code": "// ZMUIToolkit.strings — only these two are overridden; everything else stays English.\n// \"end_session_for_all\" = \"End for everyone\";\n// \"got_it\"              = \"OK\";\nZMUIToolkitStrings.stringsBundle = Bundle.main"
+    }
+  ],
+  "codeSnippets": [
+    {
+      "name": "configureLocalizationAtStartup",
+      "description": "Configure localization at startup.",
+      "code": "// Set once, early, on the main thread. Effective on the next string lookup.\nZMUIToolkitStrings.stringsBundle = Bundle.main",
+      "usage": "During app launch before presenting any toolkit UI.",
+      "aiHint": "Set stringsBundle exactly once during startup; do not toggle it per screen."
+    },
+    {
+      "name": "mirrorResolverFallback",
+      "description": "Mirror the resolver's fallback logic (for reference).",
+      "code": "func resolve(_ key: String, default def: String, bundle: Bundle?) -> String {\n    guard let bundle = bundle else { return def }\n    let value = bundle.localizedString(forKey: key, value: nil, table: \"ZMUIToolkit\")\n    return value == key ? def : value   // missing key -> NSBundle returns the key -> fall back\n}",
+      "usage": "To reason about why a given key resolves to the default.",
+      "aiHint": "NSBundle returns the key when the key is missing; the value == key check is how the toolkit detects a missing key."
+    },
+    {
+      "name": "minimalStringsFile",
+      "description": "Minimal ZMUIToolkit.strings file.",
+      "code": "/* ZMUIToolkit.strings */\n\"leave_session\"        = \"Leave session\";\n\"end_session_for_all\"  = \"End session for all\";\n\"cancel\"               = \"Cancel\";\n\"confirm\"              = \"Confirm\";\n\"participants\"         = \"Participants\";",
+      "usage": "Starting point for a localization table; add only the keys you want to override.",
+      "aiHint": "The file MUST be named ZMUIToolkit.strings (the fixed table name). Never set a value equal to its key."
+    }
+  ],
+  "metadata": {
+    "documentVersion": "1.0.0",
+    "schemaVersion": "2.4.0",
+    "lastUpdated": "2026-06-18",
+    "status": "Published",
+    "platform": "iOS",
+    "sourceFile": "ZMUIToolkit/ZMUIToolkit/Sources/ZMUIToolkitStrings.swift",
+    "generatedBy": "api-doc-generator",
+    "verification": "Behaviors verified directly against ZMUIToolkitStrings.swift: the nil-bundle fallback (guard let bundle = stringsBundle else { return defaultValue }), the missing-key fallback (value == key ? defaultValue : value), and the fixed table name (\"ZMUIToolkit\"). The complete key catalog was compiled by grepping string(for: across all *.swift files under Sources (including the L(key, fallback) wrapper in ZMUIToolkitQoSPanel.swift); defaults are quoted verbatim from those call sites.",
+    "completeness": "JSON mirrors all content in ZMUIToolkitStrings-API.md, including the full localized strings catalog."
+  }
+}

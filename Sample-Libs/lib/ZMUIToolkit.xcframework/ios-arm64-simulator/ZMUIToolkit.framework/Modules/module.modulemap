@@ -1,6 +1,4 @@
 framework module ZMUIToolkit {
-  umbrella header "ZMUIToolkit.h"
-  export *
-
-  module * { export * }
+  header "ZMUIToolkit-Swift.h"
+  requires objc
 }
