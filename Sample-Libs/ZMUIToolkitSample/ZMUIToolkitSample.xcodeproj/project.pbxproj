@@ -581,11 +581,6 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/../lib/ZoomVideoSDKScreenShare.xcframework/ios-arm64/ZoomVideoSDKScreenShare.framework/Headers",
-					"$(PROJECT_DIR)/../lib/ZoomVideoSDKScreenShare.xcframework/ios-arm64-simulator/ZoomVideoSDKScreenShare.framework/Headers",
-				);
 				INFOPLIST_FILE = ZMUIToolkitSampleBroadcastExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ZMUIToolkitSampleBroadcastExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -623,11 +618,6 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/../lib/ZoomVideoSDKScreenShare.xcframework/ios-arm64/ZoomVideoSDKScreenShare.framework/Headers",
-					"$(PROJECT_DIR)/../lib/ZoomVideoSDKScreenShare.xcframework/ios-arm64-simulator/ZoomVideoSDKScreenShare.framework/Headers",
-				);
 				INFOPLIST_FILE = ZMUIToolkitSampleBroadcastExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ZMUIToolkitSampleBroadcastExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
